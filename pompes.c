@@ -21,7 +21,7 @@ int main()
 	printf ("Entrer la variable recue par le programme en decimal. Voici la table des chiffres binaires: \n\n	000 - 0\n	001 - 1\n	010 - 2\n	011 - 3\n	100 - 4\n	101 - 5\n	110 - 6\n	111 - 7 \n\n ");
 	scanf ("%i", &input);
 	int v;
-	printf ("Executer avec verbose ? 1 / 0 \n")
+	printf ("Executer avec verbose ? 1 / 0 \n");
 	scanf ("%i",&v);
 	int maskb = 0b100;
 	int maskm = 0b010;
