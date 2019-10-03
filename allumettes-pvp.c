@@ -8,7 +8,7 @@ int winner (int a, int j)
        {
                return win;
        }
-       else 
+       else
        {
             if (j == 1)
             {
@@ -20,16 +20,16 @@ int winner (int a, int j)
             }
        }
 }
-              
-            
+
+
 int main()
 {
     printf("### JEU DES ALLUMETTES ###\n\n Il faut deux joueurs.\n\n### REGLES ###\n\n - Il y a 20 allumettes au depart.\n - Chaque joueur prend tour à tour entre 1 et 3 allumettes.\n - Le joueur qui prend la derniere allumette perd la partie.\n - Le joueur 1 commence.\n\n### Place au jeu! ###\n");
     printf("Le joueur 1 s'appelle: ");
     char nom1[15];
-    scanf("%s", &nom1[0]);
+    scanf("%s", &nom1[15]);
     printf("\n\nLe joueur 2 s'appelle: ");
-    char nom2[0];
+    char nom2[15];
     scanf("%s", &nom2[0]);
     printf("\n\nIndiquez le nombre d'allumlettes que vous tirez.\n");
     int a = 20;
@@ -78,3 +78,4 @@ int main()
     system("PAUSE");
     return 0;
 }
+
