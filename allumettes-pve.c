@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
+/* Fonction qui sert à définir un vaiqueur en fonction du nombre d'allumettes, du joueur qui vient de faire son tour*/
 
 int winner (int a, int j, char* nom1)
 {
