@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* LA VERSION OPTIMISEE EST ALLUMETTES-PVE !!! */
+
 /* Fonction "winner" qui définit le vainqueur en fonction du dernier joueur a avoir
 fait le tour et au nombre d'allumettes restantes. */
 int winner (int a, int j)
