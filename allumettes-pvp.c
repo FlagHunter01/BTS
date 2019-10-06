@@ -45,7 +45,7 @@ int main()
     scanf("%s", &nom1[15]);
     printf("\n\nLe joueur 2 s'appelle: ");
     char nom2[15];
-    scanf("%s", &nom2[0]);
+    scanf("%s", &nom2[15]);
     printf("\n\nIndiquez le nombre d'allumlettes que vous tirez.\n");
     /* Nombre d'allumettes au départ */
     int a = 20;
