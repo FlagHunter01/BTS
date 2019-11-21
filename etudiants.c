@@ -27,19 +27,19 @@ int main ()
         printf("   *Appuillez sur <Entrée> pour valider chaque valeur.*\n");
         for (i = 0; i < 4; i ++)
         {
-                printf(" - Notes de e%i :", i); // TODO remplacer par nom / Prénom
-                for (j = 0; j < 3; j ++)
+                printf(" - Notes de %s %s", e[i].prenom, e[i].nom);
+                for (j = 0; j < 2; j ++)
                 {
                         scanf("%f", &e[i].notes[j]);
                 }
                 float moyenne = 0;
-                for (j = 0; j < 3; j ++)
+                for (j = 0; j < 2; j ++)
                 {
                         moyenne = moyenne + e[i].notes[j];
                 }
-                moyenne = moyenne/3;
-                printf("   e%i a une moyenne de %f.\n", i, moyenne); // TODO remplacer par nom /prenom
-                printf("   Absences de e%i (j/m/a, 0 pour quitter):", i); // TODO remplacer par nom / prenom
+                moyenne = moyenne/2;
+                printf("   %s %s a une moyenne de %f.\n",e[i].prenom, e[i].nom, moyenne);
+                printf("   Absences de %s (j/m/a, 0 pour quitter):", e[i].prenom);
                 for (k = 0; k < 16; k ++)
                 {
                         scanf("%i", &e[i].absent[k].jour);
