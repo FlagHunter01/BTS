@@ -1,0 +1,36 @@
+body {
+	background: grey;
+	font-size: 20px;
+}
+
+table  {
+	border-radius: 5px;
+	width: 90%;
+	text-align: center;
+	margin: auto;
+}
+
+.good {
+	width: 90%;
+	padding: 10px;
+	background: lightgreen;
+	border: 2px solid black;
+	border-radius: 5px;
+	margin: auto;
+}
+.bad {
+	width: 90%;
+	padding: 10px;
+	background: red;
+	border: 2px solid black;
+	border-radius: 5px;
+	margin: auto;
+}
+.info {
+	width: 90%;
+	padding: 10px;
+	background: lightblue;
+	border: 2px solid black;
+	border-radius: 5px;
+	margin: auto;
+}
