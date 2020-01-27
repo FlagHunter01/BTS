@@ -9,6 +9,7 @@
 
 int main()
 {
+        char trash; // Variable poubelle qui ramasse les restes des scnaf précédents
         printf("Initialisation ...\n");
         char word[10][11];            //10 tablaux de 11 char
         strcpy(word[0], "banane");
@@ -36,6 +37,7 @@ int main()
                 printf("Entrez un nombre entier entre 1 et 10 svp!\nEntrée: ");
                 scanf("%d", &choice);
         }
+        scanf("%c", &trash);
         // TODO: while((getchar()) != '\n');
         printf("\n");
         choice --;                            // pour matcher le tableau
@@ -62,9 +64,10 @@ int main()
                         if(unknown[i] == entry)
                         {
                                 known[i] = unknown[i];
-                                printf("Trouvé à la lettre %d\n", i);
+                                printf("Trouvé à la lettre %d\n", i+1);
                         }
                 }
+                scanf("%c", &trash);
                 printf(" - Nouveau mot: %s\n", known);
                 left = false;  // On part du principe que tout est trouvé
                 // et on change d'avis si on trouve '-'
@@ -77,7 +80,7 @@ int main()
                 }
                 if(!left)
                 {
-                        printf("\n      Vous avez trouvé toutes les lettres en %d tours, bravo!", active);
+                        printf("\n      Vous avez trouvé toutes les lettres en %d tours, bravo!\n\n", active);
                         return 0;
                 }
         }
