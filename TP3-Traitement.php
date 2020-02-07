@@ -30,7 +30,7 @@
 		echo "</tr>";
 	}
 	echo "</table></div>";
-	mysql_close($connect); 
+	mysql_close($connect);  
 ?>
 </body>
 </html>
