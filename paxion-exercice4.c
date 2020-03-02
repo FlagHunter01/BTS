@@ -1,34 +1,34 @@
 #include<stdlib.h>
 #include<stdio.h>
 
-void Table(float * table, int n)
+void Table(char * table, int n)
 {
         int i;
         for(i=0; i<n; i++)
         {
                 printf(" - Entrée %d: ", i+1);
-                scanf("%f", &table[i]);
+                scanf("%i", &table[i]);
         }
         printf("\n");
 }
 
-void PrintForward(float * table, int n)
+void PrintForward(char * table, int n)
 {
         int i;
         printf("\nOrdre d'entrée:\n\n");
         for(i=0; i<n; i++)
         {
-                printf(" - %f\n", table[i]);
+                printf(" - %i\n", table[i]);
         }
 }
 
-void PrintBackwards(float * table, int n)
+void PrintBackwards(char * table, int n)
 {
         int i;
         printf("\nOrdre inverse:\n\n");
-        for(i=n; i>0; i--)
+        for(i=n-1; i>=0; i--)
         {
-                printf(" - %f\n", table[i]);
+                printf(" - %i\n", table[i]);
         }
 }
 
@@ -39,7 +39,7 @@ int  main()
         printf("Combien d'entrées (max: 50)?: ");
         scanf("%d", &n);
         printf("\n");
-        float table[n];
+        char table[n]; //TODO Faire un tableau de longueur fixe ?
         Table(table, n);
         PrintForward(table, n);
         PrintBackwards(table, n);
