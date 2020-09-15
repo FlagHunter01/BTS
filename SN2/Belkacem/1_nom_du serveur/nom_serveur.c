@@ -1,12 +1,11 @@
-// Programme CGI permettant d'afficher le nom du serveur web sur lequel il est execute
 #include <stdlib.h>
 #include <stdio.h>
+
 int main()
 {
-	// Indication du type de fichier retourne
-	printf("Content-type: text/html\n\n");
-	// Affichage du resultat
-	printf("<html><header><title>Nom du serveur</title></header><body>");
-	printf("<b>Nom du serveur</b> : %s </body></html>", getenv("SERVER_NAME"));
+	printf("Content-type: text/html\n\n");								  // Declaration du type de fichier
+	printf("<html><header><title>Nom du serveur</title></header><body>"); // Debut du document HTML
+	printf("<b>Nom du serveur</b> : %s", getenv("SERVER_NAME"));		  // Affichage de la variable
+	printf("</body></html>");											  // Fin du document HTML
 	return 0;
 }

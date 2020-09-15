@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 
 <head>
     <title>Devinette : methode GET ou POST</title>
@@ -7,14 +7,22 @@
 <body>
     <h3> Le serveur va reconnaitre la methode GET ou POST par script CGI.</h3>
     <form action="/cgi-bin/devinette.exe" method="GET"><br>
+        <!--Questionnaire envoyé à devinette.exe avec GET-->
         name : <input type="text" name="Name"><br>
+        <!--Variable Name-->
         E-Mail : <input type="text" name="Mail"><br>
+        <!--Variable Mail-->
         <input type="submit" name="Test" value="Test GET"><br>
+        <!--Envoi avec la valeur "Test GET"-->
     </form>
     <form action="/cgi-bin/devinette.exe" method="POST"><br>
+        <!--Questionnaire envoyé à devinette.exe avec POST-->
         name : <input type="text" name="Name"><br>
+        <!--Variable Name-->
         E-Mail : <input type="text" name="Mail"><br>
+        <!--Variable Mail-->
         <input type="submit" name="Test" value="Test POST"><br>
+        <!--Envoi avec la valeur "Test POST"-->
     </form>
 </body>
 
