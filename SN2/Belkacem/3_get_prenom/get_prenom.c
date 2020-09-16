@@ -8,7 +8,7 @@ int main()
     char *index;                                                        // Sert a se deplacer dans chaineRecue
     int i, lgChaine;                                                    //copie la taille du contenu de la variable d'environnement QUERY_STRING
     lgChaine = strlen(getenv("QUERY_STRING"));                          // On cherche QUERY_STRING, on en prend la taill eet on la stoque dans lgChaine
-    char *chaineRecue = (char *)malloc(lgChaine + 1);                   // On aloue de la memoire de la taille de QUERY_STRING + 1 pour le caractere de fin
+    char *chaineRecue = (char *)malloc(lgChaine + 1);                    // On aloue de la memoire de la taille de QUERY_STRING + 1 pour le caractere de fin
     strcpy(chaineRecue, getenv("QUERY_STRING"));                        //copie le contenu de la variable d'environnement QUERY_STRING
     puts("Content-type:text/html\n\n\
 <html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\
