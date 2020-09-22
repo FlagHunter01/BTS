@@ -7,18 +7,22 @@
 #include <stdio.h>
 #include <stdbool.h>   // bool
 #include <termios.h>   // speed_t, tcflag_t ...
-#include <unistd.h>    // access(), write
+#include <unistd.h>    // access(), write(), usleep()
 #include <sys/types.h> //open()
 #include <sys/stat.h>  //open()
 #include <fcntl.h>     //open()
 
 // CONNECT - Connexion au port
-bool Connect(char *file_path, speed_t speed, tcflag_t size, tcflag_t parity);
+int Connect(char *file_path, speed_t speed, tcflag_t size, tcflag_t parity);
 bool SearchPort(char *file_path);                                                // Recherche le port et écrit son adresse dans file_path
 int OpenPort(char *file_path);                                                   // Retourne le descripteur
 bool Config(speed_t speed, tcflag_t size, tcflag_t parity, int file_descriptor); // Configure la connexion
 // DISCONNECT - Déconnexion du port
 bool Disconnect(int file_descriptor);
+// VERIFY CONNECTION - Vérifie la connection et tente de se reconnecter si elle est perdue
+bool VerifyConnection(int *file_descriptor, char *file_path, speed_t speed, tcflag_t size, tcflag_t parity);
+// SWITCHOFF - Extinction du feu
+bool SwitchOff(int file_descriptor);
 
 int main()
 {
@@ -31,13 +35,36 @@ int main()
     tcflag_t size = CS8;      // 8 bits
     tcflag_t parity = IGNPAR; // Ignorer la parité
     // La quantité de bits de stop est de 1 par défaut.
-    if (Connect(file_path, speed, size, parity))
-    {
-        printf("Extinxion du feu ...\n");
-        return 0;
+    int file_descriptor = Connect(file_path, speed, size, parity); // On obtient le descripteur de fichiers
+    if (file_descriptor != -1)
+    { // Si le descripteur ne contient pas d'erreur
+        printf("\n### EXTINCTION DU FEU ###\n\n");
+        if (SwitchOff(file_descriptor))
+        { // Si on réussit à éteindre le feu
+            if (!VerifyConnection(&file_descriptor, file_path, speed, size, parity))
+            { // Si la connection est perdue définitivement
+                printf("Connection perdue!\n");
+            }
+            printf("Le feu s'est eteint correctement.\n\n");
+            printf("### DECONNECTION ###\n\n");
+            if (Disconnect(file_descriptor))
+            {
+                printf("\tDeconnection reussie\n\n");
+            }
+            else
+            {
+                printf("\tEchec lors de la deconnection.\n\n");
+            }
+            return 0;
+        }
+        else
+        { // Si on ne réussit pas à etteindre le feu
+            printf("Le feu ne s'est pas eteint correctement.\n\n");
+            return 0;
+        }
     }
     else
-    {
+    { // Si le descripteur obtenu contient une erreur
         printf("Echec lors de la connexion. Fin du programme.\n\n\n");
         return 0;
     }
@@ -125,7 +152,54 @@ bool Config(speed_t speed, tcflag_t size, tcflag_t parity, int file_descriptor)
     return false; // Si on n'est entré dans aucun des if
 }
 
-bool Disconnect(file_descriptor)
+int Connect(char *file_path, speed_t speed, tcflag_t size, tcflag_t parity)
+{
+    printf("\n### CONNECTION AU PORT ###\n\n");
+    printf("Recherche du port correspondant ...\n");
+    if (SearchPort(file_path))
+    { // Si le port a été trouvé
+        printf("Ouverture du port ...\n");
+        int file_descriptor = OpenPort(file_path); // On ouvre un descripteur
+        if (file_descriptor != -1)
+        { // Si on a obtenu le descripteur
+            printf("Configuration du port ...\n");
+            if (Config(speed, size, parity, file_descriptor))
+            { // Si la configuration a réussi
+                printf("Port ouvert avec succes.\n");
+                return file_descriptor;
+            }
+            else
+            { // Si la configuration a échoué
+                printf("Echec de la configuration du port.\nFermeture du port ...\n");
+                if (Disconnect(file_descriptor))
+                { // Si on arrive à fermer normalement
+                    printf("Port ferme.\n");
+                    return -1;
+                }
+                else
+                {                           // Si on n'arrive pas à fermer
+                    close(file_descriptor); // On ferme brusquement
+                    printf("Port ferme avec erreurs.\n");
+                    return -1;
+                }
+                printf("Erreur inconnue.\n");
+                return -1; // On arrête le programme
+            }
+        }
+        else
+        { // Si on n'a pas obtenu le descripteur
+            printf("Echec lors de l'ouverture du port.\n");
+            return -1;
+        }
+    }
+    else
+    { // Si le port n'a pas été trouvé
+        printf("Port non trouve.\n");
+        return -1;
+    }
+}
+
+bool Disconnect(int file_descriptor)
 {
     printf("\tFermeture du port ...\n");
     struct termios tty; // Contient la configuration complète
@@ -158,49 +232,49 @@ bool Disconnect(file_descriptor)
     return false;
 }
 
-bool Connect(char *file_path, speed_t speed, tcflag_t size, tcflag_t parity)
+bool VerifyConnection(int *file_descriptor, char *file_path, speed_t speed, tcflag_t size, tcflag_t parity)
 {
-    printf("\n### CONNECTION AU PORT ###\n\n");
-    printf("Recherche du port correspondant ...\n");
-    if (SearchPort(file_path))
-    { // Si le port a été trouvé
-        printf("Ouverture du port ...\n");
-        int file_descriptor = OpenPort(file_path); // On ouvre un descripteur
-        if (file_descriptor != -1)
-        { // Si on a obtenu le descripteur
-            printf("Configuration du port ...\n");
-            if (Config(speed, size, parity, file_descriptor))
-            { // Si la configuration a réussi
-                printf("Port ouvert avec succes.\n");
-                return true;
-            }
-            else
-            { // Si la configuration a échoué
-                printf("Echec de la configuration du port.\nFermeture du port ...\n");
-                if (Disconnect(file_descriptor))
-                { // Si on arrive à fermer normalement
-                    printf("Port ferme.\n");
-                    return false;
-                }
-                else
-                {                           // Si on n'arrive pas à fermer
-                    close(file_descriptor); // On ferme brusquement
-                    printf("Port ferme avec erreurs.\n");
-                    return false;
-                }
-                printf("Erreur inconnue.\n");
-                return false; // On arrête le programme
-            }
-        }
-        else
-        { // Si on n'a pas obtenu le descripteur
-            printf("Echec lors de l'ouverture du port.\n");
-            return false;
-        }
+    if (isatty(*file_descriptor))
+    {                // Si le descripteur est associé à un port ouvert
+        return true; // Tout va bien
     }
     else
-    { // Si le port n'a pas été trouvé
-        printf("Port non trouve.\n");
+    { // Si le descripteur n'est pas associé à un port ouvert
+        printf("La connection a ete interrompue.\nTentative de reconnection.\n\n");
+        usleep(5000000);                                                   // On attend 5 secondes
+        int new_file_descriptor = Connect(file_path, speed, size, parity); // On réouvre on nouveau descripteur
+        if (new_file_descriptor >= 0)
+        {                                           // Si le descripteur ne contient pas d'erreur
+            *file_descriptor = new_file_descriptor; // On définit le nouveau descripteur comme descripteur pour toutes les fonctions
+            printf("\tConnection retablie\n");
+            return true; // Tout va bien
+        }
+        else // Si on n'arrive pas a ouvrir un nouveau descripteur
+        {
+            printf("\tConncection non retablie\n");
+            return false; // La connection est définitivement perdue
+        }
+        printf("\tErreur inconnue.\n");
+        return false; // Si le nouveau descripteur n'est ni ouvert, ni fermé
+    }
+    printf("\tErreur inconnue.\n");
+    return false; // Si le descripteur n'est ni fonctionnel ni endommagé
+}
+
+bool SwitchOff(int file_descriptor)
+{
+    printf("Extinction du feu ...\n");
+    char command[] = "a0\n\0"; // String qui éteint tout le feu
+    if (write(file_descriptor, &command, sizeof(command)))
+    { // Si on arrive à envoyer la commande
+        printf("\tExtinction reussie.\n\n");
+        return true;
+    }
+    else
+    { // Si on n'arrive pas à envoyer la commande
+        printf("\tEchec lors de l'extinction\n\n");
         return false;
     }
+    printf("\tProbleme inconnu.\n");
+    return false; // Si on ne réussit pas et on n'échoue pas non plus
 }
