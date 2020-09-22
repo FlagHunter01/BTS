@@ -240,22 +240,26 @@ bool VerifyConnection(int *file_descriptor, char *file_path, speed_t speed, tcfl
     }
     else
     { // Si le descripteur n'est pas associé à un port ouvert
-        printf("La connection a ete interrompue.\nTentative de reconnection.\n\n");
-        usleep(5000000);                                                   // On attend 5 secondes
-        int new_file_descriptor = Connect(file_path, speed, size, parity); // On réouvre on nouveau descripteur
-        if (new_file_descriptor >= 0)
-        {                                           // Si le descripteur ne contient pas d'erreur
-            *file_descriptor = new_file_descriptor; // On définit le nouveau descripteur comme descripteur pour toutes les fonctions
-            printf("\tConnection retablie\n");
-            return true; // Tout va bien
-        }
-        else // Si on n'arrive pas a ouvrir un nouveau descripteur
+        printf("La connection a ete interrompue.\n");
+        int i = 0;
+        int new_file_descriptor;
+        for (i = 0; i < 2; i++)
         {
-            printf("\tConncection non retablie\n");
-            return false; // La connection est définitivement perdue
+            printf("\tTentative de reconnection.\n\n");                    // On attend 5 secondes
+            new_file_descriptor = Connect(file_path, speed, size, parity); // On réouvre on nouveau descripteur
+            if (new_file_descriptor >= 0)
+            {                                           // Si le descripteur ne contient pas d'erreur
+                *file_descriptor = new_file_descriptor; // On définit le nouveau descripteur comme descripteur pour toutes les fonctions
+                printf("\tConnection retablie\n");
+                return true; // Tout va bien
+            }
+            else // Si on n'arrive pas a ouvrir un nouveau descripteur
+            {
+                printf("\tConncection non retablie.\n\tNouvel essai dans 0,5 secondes.\n");
+                usleep(500000);
+                i++;
+            }
         }
-        printf("\tErreur inconnue.\n");
-        return false; // Si le nouveau descripteur n'est ni ouvert, ni fermé
     }
     printf("\tErreur inconnue.\n");
     return false; // Si le descripteur n'est ni fonctionnel ni endommagé
@@ -263,7 +267,7 @@ bool VerifyConnection(int *file_descriptor, char *file_path, speed_t speed, tcfl
 
 bool SwitchOff(int file_descriptor)
 {
-    printf("Extinction du feu ...\n");
+    printf("\tExtinction du feu ...\n");
     char command[] = "a0\n\0"; // String qui éteint tout le feu
     if (write(file_descriptor, &command, sizeof(command)))
     { // Si on arrive à envoyer la commande
