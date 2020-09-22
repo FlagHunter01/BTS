@@ -1,0 +1,18 @@
+ - Rechercher le port
+ - Si on trouve le port:
+    - Ouvrir le port
+    - Si on ouvre le port:
+        - Configurer le port
+        - Si le port est configuré:
+            Fermer le port
+            Fin du programme
+        - Sinon:
+            Message d'erreur
+            Fin du programme
+    - Sinon:
+        Message d'erreur
+        Fin du programme
+ - Sinon:
+    Message d'erreur
+    Fin du programme
+Fin du programme
