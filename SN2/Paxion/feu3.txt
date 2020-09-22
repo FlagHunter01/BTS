@@ -1,0 +1,14 @@
+ - on se connecte au feu
+    - Si la connection est établie:
+        - On éteint le feu
+        - Si le feu est éteint:
+            Fin du programme
+        - Sinon:
+            Message d'erreur
+            Fin du programme
+    - Sinon:
+        Message d'erreur
+        Fin du programme
+- Sinon:
+    Message d'erreur
+    Fin du programme
