@@ -21,17 +21,19 @@ void cgiFunction()
                 CW, CH);
     // TITRE
     L += sprintf(buf + L,
-                 "<text x=\"230\" y=\"30\"  font-size=\"20\" font-family=\"Arial\" fill=\"red\" text-anchor=\"middle\">Station meteo</text>"); // TITRES :  station meteo Arial 20 rouge
+                 "<text x=\"%d\" y=\"%d\"  font-size=\"20\" font-family=\"Arial\" fill=\"red\" text-anchor=\"middle\">Station meteo</text>",
+                 200, PT + 5); // TITRES :  station meteo Arial 20 rouge
     for (i = 0; i < N; ++i)
     {
-        T[i] = rand() % 50; // variables aleatoires
+        unsigned short val = (unsigned short)rand() % 50;
+        T[i] = val;
+        maxValue = val > maxValue ? val : maxValue;
     }
-    maxValue = T[i]; // Determine maximum value and segment width and height
-
-    //SH = (CH - PT - PB) / maxValue;
+        SH = (CH - PT - PB) / maxValue;
     SW = (CW - PL - PR) / (N - 1);
     // Paint graph
-    for (i = 0; i < N - 1; ++i){
+    for (i = 0; i < N - 1; ++i)
+    {
         L += sprintf(buf + L,
                      "<line x1=\"%u\" y1=\"%u\" x2=\"%u\" y2=\"%u\" stroke=\"green\" />\n",
                      i * SW + PL, CH - PB - T[i] * SH, (i + 1) * SW + PL, CH - PB - T[i + 1] * SH);
@@ -41,7 +43,7 @@ void cgiFunction()
     L += sprintf(buf + L, "<line x1=\"%u\" y1=\"%u\" x2=\"%u\" y2=\"%u\" stroke=\"blue\" />\n",
                  PL, CH - PB, PL, PT); // axe des ordonnees
     L += sprintf(buf + L, "<line x1=\"%u\" y1=\"%u\" x2=\"%u\" y2=\"%u\" stroke=\"blue\" />\n",
-                 PL - 5, PT - 10, PL, PT); // fleche gauche  (5x10 pixels)
+                 PL - 5, PT + 10, PL, PT); // fleche gauche  (5x10 pixels)
     L += sprintf(buf + L, "<line x1=\"%u\" y1=\"%u\" x2=\"%u\" y2=\"%u\" stroke=\"blue\" />\n",
                  PL + 5, PT + 10, PL, PT); // fleche droite  (5x10 pixels)
                                            // Label coordinate system   ordonnees
@@ -70,8 +72,8 @@ void cgiFunction()
                      i * SW + PL, CH - PB - 2, i * SW + PL, CH - PB + 2);
     L += sprintf(buf + L, "<text x=\"%d\" y=\"%d\" font-family=\"Arial\" font-size=\"13\">t(s)</text>", CW - PR, CH - PB + 5); // unite de l'axe  t(s)   en Arial 13
     L += sprintf(buf + L, "<text x=\"%d\" y=\"%d\"  font-size=\"13\" font-family=\"Arial\" fill=\"blue\" >%d octets dans cette page</text>",
-                 CW / 2, 5, sizeof(buf)); // L + taille de </svg>
-    // Finish SVG code 
+                 CW / 2, PT + 5, sizeof(buf)); // L + taille de </svg>
+    // Finish SVG code
     L += sprintf(buf + L, "</svg>");
     printf(buf); // envoie de la page
 }
