@@ -6,14 +6,14 @@
 #include <stdlib.h>
 
 // Nombre d'affichages
-#define NB_AFFICHAGE 10
+#define PRINT_QUANTITY 10
 // Temporisation ralentissement du processus
 #define TEMPO 1000000
 
 // Code à exécuter si le processus est parent
-bool Parent(pid_t id);
+void Parent(pid_t id);
 // Code à exécuter su le processus est enfant
-int Child();
+void Child();
 
 int main()
 {
@@ -29,28 +29,18 @@ int main()
     }
     if (id)
     { // On est dans le processus père
-        if (Parent(id))
-        { // Si le code parent s'est exécuté correctement, fin du programme
-            printf("\n\nLe programme s'est execute correctement.\nFin du programme.\n\n\n");
-            usleep(TEMPO);
-        }
-        else
-        { // Si le code parent à rencontré une erreur, message d'erreur
-            printf("Le programme a renconte un probleme.\nFin du programme.\n\n\n");
-            usleep(TEMPO);
-        }
-        return 0;
+        Parent(id);
     }
     else
-    { // Si le PID n'est pas > 0
-        exit(Child());
+    { // On est dans le processus fils
+        Child();
     }
-    // Le fork() est négatif
-    printf("Echec du fork(). Fin du programme\n\n\n");
-    return 0;
+    // Ce code ne doit jamais s'exécuter
+    printf("Erreur inconnue.\n\n\n");
+    exit(EXIT_FAILURE);
 }
 
-bool Parent(pid_t id)
+void Parent(pid_t id)
 {
     // Compteur
     int i;
@@ -59,7 +49,7 @@ bool Parent(pid_t id)
     // Valeur du message de fin du fils
     int exit_status;
     // Boucle d'affichage des PID
-    for (i = 0; i < NB_AFFICHAGE; i++)
+    for (i = 0; i < PRINT_QUANTITY; i++)
     {
         printf("PID = %d; PID FILS = %d\n", getpid(), id);
         usleep(TEMPO); // Ralentissement pour mettre en évidence l'entrelacement des processus: fin du quantum
@@ -73,28 +63,31 @@ bool Parent(pid_t id)
         // On récupère la valeur de son statut
         exit_status = WEXITSTATUS(status);
         printf("LE FILS S'EST ARRETE AVEC LE STATUT %d.\n", exit_status);
-        return true;
+        usleep(TEMPO);
+        exit(EXIT_SUCCESS);
     }
     else
     { // Si le fils s'est terminé sans exit()
         printf("LE FILS NE S'EST PAS ARRETE NORMALEMENT.\n");
-        return false;
+        usleep(TEMPO);
+        exit(EXIT_FAILURE);
     }
 }
 
-int Child()
+void Child()
 {
     // Compteur
     int i;
     // Déphasage d'une demi-seconde par rapport au père
     usleep(TEMPO / 2);
     // Boucle d'affichage des PID
-    for (i = 0; i < NB_AFFICHAGE; i++)
+    for (i = 0; i < PRINT_QUANTITY; i++)
     {
         printf("\tpid = %d; pid pere = %d\n\n", getpid(), getppid());
         usleep(TEMPO);
     }
     // Retourne EXIT_SUCCESS
     printf("\tterminaison du fils.\n\n");
-    return EXIT_SUCCESS;
-}
+    usleep(TEMPO);
+    exit(EXIT_SUCCESS);
+} 
