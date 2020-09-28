@@ -23,10 +23,14 @@ int main()
 
     /* On sort les variables suceptibles d'être changées au début
     pour pouvoir les modifier facilement */
+    // Chemin d'accès du port
     char file_path[] = "/dev/ttyUSBX";
-    speed_t speed = B9600;    // 9 600 baud
-    tcflag_t size = CS8;      // 8 bits
-    tcflag_t parity = IGNPAR; // Ignorer la parité
+    // 9 600 baud
+    speed_t speed = B9600;
+    // 8 bits
+    tcflag_t size = CS8;
+    // Ignorer la parité
+    tcflag_t parity = IGNPAR;
     // La quantité de bits de stop est de 1 par défaut.
     printf("Recherche du port correspondant ...\n");
     if (SearchPort(file_path))
@@ -35,7 +39,6 @@ int main()
         int file_descriptor = OpenPort(file_path); // On ouvre un descripteur
         if (file_descriptor != -1)
         { // Si on a obtenu le descripteur
-
             printf("Configuration du port ...\n");
             if (Config(speed, size, parity, file_descriptor))
             { // Si la configuration a réussi
@@ -118,8 +121,10 @@ bool SearchPort(char *file_path)
 
 int OpenPort(char *file_path)
 {
+    int file_descriptor;
     printf("\tOuverture du port ...\n");
-    int file_descriptor = open(file_path, O_RDWR); // On obtient le descripteur
+    // On obtient le descripteur
+    file_descriptor = open(file_path, O_RDWR);
     if (file_descriptor >= 0)
     { // S'il n'y a pas de code d'erreur
         printf("\tOuverture reussie.\n");
@@ -133,8 +138,9 @@ int OpenPort(char *file_path)
 
 bool Config(speed_t speed, tcflag_t size, tcflag_t parity, int file_descriptor)
 {
+    // Contient la configuration complète
+    struct termios tty;
     printf("\tConfiguration de la connexion ...\n");
-    struct termios tty; // Contient la configuration complète
     if (tcgetattr(file_descriptor, &tty) != 0)
     { // Si on ne peut pas obtenir la configuration actuelle
         printf("\tEchec du telechargement de la configuration\n");
