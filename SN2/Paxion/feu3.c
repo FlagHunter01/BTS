@@ -44,6 +44,7 @@ int main()
         if (!VerifyConnection(&file_descriptor, file_path, speed, size, parity))
         { // Si la connection est perdue définitivement
             printf("Connection perdue!\n");
+            exit(EXIT_FAILURE);
         }
         if (SwitchOff(file_descriptor))
         { // Si on réussit à éteindre le feu
