@@ -5,6 +5,11 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
+// Nombre d'affichages
+#define NB_AFFICHAGE 10
+// Temporisation ralentissement du processus
+#define TEMPO 1000000
+
 // Code à exécuter si le processus est parent
 bool Parent(pid_t id);
 // Code à exécuter su le processus est enfant
@@ -14,37 +19,34 @@ int main()
 {
     printf("\n\tTP1\n\n");
     printf("Clonnage du programme ...\n");
-    usleep(1000000);
+    usleep(TEMPO);
     // PID obtenu du fork()
     pid_t id = fork();
+    if (id == -1)
+    { // Le fork() a signalé une erreur
+        perror("LE FORK A ECHOUE.\n\n");
+        exit(EXIT_FAILURE);
+    }
     if (id)
-    { // Si le PID est > 0
+    { // On est dans le processus père
         if (Parent(id))
         { // Si le code parent s'est exécuté correctement, fin du programme
             printf("\n\nLe programme s'est execute correctement.\nFin du programme.\n\n\n");
-            usleep(10000000);
+            usleep(TEMPO);
         }
         else
         { // Si le code parent à rencontré une erreur, message d'erreur
             printf("Le programme a renconte un probleme.\nFin du programme.\n\n\n");
-            usleep(10000000);
+            usleep(TEMPO);
         }
         return 0;
     }
     else
     { // Si le PID n'est pas > 0
-        if (id == 0)
-        { // Si le fork() montre qu'on est le fils
-            // Renvoyer le statut du fils
-            exit(Child());
-        }
-        else
-        { // Si le fork() communique une erreur
-            printf("Echec du fork(). Fin du programme\n\n\n");
-        }
+        exit(Child());
     }
-    // Ce code ne doit jamais s'exécuter
-    printf("Erreur inconnue. Fin du programme.\n\n\n");
+    // Le fork() est négatif
+    printf("Echec du fork(). Fin du programme\n\n\n");
     return 0;
 }
 
@@ -56,20 +58,15 @@ bool Parent(pid_t id)
     int status;
     // Valeur du message de fin du fils
     int exit_status;
-    if (id < 0)
-    { // Si le fork() a signalé une erreur
-        printf("LE FORK A ECHOUE.\n\n");
-        return false;
-    }
     // Boucle d'affichage des PID
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < NB_AFFICHAGE; i++)
     {
         printf("PID = %d; PID FILS = %d\n", getpid(), id);
-        usleep(1000000);
+        usleep(TEMPO); // Ralentissement pour mettre en évidence l'entrelacement des processus: fin du quantum
     }
     printf("ATTENTE DU FILS ...\n\n");
     // Attente de la fin du processus fils
-    waitpit(id, &status, NULL);
+    waitpid(id, &status, NULL);
     // Vérification qu le fils s'est terminé avec exit()
     if (WIFEXITED(status))
     { // Si le fils s'est terminé avec exit()
@@ -81,7 +78,7 @@ bool Parent(pid_t id)
     else
     { // Si le fils s'est terminé sans exit()
         printf("LE FILS NE S'EST PAS ARRETE NORMALEMENT.\n");
-        return false
+        return false;
     }
 }
 
@@ -90,12 +87,12 @@ int Child()
     // Compteur
     int i;
     // Déphasage d'une demi-seconde par rapport au père
-    usleep(500000);
+    usleep(TEMPO / 2);
     // Boucle d'affichage des PID
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < NB_AFFICHAGE; i++)
     {
         printf("\tpid = %d; pid pere = %d\n\n", getpid(), getppid());
-        usleep(1000000);
+        usleep(TEMPO);
     }
     // Retourne EXIT_SUCCESS
     printf("\tterminaison du fils.\n\n");
