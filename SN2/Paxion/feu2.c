@@ -11,6 +11,7 @@
 #include <sys/types.h> //open()
 #include <sys/stat.h>  //open()
 #include <fcntl.h>     //open()
+#include <stdlib.h>    // exit()
 
 // CONNECT - Connexion au port
 int Connect(char *file_path, speed_t speed, tcflag_t size, tcflag_t parity);
@@ -39,34 +40,36 @@ int main()
     if (file_descriptor != -1)
     { // Si le descripteur ne contient pas d'erreur
         printf("\n### EXTINCTION DU FEU ###\n\n");
+        if (!VerifyConnection(&file_descriptor, file_path, speed, size, parity))
+        { // Si la connection est perdue définitivement
+            printf("Connection perdue!\n");
+            exit(EXIT_FAILURE);
+        }
         if (SwitchOff(file_descriptor))
         { // Si on réussit à éteindre le feu
-            if (!VerifyConnection(&file_descriptor, file_path, speed, size, parity))
-            { // Si la connection est perdue définitivement
-                printf("Connection perdue!\n");
-            }
             printf("Le feu s'est eteint correctement.\n\n");
             printf("### DECONNECTION ###\n\n");
             if (Disconnect(file_descriptor))
             {
                 printf("\tDeconnection reussie\n\n");
+                exit(EXIT_SUCCESS);
             }
             else
             {
                 printf("\tEchec lors de la deconnection.\n\n");
             }
-            return 0;
+            exit(EXIT_FAILURE);
         }
         else
         { // Si on ne réussit pas à etteindre le feu
             printf("Le feu ne s'est pas eteint correctement.\n\n");
-            return 0;
+            exit(EXIT_FAILURE);
         }
     }
     else
     { // Si le descripteur obtenu contient une erreur
         printf("Echec lors de la connexion. Fin du programme.\n\n\n");
-        return 0;
+        exit(EXIT_FAILURE);
     }
 }
 
