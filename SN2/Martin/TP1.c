@@ -72,7 +72,7 @@ bool Parent(pid_t id)
     waitpit(id, &status, NULL);
     // Vérification qu le fils s'est terminé avec exit()
     if (WIFEXITED(status))
-    {   // Si le fils s'est terminé avec exit()
+    { // Si le fils s'est terminé avec exit()
         // On récupère la valeur de son statut
         exit_status = WEXITSTATUS(status);
         printf("LE FILS S'EST ARRETE AVEC LE STATUT %d.\n", exit_status);
@@ -89,6 +89,7 @@ int Child()
 {
     // Compteur
     int i;
+    // Déphasage d'une demi-seconde par rapport au père
     usleep(500000);
     // Boucle d'affichage des PID
     for (i = 0; i < 10; i++)
