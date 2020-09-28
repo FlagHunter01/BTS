@@ -56,7 +56,7 @@ void Parent(pid_t id)
     }
     printf("ATTENTE DU FILS ...\n\n");
     // Attente de la fin du processus fils
-    waitpid(id, &status, NULL);
+    waitpid(id, &status, 0);
     // Vérification qu le fils s'est terminé avec exit()
     if (WIFEXITED(status))
     { // Si le fils s'est terminé avec exit()
