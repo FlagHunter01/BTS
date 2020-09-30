@@ -11,8 +11,8 @@
 
 /* TODO: vérifier que la colonne est 0<colonne<7 */
 
-// Vérification de la disponibilité des cases d'une colonne
-int SearchFreeColumn(int column, char tableau[7][6]);
+// Renvoie la première ligne disponible d'une colonne
+int SearchFreeLine(int column, char tableau[7][6]);
 
 // Ajout d'un pion par un joueur dans un tableau
 bool Place(bool player, int column, char tableau[7][6]);
@@ -78,16 +78,25 @@ int main()
     return 0;
 }
 
-int SearchFreeColumn(int column, char tableau[7][6])
+int SearchFreeLine(int column, char tableau[7][6])
 {
     // Compteur
     int i;
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < 5; i++)
     {
-        if (tableau[i] == ' '){
+        if (tableau[column][i] == ' ')
+        {
             return i;
         }
-        i++;
     }
-    return -1; // A chopper dans 
+    return -1; // A chopper dans Place()
+}
+
+bool Place(bool player, int column, char tableau[7][6])
+{
+    int ligne = SearchFreeLine(column, tableau);
+    if (ligne == -1)
+    {
+        return false
+    }
 }
