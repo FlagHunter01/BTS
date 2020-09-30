@@ -1,4 +1,5 @@
-#include <stdbool.h>
+#include <stdbool.h> // bool
+#include <stdio.h> // printf()
 
 /*
 |X|X|X|X|X|X|X|
@@ -18,7 +19,7 @@ int SearchFreeLine(int column, char tableau[7][6]);
 bool Place(bool player, int column, char tableau[7][6]);
 
 // Vérification des conditions de victoire
-void Victory(bool player, char tableau[7][6]);
+void Victory(char tableau[7][6]);
 
 // Recherche s'il y a la place de continuer le jeu
 bool FreePlace(char tableau[7][6]);
@@ -64,7 +65,7 @@ int main()
             possiblePlacement = Place(player, column, tableau);
         }
         PrintTableau(tableau);
-        Victory(player, tableau);
+        Victory(tableau);
         if (player)
         {
             nextplayer = false;
@@ -92,11 +93,106 @@ int SearchFreeLine(int column, char tableau[7][6])
     return -1; // A chopper dans Place()
 }
 
-bool Place(bool player, int column, char tableau[7][6])
+bool Place(bool player, int column, char tableau)
 {
-    int ligne = SearchFreeLine(column, tableau);
-    if (ligne == -1)
+    int line = SearchFreeLine(column, tableau);
+    if (line == -1)
     {
-        return false
+        return false;
+    }
+    else
+    {
+        if (player)
+        {
+            tableau[column][line] = 'X'
+        }
+        else
+        {
+            tableau[column][line] = 'O';
+        }
+    }
+    return true;
+}
+
+bool FreePlace(char tableau[7][6])
+{
+    // Compteur
+    int column;
+    // Compteur
+    int line;
+    // Il reste une place
+    bool freePlace = false;
+    for (column = 0; column < 6; column++ 0)
+    {
+        for (line = 0; line < 5; line++)
+        {
+            if (tableau[column][line] == ' ')
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void PrintTableau(char tableau[7][6])
+{
+    // Compteur
+    int column;
+    // Compteur
+    int line;
+    for (column = 0; column < 6, column++)
+    {
+        for (line = 0; line < 5; line++)
+        {
+            printf("|%s", tableau[column][line]);
+        }
+        printf("|\n");
+    }
+}
+
+void Victory(char tableau[7][6])
+{
+    // Compteur
+    int column;
+    // Compteur
+    int line;
+    // Quantité de pions de même couleur
+    int same = 0;
+    // Joueur qu'on vient de vérifier
+    bool oldPlayer = false;
+    // Joueur qu'on vérifie
+    bool newPlayer;
+    // Victoire dans une ligne
+    for (column = 0; column < 6; column++)
+    {
+        for (line = 0; line < 5; line++)
+        {
+            if (tableau[column][line] == 'O')
+            {
+                newPlayer = false;
+            }
+            if (tableau[column][line] == 'X')
+            {
+                newPlayer = true;
+            }
+            if (tableau[column][line] == ' ')
+            {
+                same=0;
+                newPlayer = ( ( oldPlayer == true ) ? false : true ); // on inverse le joueur pour ne pas comptabiliser les points d'avant
+            }
+            if (oldPlayer == newPlayer)
+            {
+                same++;
+                if (same == 4)
+                {
+                    printf("Victoire de joueur%d", newPlayer + 1)
+                }
+            }
+            else
+            {
+                same = 1;
+            }
+        }
     }
 }
