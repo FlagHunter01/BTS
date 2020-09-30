@@ -1,5 +1,5 @@
 #include <stdbool.h> // bool
-#include <stdio.h> // printf()
+#include <stdio.h>   // printf()
 
 /*
 |X|X|X|X|X|X|X|
@@ -145,7 +145,7 @@ void PrintTableau(char tableau[7][6])
     {
         for (line = 0; line < 5; line++)
         {
-            printf("|%s", tableau[column][line]);
+            printf("|%c", tableau[column][line]);
         }
         printf("|\n");
     }
@@ -178,8 +178,8 @@ void Victory(char tableau[7][6])
             }
             if (tableau[column][line] == ' ')
             {
-                same=0;
-                newPlayer = ( ( oldPlayer == true ) ? false : true ); // on inverse le joueur pour ne pas comptabiliser les points d'avant
+                same = 0;
+                newPlayer = ((oldPlayer == true) ? false : true); // on inverse le joueur pour ne pas comptabiliser les points d'avant
             }
             if (oldPlayer == newPlayer)
             {
@@ -195,4 +195,15 @@ void Victory(char tableau[7][6])
             }
         }
     }
+    // Victoire en diagonale \
+    for(column=4; column<6;column++){
+    int columnBis = column;
+    for (line = 0; line < 5; line++)
+    {
+        if (tableau[columnBis][line])
+        {
+        }
+        columnBis--;
+    }
+}
 }
