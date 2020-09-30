@@ -43,7 +43,7 @@ void cgiFunction()
     // Début du document XML et ouverture cu canvas SVG
     L = sprintf(buf,
                 "Content-type:text/xml\n\n"
-                "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\" ?>\n"
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n"
                 "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/graphics/svg/1.1/DTD/svg11dtd\">\n"
                 "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%u\" height=\"%u\" version=\"1.1\" >\n",
                 CW, CH); // Largeur et hauteur du canvas
