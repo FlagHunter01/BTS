@@ -5,7 +5,7 @@
 // SW = segmentWidth  SH = segmentHeight  L = length
 #include <time.h>
 // padding-top
-#define PT 20
+#define PT 40
 // padding-left
 #define PL 30
 // padding-bottom
