@@ -121,7 +121,7 @@ void cgiFunction()
     L += sprintf(buf + L, "<text x=\"%d\" y=\"%d\" font-family=\"Arial\" font-size=\"13\">t(s)</text>", CW - PR, CH - PB + 5);
     // Affichage de la taille de la page
     L += sprintf(buf + L, "<text x=\"%d\" y=\"%d\"  font-size=\"13\" font-family=\"Arial\" fill=\"blue\" >%d octets dans cette page</text>",
-                 CW / 2, PT + 5, L);
+                 CW / 2, PT + 5, L + sizeof("</svg>"));
     // Fermeture du canvas SVG
     L += sprintf(buf + L, "</svg>");
     // Affichage de la page
