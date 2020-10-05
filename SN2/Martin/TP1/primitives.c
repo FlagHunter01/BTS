@@ -3,7 +3,7 @@
 #include <stdbool.h>  // bool
 #include <stdio.h>    // perror()
 #include <errno.h>    // perror()
-#include <unistd.h>   //exelc()
+#include <unistd.h>   // exelc()
 
 void Parent(int pid);
 
