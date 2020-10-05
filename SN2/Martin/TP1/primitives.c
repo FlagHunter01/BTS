@@ -9,9 +9,9 @@ void Parent(int pid);
 
 void Child();
 
-int main(int argc, char *argv[])
+int main()
 {
-    printf("\n\n\tTest primitives de recovrement\n\n\n");
+    printf("\n\n\tTest primitives de recouvrement\n\n\n");
     printf("Ce programme sera remplacé par 'ls -l'.\n");
     printf("\n---------------------------------------------------------------------------\n");
     // PID du processus
