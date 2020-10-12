@@ -16,6 +16,12 @@
 	if(tcflush(serfd, TCIOFLUSH)
 */
 
+/*
+ - Ouvrir port
+ - Configurer Port
+ - Fermer port
+ */
+
 #include <stdio.h>
 #include <stdbool.h>   // bool
 #include <termios.h>   // speed_t, tcflag_t ...
@@ -24,13 +30,15 @@
 #include <sys/stat.h>  //open()
 #include <fcntl.h>     //open()
 
+bool OpenPort();
+bool ConfigPort();
+bool ClosePort();
+
 int main()
 {
-    printf("\n\t############### TEST FEU 1 ###############\n\n\n");
+    printf("\n\t########## FEU 1 ##########\n\n\n");
 
-    /* On sort les variables suceptibles d'être changées au début
-    pour pouvoir les modifier facilement */
-    char file_path[] = "/dev/ttyUSB0";
+    char file_path[] = "/dev/ttyUSBX";
     printf("Ouverture\n");
     int file_descriptor = open(file_path, O_RDWR); // On ouvre un descripteur
     printf("file descriptor = %d\n", file_descriptor);
