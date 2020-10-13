@@ -1,50 +1,56 @@
-/* N'est pas utilisable ! 
+#include <string.h>  // strcpy()
+#include <strings.h> // strcasecmp()
+#include  <iostream>  // cout
 
-EXISTE A DES FINS DE TEST
+extern ostream cout; // NANI ?!
 
-N'est pas utilisable ! */
-
-int sustr(int x, int y) { return x-y;}
-
-class Toto
+class Informations
 {
-    private:
-    int m_a;
-    int m_b;
-    char m_r[80];
-    int HeavyCalculus(int x) { return x+m_a;}
+private:
+    // Pays dangereux
+    const char *m_pays[5] = {"iran", "afghanistan", "syrie", "coree du nord", ""};
 
-    public:
-    Toto::Toto();
-    Toto::Toto(int r);
-    void SetA(int a);
-    const int GetA() { return m_a; }
-    int Calculus(int x) { return HeavyCalculus(x) * m_b; }
+    // Lieu de passage
+    char m_lieu[80];
+
+    // Pays de provenance
+    char m_origine[80];
+
+    // Contrôle renforcé
+    bool m_controle;
+
+    // Suspect a suivre
+    bool m_suivi;
+
+    // Quantité d'argent déclaré
+    long m_argent;
+
+public:
+    Informations(char *origine);
+    void Controle();
+    void Argent(long argent);
 };
 
-void Toto::SetA(int a)
+Informations::Informations(char *origine)
 {
-    m_a = a;
+    strcpy(m_lieu, "Aeroport JFK New York");
+    strcpy(origine, m_origine);
 }
 
-Toto::Toto()
+void Informations::Controle()
 {
-    m_b = 0;
+    for (int i = 0; !*m_pays[i]; i++)
+    {
+        if (!strcasecmp(m_origine, m_pays[i]))
+        {
+            m_controle = true;
+            m_suivi = true;
+            // How to exit the loop ?
+        }
+    }
 }
 
-Toto::Toto(char r[80])
-{
-    m_c = 0;
-    m_r = r;
-}
-
-void main()
-{
-    Toto to(5);
-    to.SetA(7);
-    int result = to.Calculus(8);
-
-    Toto ti;
-    to = ti;
-
+void Informations::Argent(long argent){
+    cout << "Somme d'argent declaree: " << m_argent;
+    m_argent = argent;
 }
