@@ -47,14 +47,14 @@ int main()
             }
             exit(EXIT_FAILURE);
         }
-        perror("\nCe code ne doit jamais s'exécuter.\n\n");
+        perror("\nCe code ne doit jamais s'exécuter.");
         exit(EXIT_FAILURE);
     }
     else
     { 
         exit(EXIT_FAILURE);
     }
-    perror("\nCe code ne doit jamais s'exécuter.\n\n");
+    perror("\nCe code ne doit jamais s'exécuter.");
         exit(EXIT_FAILURE);
 }
 
@@ -79,7 +79,7 @@ int OpenPort(char *file_path){
             printf("\tEchec lors de l'ouverture de %s .\n", file_path);
         }
     }
-    perror("\tAucun port n'a pu être ouvert.\n");
+    perror("\tAucun port n'a pu être ouvert.");
             return file_descriptor;
 }
 
@@ -150,18 +150,18 @@ bool ConfigPort(int file_descriptor, struct termios *oldConf)
             return true;
         }
         else{
-            perror("\tEchec lors de la configuration du port.\n");
+            perror("\tEchec lors de la configuration du port.");
             return false;
         }
-        perror("\tCe code ne doit jamais s'exécuter.\n");
+        perror("\tCe code ne doit jamais s'exécuter.");
         return false;
     }
     else
     {
-        perror("\tEchec lors du téléchargement de l'ancienne configuration du port.\n");
+        perror("\tEchec lors du téléchargement de l'ancienne configuration du port.");
         return false;
     }
-    perror("\tCe code ne doit jamais s'exécuter.\n");
+    perror("\tCe code ne doit jamais s'exécuter.");
     return false;
 }
 
@@ -175,21 +175,21 @@ bool ClosePort(int file_descriptor, struct termios *oldConf){
             return true;
         }
         else{
-            perror("\tEchec lors de la fermeture du descripteur de fichiers.\n");
+            perror("\tEchec lors de la fermeture du descripteur de fichiers.");
             return false;
         }
-        perror("\tCe code ne doit jamais s'exécutrer.\n");
+        perror("\tCe code ne doit jamais s'exécutrer.");
         return false;
     }
     else{
-        perror("\tEchec lors de la restauration de l'ancienne configuration.\n");
+        perror("\tEchec lors de la restauration de l'ancienne configuration.");
         if (close(file_descriptor) == 0)
         {
             printf("\tFermeture du descripteur réussie.\n");
             return false;
         }
         else{
-            perror("\tEchec lors de la fermeture du descripteur de fichiers.\n");
+            perror("\tEchec lors de la fermeture du descripteur de fichiers.");
             return false;
     }
     }
