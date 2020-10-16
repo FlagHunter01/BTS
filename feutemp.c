@@ -70,7 +70,7 @@ int OpenPort(char *file_path){
         //file_path[sizeof(file_path) - 2] = i; // Pk sizeof(file_path) ne prend pas la taille du pointeur ?!
         file_path[11] = i;
         file_descriptor = open((char *)&file_path, O_RDWR | O_NOCTTY );
-        printf("FD = %d\n", file_descriptor);
+        printf("[DEBUG] FD = %d\n", file_descriptor);
         if (file_descriptor > 0){
             printf("\tOuverture réussie de %s .\n", file_path);
             return file_descriptor;
