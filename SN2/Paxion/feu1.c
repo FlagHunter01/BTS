@@ -1,201 +1,195 @@
-/* TODO:
+/* 
+TODO:
  - Penser a faire des boucles qui relancent plusieurs fois les fonctions qui ont échoué
  - Enregister l'ancienne configuration pour la restaurer à la fin du programme
  - Si cedrtaines configurations ont échoué, essayer de continuer en failproof le programme de management du feu
+ - bzero(&newConf, sizeof(newConf));
+
 */
 
-#include <stdio.h>
+#include <stdio.h> // perror()
 #include <stdbool.h>   // bool
 #include <termios.h>   // speed_t, tcflag_t ...
 #include <unistd.h>    // access()
 #include <sys/types.h> //open()
 #include <sys/stat.h>  //open()
 #include <fcntl.h>     //open()
+#include <stdlib.h> // exit()
 
-bool SearchPort(char *file_path);                                                // Recherche le port et écrit son adresse dans file_path
 int OpenPort(char *file_path);                                                   // Retourne le descripteur
-bool Config(speed_t speed, tcflag_t size, tcflag_t parity, int file_descriptor); // Configure la connexion
-bool ClosePort(int file_descriptor);                                             // Ferme le port
+bool ConfigPort(int file_descriptor, struct termios *oldConf); // Configure la connexion
+bool ClosePort(int file_descriptor, struct termios *oldConf); // Restore l'ancienne configuration et ferme de descripteur
 
 int main()
 {
-    printf("\n\t############### FEU 1 ###############\n\n\n");
+    printf("\n\t########## FEU 1 ##########\n\n\n");
 
     /* On sort les variables suceptibles d'être changées au début
     pour pouvoir les modifier facilement */
-    // Chemin d'accès du port
-    char file_path[] = "/dev/ttyUSBX";
-    // 9 600 baud
-    speed_t speed = B9600;
-    // 8 bits
-    tcflag_t size = CS8;
-    // Ignorer la parité
-    tcflag_t parity = IGNPAR;
-    // La quantité de bits de stop est de 1 par défaut.
-    printf("Recherche du port correspondant ...\n");
-    if (SearchPort(file_path))
-    { // Si le port a été trouvé
-        printf("Ouverture du port ...\n");
-        int file_descriptor = OpenPort(file_path); // On ouvre un descripteur
-        if (file_descriptor != -1)
-        { // Si on a obtenu le descripteur
-            printf("Configuration du port ...\n");
-            if (Config(speed, size, parity, file_descriptor))
-            { // Si la configuration a réussi
-                printf("Fermeture du port ... \n");
-                if (ClosePort(file_descriptor))
-                {
-                    printf("Port ferme.\n");
-                }
-                else
-                {
-                    printf("Port ferme avec erreurs.\n");
-                }
-                printf("Fin du programme.\n\n\n");
-                return 0; // On arrête le programme
-            }
-            else
-            { // Si la configuration a échoué
-                printf("Echec de la configuration du port.\nFermeture du port ...\n");
-                if (ClosePort(file_descriptor))
-                {
-                    printf("Port ferme.\n");
-                }
-                else
-                {
-                    printf("Port ferme avec erreurs.\n");
-                }
-                printf("Fin du programme.\n\n\n");
-                return 0; // On arrête le programme
-            }
-        }
-        else
-        { // Si on n'a pas obtenu le descripteur
-            printf("Echec lors de l'ouverture du port.\nFin du programme.\n\n\n");
-            return 0;
-        }
-    }
-    else
-    { // Si le port n'a pas été trouvé
-        printf("Port non trouve.\nFin du programme.\n\n\n");
-        return 0;
-    }
-}
+    char file_path[] = "/dev/ttyUSBX\0";
 
-bool SearchPort(char *file_path)
-{
-    char i = '2'; // Compteur
-    for (; i >= '0'; i--)
-    { // On remplace le X dans '/dev/ttyUSBX' par i allant de '2' à '0'
-        file_path[11] = i;
-        printf("\tRecherche du port %s ...\n", file_path);
-        if ((access(file_path, F_OK)) == 0)
-        { // Si le fichier existe
-            printf("\t\t%s trouve.\n", file_path);
-            if ((access(file_path, R_OK)) == 0)
-            { // Si on a les droits de lecture
-                printf("\n\tDroits de lecture accordes\n");
-                if ((access(file_path, W_OK)) == 0)
-                { // Si on a les droits d'écriture
-                    printf("\t\tDroits d'ecriture acordes\n");
-                    return true; // On a trouvé un port viable
-                }
-                else
-                { // Si on n'a pas les droits d'écriture
-                    printf("\t\tDroits d'ecriture refuses\n");
-                }
+    // Descripteur de fichiers
+    int file_descriptor = OpenPort(file_path);
+
+    // Ancienne configuration
+    struct termios oldConf;
+
+    if (file_descriptor > 0)
+    {
+        if (ConfigPort(file_descriptor, &oldConf)){
+            if(ClosePort(file_descriptor, &oldConf)){
+                exit(EXIT_SUCCESS);
             }
-            else
-            { // Si on n'a pas les droits de lecture
-                printf("\t\tDroits de lecture refuses\n");
+            exit(EXIT_FAILURE);
+        }
+        else{
+            if(ClosePort(file_descriptor, &oldConf)){
+                exit(EXIT_FAILURE);
             }
+            exit(EXIT_FAILURE);
         }
-        else
-        { // Si le fichier n'existe pas
-            printf("\t\tImpossible d'acceder a %s\n", file_path);
-        }
-    }
-    printf("\tAucun port corrspondant trouve.\n");
-    return false; // Aucun port trouvé entre USB2 et USB0
-}
-
-int OpenPort(char *file_path)
-{
-    int file_descriptor;
-    printf("\tOuverture du port ...\n");
-    // On obtient le descripteur
-    file_descriptor = open(file_path, O_RDWR);
-    if (file_descriptor >= 0)
-    { // S'il n'y a pas de code d'erreur
-        printf("\tOuverture reussie.\n");
-    }
-    else
-    { // S'il y a un code d'erreur
-        printf("\tEchec lors de l'ouverture.\n");
-    }
-    return file_descriptor;
-}
-
-bool Config(speed_t speed, tcflag_t size, tcflag_t parity, int file_descriptor)
-{
-    // Contient la configuration complète
-    struct termios tty;
-    printf("\tConfiguration de la connexion ...\n");
-    if (tcgetattr(file_descriptor, &tty) != 0)
-    { // Si on ne peut pas obtenir la configuration actuelle
-        printf("\tEchec du telechargement de la configuration\n");
-        return false; // La configuration a échoué
-    }
-    if ((cfsetospeed(&tty, speed)) != 0)
-    { // Si la vitesse ne correspond pas au standard termios (failproofing)
-        printf("\tEchec du parametrage de la vitesse\n");
-        return false; // La configuration a échoué
-    }
-    tty.c_cflag = size;   // On remplace la valeur de la taille
-    tty.c_iflag = parity; // On remplace la valeur de la parité
-    if ((tcsetattr(file_descriptor, TCSANOW, &tty)) == 0)
-    { // Si pas d'erreur lors de la soumission de la nouvelle configuration
-        printf("\tParametrage du port effectue\n");
-        return true; // Parametrage réussi
-    }
-    else
-    { // S'il y a un code d'erreur
-        printf("\tEchec du parametrage du port\n");
-        return false; // Parametrage échoué
-    }
-    printf("\tErreur inconnue\n");
-    return false; // Si on n'est entré dans aucun des if
-}
-
-bool ClosePort(file_descriptor)
-{
-    printf("\tFermeture du port ...\n");
-    struct termios tty; // Contient la configuration complète
-    if (tcgetattr(file_descriptor, &tty) != 0)
-    { // Si on ne peut pas obtenir la configuration actuelle
-        printf("\tEchec du telechargement de la configuration\n");
-        close(file_descriptor); // Fermeture du port
-        return false;           // La configuration a échoué
-    }
-    if ((cfsetospeed(&tty, B0)) != 0)
-    { // Si la vitesse ne correspond pas au standard termios (failproofing)
-        printf("\tEchec du parametrage de la vitesse\n");
-        close(file_descriptor); // Fermeture du port
-        return false;           // La configuration a échoué
-    }
-    if ((tcsetattr(file_descriptor, TCSANOW, &tty)) == 0)
-    { // Si pas d'erreur lors de la soumission de la nouvelle configuration
-        printf("\tNotification de fermeture envoyee\n");
-        close(file_descriptor); // Fermeture du port
-        return true;
+        perror("\nCe message ne doit jamais s'afficher.");
+        exit(EXIT_FAILURE);
     }
     else
     {
-        printf("\tEchec de la notification de fermeture");
-        close(file_descriptor); // Fermeture du port
+        exit(EXIT_FAILURE);
+    }
+    perror("\nCe message ne doit jamais s'afficher.");
+        exit(EXIT_FAILURE);
+}
+
+int OpenPort(char *file_path){
+    // Compteur
+    char i = '2';
+
+    // Descripteur de fichiers
+    int file_descriptor;
+
+    printf("Ouverture du port ...\n");
+    for (; i >= '0'; i--){
+        //file_path[sizeof(file_path) - 2] = i; // Pk sizeof(file_path) ne prend pas la taille du pointeur ?!
+        file_path[11] = i;
+        // Ouverture en lecture + ecriture. O_NOCTTY a comprendre.
+        file_descriptor = open(file_path, O_RDWR | O_NOCTTY );
+        if (file_descriptor > 0){
+            printf("\tOuverture réussie de %s.\n\n", file_path);
+            return file_descriptor;
+        }
+        else{
+            printf("\tEchec lors de l'ouverture de %s.\n\n", file_path);
+        }
+    }
+    perror("\tAucun port n'a pu être ouvert.");
+    printf("\n\n");
+            return file_descriptor;
+}
+
+bool ConfigPort(int file_descriptor, struct termios *oldConf)
+{
+    printf("Configuration de la connexion ...\n");
+    if (tcgetattr(file_descriptor, oldConf) == 0)
+    {
+        // Nouvelle configuration à soumettre
+        struct termios newConf;
+
+    /* 
+    B9600: Vitesse de 9600 Bauds
+    CRTSCTS : output hardware flow control (?)
+    CS8     : 8 bit, pas de contrôle de parité, 1 bit de stop
+    CLOCAL  : ignore les lignes de contrôle de modem
+    CREAD   : lire les réponses
+    */
+    newConf.c_cflag = B9600 | CRTSCTS | CS8 | CLOCAL | CREAD;
+         
+    /*
+    IGNPAR  : ignorer les octets avec des erreurs de parité
+    ICRNL   : Transforme le retour chariot en "jnouvelle ligne"
+    */
+    newConf.c_iflag = IGNPAR | ICRNL;
+         
+    /*
+    "output mode". On le garde nul.
+    */
+    newConf.c_oflag = 0;
+         
+    /*
+    ICANON  : Quelque chose lié a la compatibilité majuscules / minuscules
+    */
+    newConf.c_lflag = ICANON;
+
+    // Je ne suis pas sur qu'il faut garder ce qui suit     
+    newConf.c_cc[VINTR]    = 0;     /* Ctrl-c */ 
+    newConf.c_cc[VQUIT]    = 0;     /* Ctrl-\ */
+    newConf.c_cc[VERASE]   = 0;     /* del */
+    newConf.c_cc[VKILL]    = 0;     /* @ */
+    newConf.c_cc[VEOF]     = 4;     /* Ctrl-d */
+    newConf.c_cc[VTIME]    = 0;     /* inter-character timer unused */
+    newConf.c_cc[VMIN]     = 1;     /* blocking read until 1 character arrives */
+    newConf.c_cc[VSWTC]    = 0;     /* '\0' */
+    newConf.c_cc[VSTART]   = 0;     /* Ctrl-q */ 
+    newConf.c_cc[VSTOP]    = 0;     /* Ctrl-s */
+    newConf.c_cc[VSUSP]    = 0;     /* Ctrl-z */
+    newConf.c_cc[VEOL]     = 0;     /* '\0' */
+    newConf.c_cc[VREPRINT] = 0;     /* Ctrl-r */
+    newConf.c_cc[VDISCARD] = 0;     /* Ctrl-u */
+    newConf.c_cc[VWERASE]  = 0;     /* Ctrl-w */
+    newConf.c_cc[VLNEXT]   = 0;     /* Ctrl-v */
+    newConf.c_cc[VEOL2]    = 0;     /* '\0' */
+
+        tcflush(file_descriptor, TCIFLUSH);
+
+        if(tcsetattr(file_descriptor, TCSANOW, &newConf) == 0){
+            printf("\tConfiguration réussie.\n\n");
+            return true;
+        }
+        else{
+            perror("\tEchec lors de la configuration du port.");
+            return false;
+            printf("\n\n");
+        }
+        perror("\tCe message ne doit jamais s'afficher.");
         return false;
     }
-    printf("\tErreur inconnue\n");
-    close(file_descriptor); // Fermeture du port
+    else
+    {
+        perror("\tEchec lors du téléchargement de l'ancienne configuration du port.");
+        return false;
+        printf("\n\n");
+    }
+    perror("\tCe message ne doit jamais s'afficher.");
     return false;
+}
+
+bool ClosePort(int file_descriptor, struct termios *oldConf){
+    printf("Fermeture du port ...\n");
+    if (tcsetattr(file_descriptor,TCSANOW, oldConf) == 0){
+        printf("\tRestauration de la configuration initiale réussie.\n");
+        if (close(file_descriptor) == 0)
+        {
+            printf("\tFermeture du descripteur réussie.\n\n");
+            return true;
+        }
+        else{
+            perror("\tEchec lors de la fermeture du descripteur de fichiers.");
+            return false;
+            printf("\n\n");
+        }
+        perror("\tCe code ne doit jamais s'exécutrer.");
+        return false;
+    }
+    else{
+        perror("\tEchec lors de la restauration de l'ancienne configuration.");
+        printf("\n\n");
+        if (close(file_descriptor) == 0)
+        {
+            printf("\tFermeture du descripteur réussie.\n\n");
+            return false;
+        }
+        else{
+            perror("\tEchec lors de la fermeture du descripteur de fichiers.");
+            return false;
+            printf("\n\n");
+    }
+    }
 }
