@@ -11,14 +11,16 @@ TODO:
 #include <stdbool.h>   // bool
 #include <termios.h>   // speed_t, tcflag_t ...
 #include <unistd.h>    // access()
-#include <sys/types.h> //open()
-#include <sys/stat.h>  //open()
-#include <fcntl.h>     //open()
+#include <sys/types.h> // open()
+#include <sys/stat.h>  // open()
+#include <fcntl.h>     // open()
 #include <stdlib.h>    // exit()
+#include <string.h> // strcmp()
 
 int OpenPort(char *file_path);                                 // Retourne le descripteur
 bool ConfigPort(int file_descriptor, struct termios *oldConf); // Configure la connexion
 bool ClosePort(int file_descriptor, struct termios *oldConf);  // Restore l'ancienne configuration et ferme de descripteur
+void Command(int file_descriptor); // Communique les commandes au feu
 
 int main()
 {
@@ -38,24 +40,7 @@ int main()
     {
         if (ConfigPort(file_descriptor, &oldConf))
         {
-            char command[] = "a255";
-            char answer[7] = "\0\0\0\0\0\0\0";
-            char needed_answer[7] = "tout255";
-            int i = 0;
-            printf("Allumage du feu...\n");
-            for (; i<4; i++){
-            if (write(file_descriptor, &command, sizeof(command))){
-                read(file_descriptor, &answer, sizeof("tout255"));
-                if (!strcmp(answer, nneeded_answer)){
-                    printf("\tLa commande a ete recue et bien interpretee.\n");
-                    i = 4;
-                }
-                else{
-                    printf("\tLa commade a ete recue mais n'a pas ete interpretee correctement.\n");
-                }                
-            }
-            else{printf("\tLa commande n'a pas ete envoyee.\n");i++;}
-            }
+            Command(file_descriptor);
             if (ClosePort(file_descriptor, &oldConf))
             {
                 exit(EXIT_SUCCESS);
@@ -119,49 +104,16 @@ bool ConfigPort(int file_descriptor, struct termios *oldConf)
         // Nouvelle configuration à soumettre
         struct termios newConf;
 
-        /* 
-        B9600: Vitesse de 9600 Bauds
-        CRTSCTS : output hardware flow control (?)
-        CS8     : 8 bit, pas de contrôle de parité, 1 bit de stop
-        CLOCAL  : ignore les lignes de contrôle de modem
-        CREAD   : lire les réponses
-        */
-        newConf.c_cflag = B9600 | CRTSCTS | CS8 | CLOCAL | CREAD;
+    newConf.c_cflag = B9600 | CSTOPB | CS8 | CLOCAL | CREAD;
 
-        /*
-        IGNPAR  : ignorer les octets avec des erreurs de parité
-        ICRNL   : Transforme le retour chariot en "jnouvelle ligne"
-        */
-        newConf.c_iflag = IGNPAR | ICRNL;
+    newConf.c_iflag = IGNBRK;
 
-        /*
-        "output mode". On le garde nul.
-        */
-        newConf.c_oflag = 0;
+    newConf.c_oflag = 0;
 
-        /*
-        ICANON  : Quelque chose lié a la compatibilité majuscules / minuscules
-        */
-        newConf.c_lflag = ICANON;
-
-        // Je ne suis pas sur qu'il faut garder ce qui suit
-        newConf.c_cc[VINTR] = 0;    /* Ctrl-c */
-        newConf.c_cc[VQUIT] = 0;    /* Ctrl-\ */
-        newConf.c_cc[VERASE] = 0;   /* del */
-        newConf.c_cc[VKILL] = 0;    /* @ */
-        newConf.c_cc[VEOF] = 4;     /* Ctrl-d */
-        newConf.c_cc[VTIME] = 0;    /* inter-character timer unused */
-        newConf.c_cc[VMIN] = 1;     /* blocking read until 1 character arrives */
-        newConf.c_cc[VSWTC] = 0;    /* '\0' */
-        newConf.c_cc[VSTART] = 0;   /* Ctrl-q */
-        newConf.c_cc[VSTOP] = 0;    /* Ctrl-s */
-        newConf.c_cc[VSUSP] = 0;    /* Ctrl-z */
-        newConf.c_cc[VEOL] = 0;     /* '\0' */
-        newConf.c_cc[VREPRINT] = 0; /* Ctrl-r */
-        newConf.c_cc[VDISCARD] = 0; /* Ctrl-u */
-        newConf.c_cc[VWERASE] = 0;  /* Ctrl-w */
-        newConf.c_cc[VLNEXT] = 0;   /* Ctrl-v */
-        newConf.c_cc[VEOL2] = 0;    /* '\0' */
+    newConf.c_lflag = 0;
+     
+    // On efface et on active les parametres
+    
 
         tcflush(file_descriptor, TCIFLUSH);
 
@@ -225,4 +177,14 @@ bool ClosePort(int file_descriptor, struct termios *oldConf)
             printf("\n\n");
         }
     }
+}
+
+void Command(int file_descriptor){
+            printf("Allumage du feu...\n");
+            if (write(file_descriptor, "a255\n", sizeof("a255\n"))){
+                printf("\tCommande envoyee.\n");
+            }
+            else{
+                printf("\tCommande non envoyee.\n");
+            }
 }
