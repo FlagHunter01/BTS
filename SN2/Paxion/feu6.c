@@ -223,12 +223,12 @@ void Send(int file_descriptor, char *command, char *answer){
     // Tantr que buf_answer et needed_answer ne correspondent pas & 3 fois maximum
     while (dif && i>0){
         for (n=0;n<24;n++) buf_answer[n]=0; // On efface le buf
-        printf("Envoi commande %s...\n", command);
+        printf("Envoi commande %s\n", command);
         write(file_descriptor, command, sizeof(command));
         usleep(100000);
         read(file_descriptor, &buf_answer, sizeof(buf_answer));
         dif = strcmp(buf_answer,answer);
-        printf("\tDifference: %d | Reponse: %s/n", dif, buf_answer);
+        printf("\tDifference: %d | Reponse: %s\n", dif, buf_answer);
    i-=1;
     }
     if (dif){
