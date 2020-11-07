@@ -1,19 +1,12 @@
-/* 
-TODO:
- - Penser a faire des boucles qui relancent plusieurs fois les fonctions qui ont échoué
- - Enregister l'ancienne configuration pour la restaurer à la fin du programme
- - Si cedrtaines configurations ont échoué, essayer de continuer en failproof le programme de management du feu
- - bzero(&newConf, sizeof(newConf));
-*/
-
 #include <stdio.h>     // perror()
 #include <stdbool.h>   // bool
 #include <termios.h>   // speed_t, tcflag_t ...
 #include <unistd.h>    // access()
-#include <sys/types.h> //open()
-#include <sys/stat.h>  //open()
-#include <fcntl.h>     //open()
+#include <sys/types.h> // open()
+#include <sys/stat.h>  // open()
+#include <fcntl.h>     // open()
 #include <stdlib.h>    // exit()
+#include <strings.h>   // bzero()
 
 int OpenPort(char *file_path);                                 // Retourne le descripteur
 bool ConfigPort(int file_descriptor, struct termios *oldConf); // Télécharge l'ancienne configuration et configure la connexion
@@ -34,6 +27,7 @@ int main()
 
     // Ancienne configuration
     struct termios oldConf;
+    bzero(&oldConf, sizeof(oldConf));
 
     if (file_descriptor > 0)
     {
@@ -128,8 +122,8 @@ bool ConfigPort(int file_descriptor, struct termios *oldConf)
     else
     {
         perror("\tEchec lors du téléchargement de l'ancienne configuration du port.");
-        return false;
         printf("\n\n");
+        return false;
     }
     perror("\tCe message ne doit jamais s'afficher.");
     return false;
