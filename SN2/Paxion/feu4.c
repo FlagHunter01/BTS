@@ -16,6 +16,7 @@ TODO:
 #include <fcntl.h>     // open()
 #include <stdlib.h>    // exit()
 #include <string.h> // strcmp()
+#include <strings.h>   // bzero()
 
 int OpenPort(char *file_path);                                 // Retourne le descripteur
 bool ConfigPort(int file_descriptor, struct termios *oldConf); // Configure la connexion
@@ -36,6 +37,7 @@ int main()
 
     // Ancienne configuration
     struct termios oldConf;
+    bzero(&oldConf, sizeof(oldConf));
 
     if (file_descriptor > 0)
     {
