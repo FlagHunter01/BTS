@@ -4,7 +4,6 @@ TODO:
  - Enregister l'ancienne configuration pour la restaurer à la fin du programme
  - Si cedrtaines configurations ont échoué, essayer de continuer en failproof le programme de management du feu
  - bzero(&newConf, sizeof(newConf));
-
 */
 
 #include <stdio.h>     // perror()
@@ -17,7 +16,7 @@ TODO:
 #include <stdlib.h>    // exit()
 
 int OpenPort(char *file_path);                                 // Retourne le descripteur
-bool ConfigPort(int file_descriptor, struct termios *oldConf); // Configure la connexion
+bool ConfigPort(int file_descriptor, struct termios *oldConf); // Télécharge l'ancienne configuration et configure la connexion
 bool ClosePort(int file_descriptor, struct termios *oldConf);  // Restore l'ancienne configuration et ferme de descripteur
 
 int main()
@@ -26,6 +25,8 @@ int main()
 
     /* On sort les variables suceptibles d'être changées au début
     pour pouvoir les modifier facilement */
+
+    // Emplacement du port
     char file_path[] = "/dev/ttyUSBX\0";
 
     // Descripteur de fichiers
@@ -72,9 +73,13 @@ int OpenPort(char *file_path)
     int file_descriptor;
 
     printf("Ouverture du port ...\n");
+    /*
+    On essaie d'ouvrir tous les ports entre USB3 et USB0.
+    On passe au suivant si on échoue, peu importe la raison.
+    */
     for (; i >= '0'; i--)
     {
-        //file_path[sizeof(file_path) - 2] = i; // Pk sizeof(file_path) ne prend pas la taille du pointeur ?!
+        // /dev/ttyUSBX
         file_path[11] = i;
         // Ouverture en lecture + ecriture. O_NOCTTY a comprendre.
         file_descriptor = open(file_path, O_RDWR | O_NOCTTY);
@@ -100,53 +105,12 @@ bool ConfigPort(int file_descriptor, struct termios *oldConf)
     {
         // Nouvelle configuration à soumettre
         struct termios newConf;
-
-        /* 
-        B9600: Vitesse de 9600 Bauds
-        CRTSCTS : output hardware flow control (?)
-        CS8     : 8 bit, pas de contrôle de parité, 1 bit de stop
-        CLOCAL  : ignore les lignes de contrôle de modem
-        CREAD   : lire les réponses
-        */
-        newConf.c_cflag = B9600 | CRTSCTS | CS8 | CLOCAL | CREAD;
-
-        /*
-        IGNPAR  : ignorer les octets avec des erreurs de parité
-        ICRNL   : Transforme le retour chariot en "jnouvelle ligne"
-        */
-        newConf.c_iflag = IGNPAR | ICRNL;
-
-        /*
-        "output mode". On le garde nul.
-        */
+        newConf.c_cflag = B9600 | CSTOPB | CS8 | CLOCAL | CREAD;
+        newConf.c_iflag = IGNBRK;
         newConf.c_oflag = 0;
-
-        /*
-        ICANON  : Quelque chose lié a la compatibilité majuscules / minuscules
-        */
-        newConf.c_lflag = ICANON;
-
-        // Je ne suis pas sur qu'il faut garder ce qui suit
-        newConf.c_cc[VINTR] = 0;    /* Ctrl-c */
-        newConf.c_cc[VQUIT] = 0;    /* Ctrl-\ */
-        newConf.c_cc[VERASE] = 0;   /* del */
-        newConf.c_cc[VKILL] = 0;    /* @ */
-        newConf.c_cc[VEOF] = 4;     /* Ctrl-d */
-        newConf.c_cc[VTIME] = 0;    /* inter-character timer unused */
-        newConf.c_cc[VMIN] = 1;     /* blocking read until 1 character arrives */
-        newConf.c_cc[VSWTC] = 0;    /* '\0' */
-        newConf.c_cc[VSTART] = 0;   /* Ctrl-q */
-        newConf.c_cc[VSTOP] = 0;    /* Ctrl-s */
-        newConf.c_cc[VSUSP] = 0;    /* Ctrl-z */
-        newConf.c_cc[VEOL] = 0;     /* '\0' */
-        newConf.c_cc[VREPRINT] = 0; /* Ctrl-r */
-        newConf.c_cc[VDISCARD] = 0; /* Ctrl-u */
-        newConf.c_cc[VWERASE] = 0;  /* Ctrl-w */
-        newConf.c_cc[VLNEXT] = 0;   /* Ctrl-v */
-        newConf.c_cc[VEOL2] = 0;    /* '\0' */
+        newConf.c_lflag = 0;
 
         tcflush(file_descriptor, TCIFLUSH);
-
         if (tcsetattr(file_descriptor, TCSANOW, &newConf) == 0)
         {
             printf("\tConfiguration réussie.\n\n");
