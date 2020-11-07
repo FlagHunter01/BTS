@@ -15,13 +15,14 @@ TODO:
 #include <sys/stat.h>  // open()
 #include <fcntl.h>     // open()
 #include <stdlib.h>    // exit()
-#include <string.h> // strcmp(), strcpy()
+#include <string.h>    // strcmp(), strcpy()
+#include <strings.h>   // bzero()
 
 int OpenPort(char *file_path);                                 // Retourne le descripteur
 bool ConfigPort(int file_descriptor, struct termios *oldConf); // Configure la connexion
 bool ClosePort(int file_descriptor, struct termios *oldConf);  // Restore l'ancienne configuration et ferme de descripteur
-void Command(int file_descriptor); // Communique les commandes au feu
-void Send(int file_descriptor, char *command, char *answer); // Sert a envoyer / verifier reception des commandes
+void Command(int file_descriptor);                             // Communique les commandes au feu
+void Send(int file_descriptor, char *command, char *answer);   // Sert a envoyer / verifier reception des commandes
 
 int main()
 {
@@ -36,6 +37,7 @@ int main()
 
     // Ancienne configuration
     struct termios oldConf;
+    bzero(&oldConf, sizeof(oldConf));
 
     if (file_descriptor > 0)
     {
@@ -105,15 +107,15 @@ bool ConfigPort(int file_descriptor, struct termios *oldConf)
         // Nouvelle configuration à soumettre
         struct termios newConf;
 
-    newConf.c_cflag = B9600 | CSTOPB | CS8 | CLOCAL | CREAD;
+        newConf.c_cflag = B9600 | CSTOPB | CS8 | CLOCAL | CREAD;
 
-    newConf.c_iflag = IGNBRK;
+        newConf.c_iflag = IGNBRK;
 
-    newConf.c_oflag = 0;
+        newConf.c_oflag = 0;
 
-    newConf.c_lflag = 0;
+        newConf.c_lflag = 0;
 
-    // On efface et on active les parametres
+        // On efface et on active les parametres
 
         tcflush(file_descriptor, TCIFLUSH);
 
@@ -179,17 +181,19 @@ bool ClosePort(int file_descriptor, struct termios *oldConf)
     }
 }
 
-void Command(int file_descriptor){
+void Command(int file_descriptor)
+{
     char command[5];
     char needed_answer[8];
-    
+
     int intensity;
     char intensity_str[3];
     int i;
-    for (i = 0; i < 26; i++){
+    for (i = 0; i < 26; i++)
+    {
         strcpy(command, "a");
-    strcpy(needed_answer, "tout");
-        intensity = 5 + 10*i;
+        strcpy(needed_answer, "tout");
+        intensity = 5 + 10 * i;
         sprintf(intensity_str, "%d", intensity);
         strcat(command, intensity_str);
         strcat(command, "\n");
@@ -198,9 +202,11 @@ void Command(int file_descriptor){
         Send(file_descriptor, command, needed_answer);
         usleep(100000);
     }
-    for (i = 0; i < 26; i++){strcpy(command, "a");
-    strcpy(needed_answer, "tout");
-        intensity = 255 - 10*i;
+    for (i = 0; i < 26; i++)
+    {
+        strcpy(command, "a");
+        strcpy(needed_answer, "tout");
+        intensity = 255 - 10 * i;
         sprintf(intensity_str, "%d", intensity);
         strcat(command, intensity_str);
         strcat(command, "\n");
@@ -214,24 +220,28 @@ void Command(int file_descriptor){
     Send(file_descriptor, command, needed_answer);
 }
 
-void Send(int file_descriptor, char *command, char *answer){
+void Send(int file_descriptor, char *command, char *answer)
+{
     char buf_answer[24];
     int dif = -1;
     int i = 3;
     int n;
 
     // Tantr que buf_answer et needed_answer ne correspondent pas & 3 fois maximum
-    while (dif && i>0){
-        for (n=0;n<24;n++) buf_answer[n]=0; // On efface le buf
+    while (dif && i > 0)
+    {
+        for (n = 0; n < 24; n++)
+            buf_answer[n] = 0; // On efface le buf
         printf("Envoi commande %s\n", command);
         write(file_descriptor, command, sizeof(command));
         usleep(100000);
         read(file_descriptor, &buf_answer, sizeof(buf_answer));
-        dif = strcmp(buf_answer,answer);
+        dif = strcmp(buf_answer, answer);
         printf("\tDifference: %d | Reponse: %s\n", dif, buf_answer);
-   i-=1;
+        i -= 1;
     }
-    if (dif){
+    if (dif)
+    {
         printf("\nLe feu ne repond pas convenablement.\n");
     }
 }
