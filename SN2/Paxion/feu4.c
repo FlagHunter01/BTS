@@ -189,9 +189,13 @@ void Command(int file_descriptor)
     int n;
 
     for (n = 0; n < 24; n++)
+    {
         needed_answer_on[n] = 0;
+    }
     for (n = 0; n < 24; n++)
+    {
         needed_answer_off[n] = 0;
+    }
     strcpy(needed_answer_on, "tout255\n");
     strcpy(needed_answer_off, "tout0\n");
 
