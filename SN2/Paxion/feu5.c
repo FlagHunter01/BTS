@@ -222,7 +222,7 @@ int j;
 char intensity_str[4];
     char command[5];
     char answer[24];
-for (int j=0;j<10;j++){
+for (j=0;j<10;j++){
     for (i=0;i<4;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
     strcpy(command, "l"); 
     sprintf(intensity_str, "%d", intensity);
@@ -240,7 +240,7 @@ int j;
 char intensity_str[4];
     char command[5];
     char answer[24];
-for (int j=0;j<10;j++){
+for (j=0;j<10;j++){
     for (i=0;i<4;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
     strcpy(command, "l"); 
     sprintf(intensity_str, "%d", intensity);
@@ -258,7 +258,7 @@ int j;
 char intensity_str[4];
     char command[5];
     char answer[24];
-for (int j=0;j<10;j++){
+for (j=0;j<10;j++){
     for (i=0;i<4;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
     strcpy(command, "l"); 
     sprintf(intensity_str, "%d", intensity);
