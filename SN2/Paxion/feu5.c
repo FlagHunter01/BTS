@@ -29,7 +29,7 @@ void Right(int file_descriptor, int intensity); // Commande l'ampoule droite
 
 int main()
 {
-    printf("\n\t########## FEU 4 ##########\n\n\n");
+    printf("\n\t########## FEU 5 ##########\n\n\n");
 
     /* On sort les variables suceptibles d'être changées au début
     pour pouvoir les modifier facilement */
@@ -185,9 +185,24 @@ bool ClosePort(int file_descriptor, struct termios *oldConf)
 }
 
 void Command(int file_descriptor)
-{   Left(file_descriptor, 0);
-    Top(file_descriptor, 127);
-    Right(file_descriptor, 254);
+{   int i;
+    int j = 0;
+    int k = 127;
+    int l = 254;
+    for (i=0;i<10;i++){
+    Left(file_descriptor, j);
+    Top(file_descriptor, k);
+    Right(file_descriptor, l);
+    j += 127;
+    k+=127;
+    l+=127;
+    if (j > 254){j=0;}
+    if (k > 254){k=0;}
+    if (l > 254){l=0;}
+    }
+    Left(file_descriptor, 0);
+    Top(file_descriptor, 0);
+    Right(file_descriptor, 0);
 }
 
 void Send(int file_descriptor, char *command, char *answer)
@@ -218,55 +233,50 @@ void Send(int file_descriptor, char *command, char *answer)
 
 void Left(int file_descriptor, int intensity){
     int i;
-int j;
 char intensity_str[4];
-    char command[5];
+    char command[24];
     char answer[24];
-for (j=0;j<10;j++){
-    for (i=0;i<4;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
-    strcpy(command, "l"); 
+    for (i=0;i<25;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
+    strcat(command, "l"); 
     sprintf(intensity_str, "%d", intensity);
-    strcpy(&command[1], intensity_str);  
-    strcpy(answer, "jar");   
-    strcpy(&answer[1], intensity_str);
+    strcat(command, intensity_str);
+    strcat(command, "\n");
+    strcat(answer, "jar");   
+    strcat(answer, intensity_str);
+    strcat(answer, "\n");
     Send(file_descriptor, command, answer);
-    intensity +=127;
-    if (intensity>254){intensity=0;}}
 }
 
 void Top(int file_descriptor, int intensity){
     int i;
-int j;
 char intensity_str[4];
-    char command[5];
+    char command[24];
     char answer[24];
-for (j=0;j<10;j++){
-    for (i=0;i<4;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
-    strcpy(command, "l"); 
+    for (i=0;i<25;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
+    strcat(command, "t"); 
     sprintf(intensity_str, "%d", intensity);
-    strcpy(&command[1], intensity_str);  
-    strcpy(answer, "top");   
-    strcpy(&answer[1], intensity_str);
+    strcat(command, intensity_str);
+    strcat(command, "\n");
+    strcat(answer, "top");   
+    strcat(answer, intensity_str);
+    strcat(answer, "\n");
     Send(file_descriptor, command, answer);
-    intensity +=127;
-    if (intensity>254){intensity=0;}}
+
 }
 
 void Right(int file_descriptor, int intensity){
     int i;
-int j;
 char intensity_str[4];
-    char command[5];
+    char command[24];
     char answer[24];
-for (j=0;j<10;j++){
-    for (i=0;i<4;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
-    strcpy(command, "l"); 
+    for (i=0;i<25;i++){command[i] = '\0';}for(i=0;i<25;i++){answer[i] = '\0';}
+    strcat(command, "r"); 
     sprintf(intensity_str, "%d", intensity);
-    strcpy(&command[1], intensity_str);  
-    strcpy(answer, "cour");   
-    strcpy(&answer[1], intensity_str);
+    strcat(command, intensity_str);
+    strcat(command, "\n");
+    strcat(answer, "cour");   
+    strcat(answer, intensity_str);
+    strcat(answer, "\n");
     Send(file_descriptor, command, answer);
-    intensity +=127;
-    if (intensity>254){intensity=0;}}
-}
 
+}
