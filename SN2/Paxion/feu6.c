@@ -189,35 +189,39 @@ void Command(int file_descriptor)
     int intensity;
     char intensity_str[3];
     int i;
-    for (i = 0; i < 26; i++)
+    int j;
+    for (j = 0; j < 2; j++)
     {
-        strcpy(command, "a");
-        strcpy(needed_answer, "tout");
-        intensity = 5 + 10 * i;
-        sprintf(intensity_str, "%d", intensity);
-        strcat(command, intensity_str);
-        strcat(command, "\n");
-        strcat(needed_answer, intensity_str);
-        strcat(needed_answer, "\n");
+        for (i = 0; i < 26; i++)
+        {
+            strcpy(command, "a");
+            strcpy(needed_answer, "tout");
+            intensity = 5 + 10 * i;
+            sprintf(intensity_str, "%d", intensity);
+            strcat(command, intensity_str);
+            strcat(command, "\n");
+            strcat(needed_answer, intensity_str);
+            strcat(needed_answer, "\n");
+            Send(file_descriptor, command, needed_answer);
+            usleep(100000);
+        }
+        for (i = 0; i < 26; i++)
+        {
+            strcpy(command, "a");
+            strcpy(needed_answer, "tout");
+            intensity = 255 - 10 * i;
+            sprintf(intensity_str, "%d", intensity);
+            strcat(command, intensity_str);
+            strcat(command, "\n");
+            strcat(needed_answer, intensity_str);
+            strcat(needed_answer, "\n");
+            Send(file_descriptor, command, needed_answer);
+            usleep(100000);
+        }
+        strcpy(command, "a0\n");
+        strcpy(needed_answer, "tout0\n");
         Send(file_descriptor, command, needed_answer);
-        usleep(100000);
     }
-    for (i = 0; i < 26; i++)
-    {
-        strcpy(command, "a");
-        strcpy(needed_answer, "tout");
-        intensity = 255 - 10 * i;
-        sprintf(intensity_str, "%d", intensity);
-        strcat(command, intensity_str);
-        strcat(command, "\n");
-        strcat(needed_answer, intensity_str);
-        strcat(needed_answer, "\n");
-        Send(file_descriptor, command, needed_answer);
-        usleep(100000);
-    }
-    strcpy(command, "a0\n");
-    strcpy(needed_answer, "tout0\n");
-    Send(file_descriptor, command, needed_answer);
 }
 
 void Send(int file_descriptor, char *command, char *answer)
