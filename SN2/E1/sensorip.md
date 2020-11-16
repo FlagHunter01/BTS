@@ -1,6 +1,14 @@
 # Notes
 
-???+note "MAJ le 13/11 par Tim"
+???+note "MAJ le 16/11 par Tim"
+      - Corrigé Température: valeur de `Rearm`.
+      - Précisé Alarme: clarification des conditions d'allumage
+      - Complété Ventilation: ajout de consignes pour le jour de l'épreuve
+      - Sur le port 3, remplacé le "Relay" par "AC Volt Detector".
+      - [ ] Courant
+      - 
+
+???-note "MAJ le 13/11 par Tim"
       - [X] Configuration du SensorIP
            - [X] Température
            - [X] Humidité
@@ -8,7 +16,7 @@
            - [X] Alarme
       - [ ] Logiciel de monitoring IPSentry
 
-???+note "Création le 10/11 par Tim"
+???-note "Création le 10/11 par Tim"
      - [X] Logiciels utilisés: liste des logiciels nécessaires.
      - [X] Recherche de l'@ du Sensor IP: Procédure de recherche de l'@.
 
@@ -58,7 +66,7 @@ On utilise Wireshark:
          - Se désactive manuellement en dessous de 26°C
 
  - Sur l'intrface web, aller à la page d'accueil et trouver le thermomètre (cliquer sur son "type").
- - Dans l'interface, dans l'onglet `Settings`, renseigner les valeurs `Warning high` et `Warning high`. `Rearm` est la différence nécessaire pour enlever le statut d'alerte. Pour nous: 25-23 = 2.
+ - Dans l'interface, dans l'onglet `Settings`, renseigner les valeurs `Warning high` et `Warning high`. `Rearm` est la différence nécessaire pour enlever le statut d'alerte. Pour nous: 25-24 = 1 (normal a partir de 23).
 
 !!!fail "Pas trouvé comment faire passer la désactivation de critique en manuel."
 
@@ -82,16 +90,37 @@ On utilise Wireshark:
  - trouver `Airflow`dans l'accueil (cliaquer sur son "type").
  - `Rearm` à 0 à priori (risque de spam).
  - `Sensitivity` a 50% pourrait servir comme paramètre de seuil d'alerte (?)
- - Allumer le ventilo a fond et faire le calibrage avec `Air State` à 100% dans l'onglet `Calibrate`. 
+ - Allumer le ventilo a environ 75% de la puissance, attendre 2 minutes et faire le calibrage avec `Air State` à 100% dans l'onglet `Calibrate`. 
+ - Répéter l'opération après avoir éteint le ventilo et attendu 2 minutes. 
+
+!!!warning "Température"
+     Le détecteur de vent détecte la différence de température entre deux résistances thermosensibles (différence de température = vent / absence de différence = pas de vent). 
+     Il faut donc refaire le calibrage le jour de l'épreuve pour tenir compte de la température de la salle!
 
 !!!fail "Pas trouvé comment configurer les seuils d'alerte."
+
+!!!fail "Le détecteur pourrait être deffectueux."
+     Avec Mr. Paxion, le capteur a été calibré dans des conditions optimum, la direction du vent a été alternée et il n'a jamais détecté de vent (valeur `0` dans le graphique).
+
+!!!fail "Le port pourrait être partiellement défectueux."
+     Le port 3 détecte mal le AC voltage (il affiche "Relay"), alors que le port 8 et 7 le détectent correctement.
 
 ### Alarme
 
 !!!quote "Contraintes"
      - Ne doit s'allumer qu'en cas d'innondation
 
-Désactiver l'alarme dans tous les détecteurs autres que le détecteur d'innondation dans l'onglet `Siren Control`.
+Désactiver l'alarme dans tous les détecteurs autres que le détecteur d'innondation dans l'onglet `Siren Control`: Il faut sélectioner `None` pour `This Sensor Controls the Siren on Port`.
+
+Dans les options du module `Siren`, sélectionner `Off` pour `Sensor Normal Siren & Strobe Light State` (dernière option).
+
+Dans les options du module `Liquid Detector`, dans l'onglet `Siren Control`, renseigner le port de l'alarme (6), choisir `Critical` et `Turn On Until Acked` (reste allumée tant quon n'a pas cliqué sur le bouton "ack" (aknowledge) sur la page d'accueil).
+
+### Courant
+
+Détection de problèmes de tension.
+
+!!!fail "Le module ne semble pas fonctionner."
 
 ## Logiciel de monitoring IPSentry
 
