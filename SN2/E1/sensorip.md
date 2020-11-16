@@ -1,6 +1,14 @@
 # Notes
 
-!!!note "Création le 10/11 par Tim"
+???+note "MAJ le 13/11 par Tim"
+      - [X] Configuration du SensorIP
+           - [X] Température
+           - [X] Humidité
+           - [X] Ventilation
+           - [X] Alarme
+      - [ ] Logiciel de monitoring IPSentry
+
+???+note "Création le 10/11 par Tim"
      - [X] Logiciels utilisés: liste des logiciels nécessaires.
      - [X] Recherche de l'@ du Sensor IP: Procédure de recherche de l'@.
 
@@ -8,11 +16,11 @@
 
 !!!warning "Tableau a vérifier"
 
-| Logiciel | Description (supposée) |
-| --- | --- |
+| Logiciel         | Description (supposée)                |
+| ---------------- | ------------------------------------- |
 | IIS de microsoft | pour l'interface web avec "dashboard" |
-| SensorIP | interface avec le snesorip (?) |
-| IPSentry | superviseur snmp |
+| SensorIP         | interface avec le snesorip (?)        |
+| IPSentry         | superviseur snmp                      |
 
 ## Recherche de l'@ du Sensor IP
 
@@ -38,3 +46,55 @@ On utilise Wireshark:
     Il faut donc isoler notre sous-réseau en déconnectant le lien ethernet.
 
 !!!tip "@ du Sensor IP: `172.20.81.251`"
+
+## Configuration du SensorIP
+
+### Température
+
+!!!quote "Contraintes"
+     - Alerte à 25°C
+         - Se désactive automatiquement à 23°C
+     - Critique à 28°C
+         - Se désactive manuellement en dessous de 26°C
+
+ - Sur l'intrface web, aller à la page d'accueil et trouver le thermomètre (cliquer sur son "type").
+ - Dans l'interface, dans l'onglet `Settings`, renseigner les valeurs `Warning high` et `Warning high`. `Rearm` est la différence nécessaire pour enlever le statut d'alerte. Pour nous: 25-23 = 2.
+
+!!!fail "Pas trouvé comment faire passer la désactivation de critique en manuel."
+
+### Humidité
+
+!!!quote "Contraintes"
+     - Alerte à 70%
+     - Critique à 85%
+    Désactivation automatique.
+
+ - Trouver `humidity` dans l'accueil (cliaquer sur son "type").
+ - Dans l'interface, dans l'onglet `Settings`, renseigner les valeurs `Warning high` et `Warning high`. `Rearm` doit à priori être à 0 (risque de spam). 
+
+### Ventilation
+
+!!!quote "Contraintes"
+     - Alerte à 80% (le vent est 20% moins fort qu'a la normale)
+     - Critique à 50%
+     - Si l'air soufflé devient plus chaud, il faut déduire une panne ou un problème de climatisation
+
+ - trouver `Airflow`dans l'accueil (cliaquer sur son "type").
+ - `Rearm` à 0 à priori (risque de spam).
+ - `Sensitivity` a 50% pourrait servir comme paramètre de seuil d'alerte (?)
+ - Allumer le ventilo a fond et faire le calibrage avec `Air State` à 100% dans l'onglet `Calibrate`. 
+
+!!!fail "Pas trouvé comment configurer les seuils d'alerte."
+
+### Alarme
+
+!!!quote "Contraintes"
+     - Ne doit s'allumer qu'en cas d'innondation
+
+Désactiver l'alarme dans tous les détecteurs autres que le détecteur d'innondation dans l'onglet `Siren Control`.
+
+## Logiciel de monitoring IPSentry
+
+Suivre le document `Procédure IPSentry SensorIP.pdf` pour la configuration.
+
+!!!warning "A compléter"
