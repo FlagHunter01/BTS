@@ -1,15 +1,18 @@
-# Notes
+# SensorIP
 
 ???+note "MAJ le 18/11 par Victor et Tim"
        - [X] Cahier des charges
-       - [ ] Logiciel de monitering IPSentry
+       - [ ] Logiciels utilisés: alerte d'obsolescence.
+       - [ ] Logiciel de monitering IPSentry: rédaction des étapes de configuration
+       - Discussion des fonctionnalités HS avec le prof.
+       - Découverte du nouveau sujet
 
 ???-note "MAJ le 16/11 par Tim"
+      - [ ] Courant
       - Corrigé Température: valeur de `Rearm`.
       - Précisé Alarme: clarification des conditions d'allumage
       - Complété Ventilation: ajout de consignes pour le jour de l'épreuve
       - Sur le port 3, remplacé le "Relay" par "AC Volt Detector".
-      - [ ] Courant
 
 ???-note "MAJ le 13/11 par Tim"
       - [X] Configuration du SensorIP
@@ -25,11 +28,88 @@
 
 ## Cahier des charges
 
-!!!danger "A compléter avant de publier."
+!!!note "Ecrit par Victor"
 
-## Logiciels utilisés
+### Généralités
 
-!!!warning "Tableau a vérifier"
+Mise en place de la supervision d’une salle climatisée à accès restreint de Vilgénis:
+
+ - Plusieurs paramètres matériels et/ou logiciels vont être surveillés en permanence et des alertes déclenchées si besoin.
+ - Une transmission réseau basée sur le protocole SNMP a été retenue pour la communication des éléments de surveillance.
+
+### Solution retenue
+
+La solution du SensorIP a été retenue.
+
+ - Boitier SensorIP 8x20 effectue la surveillance matérielle et remonte les informations à un poste informatique superviseur.
+ - Le logiciel IPSentry fonctionne en permanence, c’est lui qui effectue la supervision.
+
+### Paramètrage réseau
+
+L’adressage est statique
+
+ - Boitier Sensor IP 8x20 “salle climatisée” : `172.20.81.251  /255.255.255.0`
+ - Poste de supervision: une des machines de travail habituelles.
+ - Passerelle : `172.20.81.254`
+ - Communauté SNMP : `SnirSup1`
+
+### Paramètres physiques
+
+Les paramètres surveillés sont les suivants : 
+
+ - Température de la salle
+ - Humidité de la salle
+ - Fonctionnement de la climatisation (circulation de l'air + température)
+ - Innondation
+ - Présence du courant électrique
+
+Toutes les alertes simples déclencheront l’envoi d’un unique mail quand elles seront déclanchées.
+Les alertes de type critique requierent l’envoi périodique d’un mail toutes les 30min tant que l’alerte subsiste.
+
+#### Température de la salle
+
+ - Le premier niveau d’alerte est a 25°C
+      - Il s’efface a 23°C 
+ - L’alerte critique intervient à 28°C
+      - Elle s’efface manuellement et seulement si la température est retombé à 26°C
+
+#### Humidité
+
+Une humidité de 100% implique un risque de condensation.
+
+ - Alerte simple à 70%
+ - Alerte critique à 85%
+
+#### Ventilation
+
+ - Le capteur doit être étalonné pour la ventilation normale sans chauffage
+ - Alerte lorsque la ventilation tombe en dessous de 80% de sa valeur nominale.
+ - Une alerte critique lorsque ça passe en dessous de 50%.
+
+#### Autres
+
+ - Les alertes se déclenchent en cas de situation anormale
+ - La sirène sera déclenchée uniquement par des événements de type dégâts des eaux.
+
+### Poste de supervision
+
+ - Le logiciel sera installé sur un poste informatique configuré pour pouvoir accéder au boîtier SensorIP 8x20.
+ - Le logiciel sera configuré pour surveiller et journaliser (mettre dans un fichier de log) toutes les alertes émises par le boîtier SensorIP.
+ - De même, le logiciel sera configuré pour émettre un mail lors d’une anomalie (de facon redondante avec le SensorIP)
+
+### Infrastructure GSM
+
+!!!fail "Obsolète"
+
+
+
+
+### Logiciels utilisés
+
+!!!warning "Le sujet a changé"
+     Certains logiciels ne seront peut-être plus utilisés suite à la publication du nouveau sujet.
+     
+     Suggestion: supprimer cette partie.
 
 | Logiciel         | Description (supposée)                |
 | ---------------- | ------------------------------------- |
@@ -52,9 +132,9 @@ On utilise Wireshark:
      - Panneau de configuration
      - Options Internet
      - Centre réseau et partage
-     - Connction au réseau local -> Propriétés
-     - Protocole IPV4 -> Propriétés 
-     - Avancé -> Ajouter
+     - Connction au réseau local > Propriétés
+     - Protocole IPV4 > Propriétés 
+     - Avancé > Ajouter
 
 ???- danger "Le proxy bloque les @ privées."
     Le proxy qui gère le VLAN SNIR refuse le renvoi d'@ différentes de notre sous-réseau.
@@ -131,24 +211,27 @@ Détection de problèmes de tension.
 
 ## Logiciel de monitoring IPSentry
 
-Suivre le document `Procédure IPSentry SensorIP.pdf` pour la configuration.
+Etapes écrites grace au document `Procédure IPSentry SensorIP.pdf`:
 
- - Lancer IP Sentry Network Monitor
- - Actions -> Edit Devices
- - ClickD sur `{default}` -> Add New -> Network monitor -> PING
- - Renseigner `IP Address`: 172.20.81.251
- - Décocher `Suspend indefinitely`
+### Test PING
+
+1. Lancer IP Sentry Network Monitor
+ - Actions > Edit Devices
+ - Click droit sur `{default}` > Add New > Network monitor > PING
+ - Renseigner `IP Address`: 172.20.81.251, Décocher `Suspend indefinitely`
  - Apply, OK.
  - Vérifier que le ping passe dans le terminal.
- - ClickD sur `{default}` -> Add New -> Add-Ins -> SNMP Monitor and Alert
- - Configure
+
+### Ajout du SensorIP et de la probe Température
+
+1. ClickD sur `{default}` > Add New > Add-Ins > SNMP Monitor and Alert > Configure
  - Avec l'explorateur, copier `sp.mib` depuis SNMP_sensorIP>CD_SensorIP8X20>MIB sur un dossier local de la machine.
 
-!!!warning "Comprendre ce que c'est."
+!!!question "Comprendre ce qu'est `sp.mib`."
 
- - Dans IPSentry, ouvrir "Tools" (en haut a gauche) -> Import MIB files -> sélectionner le fichier.
- - Dans la fenêtre de droite (OIDs), trouver sensorProbeTempTable -> sensorProbeTempDegree
- - Edit (Haut droite, fenêtre générale) -> Walk MIB
+3. Dans IPSentry, ouvrir "Tools" (en haut a gauche) > Import MIB files > sélectionner le fichier.
+ - Dans la fenêtre de droite (OIDs), trouver sensorProbeTempTable > sensorProbeTempDegree
+ - Edit (Haut droite, fenêtre générale) > Walk MIB
 
 !!!fail "Tous les items font des queries sur 0.0.0.0"
      Et on ne sait pas pourquoi ni ou ca se configure. La probe ne s'ajoute pas dans le menu global .
