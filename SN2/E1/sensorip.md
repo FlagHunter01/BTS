@@ -1,6 +1,10 @@
 # Notes
 
-???+note "MAJ le 16/11 par Tim"
+???+note "MAJ le 18/11 par Victor et Tim"
+       - [X] Cahier des charges
+       - [ ] Logiciel de monitering IPSentry
+
+???-note "MAJ le 16/11 par Tim"
       - Corrigé Température: valeur de `Rearm`.
       - Précisé Alarme: clarification des conditions d'allumage
       - Complété Ventilation: ajout de consignes pour le jour de l'épreuve
@@ -18,6 +22,10 @@
 ???-note "Création le 10/11 par Tim"
      - [X] Logiciels utilisés: liste des logiciels nécessaires.
      - [X] Recherche de l'@ du Sensor IP: Procédure de recherche de l'@.
+
+## Cahier des charges
+
+!!!danger "A compléter avant de publier."
 
 ## Logiciels utilisés
 
