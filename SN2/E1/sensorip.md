@@ -6,7 +6,6 @@
       - Complété Ventilation: ajout de consignes pour le jour de l'épreuve
       - Sur le port 3, remplacé le "Relay" par "AC Volt Detector".
       - [ ] Courant
-      - 
 
 ???-note "MAJ le 13/11 par Tim"
       - [X] Configuration du SensorIP
@@ -125,5 +124,25 @@ Détection de problèmes de tension.
 ## Logiciel de monitoring IPSentry
 
 Suivre le document `Procédure IPSentry SensorIP.pdf` pour la configuration.
+
+ - Lancer IP Sentry Network Monitor
+ - Actions -> Edit Devices
+ - ClickD sur `{default}` -> Add New -> Network monitor -> PING
+ - Renseigner `IP Address`: 172.20.81.251
+ - Décocher `Suspend indefinitely`
+ - Apply, OK.
+ - Vérifier que le ping passe dans le terminal.
+ - ClickD sur `{default}` -> Add New -> Add-Ins -> SNMP Monitor and Alert
+ - Configure
+ - Avec l'explorateur, copier `sp.mib` depuis SNMP_sensorIP>CD_SensorIP8X20>MIB sur un dossier local de la machine.
+
+!!!warning "Comprendre ce que c'est."
+
+ - Dans IPSentry, ouvrir "Tools" (en haut a gauche) -> Import MIB files -> sélectionner le fichier.
+ - Dans la fenêtre de droite (OIDs), trouver sensorProbeTempTable -> sensorProbeTempDegree
+ - Edit (Haut droite, fenêtre générale) -> Walk MIB
+
+!!!fail "Tous les items font des queries sur 0.0.0.0"
+     Et on ne sait pas pourquoi ni ou ca se configure. La probe ne s'ajoute pas dans le menu global .
 
 !!!warning "A compléter"
