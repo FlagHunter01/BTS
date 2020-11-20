@@ -3,18 +3,12 @@
 !!!danger "Obsolescence"
     Cette page a été relue mais pas vérifiée par la pratique.
 
-???+ info "Prochaine MAj prévue le 19/11"
-	 - Nouvelles corrections prenant en compte le cahier des charges
-	 - Complétion de certains chapitres
-		 - Inventaire
-		 - WiFi
-		 - Web
-		 - DHCP
-		 - DNS
-	 - Ajout d'autres consignes en fonction du cahier des charges (?)
-	 - Les parties B et C du poly auront probablement chacun sa page
+???+ note "MAj le 19/11 par Tim."
+	 - [X] OS: remplacé le tuto Rufus par l'imager officiel de RaspberryPi
+     - [ ] Os: ajout de la mise à l'heure
+     - [X] SSH: MAJ l'@
 
-???+note "MAJ le 18/11 par Tim."
+???- note "MAJ le 18/11 par Tim."
 	!!!danger "Fait sans connaissance du cahier des charges"
 
 	 - [X] Créé "Questions pour le prof"
@@ -93,12 +87,13 @@
 
 ### OS
 
-Télécharger une image de la [dernière version de Raspbian](https://www.raspberrypi.org/downloads/raspbian/) **avec le desktop mais sans les soft recommandés**.
+ - Télécharger l'[imager de Raspberry Pi officiel](https://downloads.raspberrypi.org/imager/imager_1.4.exe). 
+ - Insérer la carte SD dans l'ordinateur grâce à l'adaptateur SD - USB. 
+ - Ouvrir l'imager une fois qu'il est téléchargé
+     - Choisir la première image proposée dans `Choose OS`. Choisir la carte SD dans `Choose SD card`. 
 
-Insérer la carte SD dans l'ordi à l'aide de l'adaptateur puis utiliser [Rufus](https://rufus.ie/) pour écrire l'image sur la carte SD
-
-!!!danger "Ecriture d'images"
-	Tout le contenu du périphérique de stockage est **perdu** lors de cette opération. Etape a faire avec **précaution**.
+!!!danger "Vérifier que c'est le bon périférique!"
+    Si le disque dur du PC est slectionné, il sera détruit.
 
 !!!success "T2: Carte SD reformatée"
 
@@ -118,7 +113,12 @@ passwd: raspberry
     	![layout](/img/layout.png)
 
 ### Parametrage de base
-    
+
+/etc/systemd/timesync
+
+Les Pi qui ne sont pas à lheure ne peuvent pas se mettre a jor
+
+
 On travaillera principalement dans le terminal. `root` n'est pas accessible car il n'a pas de mot de passe. Il faut donc créer un mot de passe administrateur pour pouvoir se connecter en ```root```:
 
 ```
@@ -491,7 +491,7 @@ et créer la chaine SSH à la suite des autres chaines:
 
         chain SSH {
                 # Accepter les co depuis le reseau local
-                ip saddr 172.16.130.0/24 accept
+                ip saddr 172.20.81.0/24 accept
                 # Drop tout le reste
                 drop
         }
