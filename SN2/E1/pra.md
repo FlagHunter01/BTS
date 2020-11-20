@@ -4,9 +4,13 @@
     Cette page a été relue mais pas vérifiée par la pratique.
 
 ???+ note "MAj le 19/11 par Tim."
-	 - [X] OS: remplacé le tuto Rufus par l'imager officiel de RaspberryPi
-     - [ ] Os: ajout de la mise à l'heure
+	 - OS:
+		 - [X] Remplacé le tuto Rufus par l'imager officiel de RaspberryPi
+    	 - [X] Ajout de la mise à l'heure
+		 - [X] Changement de l'@
+		 - [X] Parametrage de base: changement du mot de passe
      - [X] SSH: MAJ l'@
+	 - [X] Remplacé `aptitude` par `apt-get` dans toute la page
 
 ???- note "MAJ le 18/11 par Tim."
 	!!!danger "Fait sans connaissance du cahier des charges"
@@ -114,17 +118,12 @@ passwd: raspberry
 
 ### Parametrage de base
 
-/etc/systemd/timesync
-
-Les Pi qui ne sont pas à lheure ne peuvent pas se mettre a jor
-
-
 On travaillera principalement dans le terminal. `root` n'est pas accessible car il n'a pas de mot de passe. Il faut donc créer un mot de passe administrateur pour pouvoir se connecter en ```root```:
 
 ```
 $ sudo passwd root
-abc123
-abc123
+919294
+919294
 ```
 
 On pourra ensuite se connecter en ```root``` quand nécessaire.
@@ -152,38 +151,34 @@ Ensuite, pour accéder aux paramétrages de base:
 
 Par défaut, le Pi tente d'obtenir une adresse IP par DHCP. Puisqu'il nous faut une adresse IP fixe, il faut faire une configuration manuelle. 
 
-???-note "Configuration avec `/etc/dhcpd.conf`"
+Configuration avec `/etc/dhcpd.conf`:
 
-	Modifier le fichier ```/etc/dhcpcd.conf```:
-	
-	```
-	# nano /etc/dhcpcd.conf
-	```
+Modifier le fichier ```/etc/dhcpcd.conf```:
 
-	Descendre jusqu'à trouver le passage ci-dessous: 
+```
+# nano /etc/dhcpcd.conf
+```
 
-	```bash
-	# Example static IP configuration:
-	#interface eth0
-	#static ip_adress=192.168.0.10/24
-	#static ip6_adress=fd51:42f8:caae:d92e::ff/64
-	#static routers=192.168.0.1
-	#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
-	```
+Descendre jusqu'à trouver le passage ci-dessous: 
 
-	Le remplacer par ce qui suit:
+```bash
+# Example static IP configuration:
+#interface eth0
+#static ip_adress=192.168.0.10/24
+#static ip6_adress=fd51:42f8:caae:d92e::ff/64
+#static routers=192.168.0.1
+#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
+```
 
-	```bash
-	# Static IP configuration:
-	interface eth0
-	static ip_adress=172.16.130.2/24
-	static routers=172.16.130.1
-	static domain_name_servers=172.16.130.1 8.8.8.8
-	```
+Le remplacer par ce qui suit:
 
-???+note "Configuration "normale""
-
-	!!!warning "Cette section doit être complétée"
+```bash
+# Static IP configuration:
+interface eth0
+static ip_adress=172.16.130.2/24
+static routers=172.16.130.1
+static domain_name_servers=172.16.130.1 8.8.8.8
+```
 
 Une fois les données saisies, vérifier que le Pi a la bonne adresse:
 
@@ -193,24 +188,30 @@ $ ip a
 
 !!!success "T2: Configuration IP"
 
-Il faut mettre à jour les paquets installés avant de continuer. Je préfère le gestionnaire de paquets ```aptitude``` car il permet de **purger** les fichiers des paquets supprimés.
+Le Raspberry Pi doit mettre son horloge à l'heure quand il se connecte au réseau, mais celui du lycée n'a pas de serveur NTP. 
+
+Dans `/etc/systemd/timesyncd.conf`, ajouter:
 
 ```
-# apt-get install aptitude
-Y
-# aptitude update
-# aptitude upgrade
+NTP=172.20.81.252
+```
+
+Il faut mettre à jour les paquets installés avant de continuer:
+
+```
+# apt-get update
+# apt-get upgrade
 Y
 ```
 
-!!!info "Un redémarrage sera peut-être demandé"
+!!!warning "Cette opération prend beaucoup de temps"
 
 ### Vim
 
 Installer ```Vim```, le meilleur logiciel de traitement de texte:
 
 ```
-# aptitude install vim
+# apt-get install vim
 Y
 ```
 
@@ -391,13 +392,13 @@ Avant d'exposer la machine en ligne, il faut la protéger avec un pare feu.
 Si ```iptables``` est installé par défaut, il faut le désisntaller car il est obsolète:
 
 ```
-# aptitude purge iptables
+# apt-get purge iptables
 ```
 
 Par la suite, installer ```nftables```:
 
 ```
-# aptitude install nftables
+# apt-get install nftables
 ```
 
 La configuration de ```nftables``` se fait dans le fichier ```/etc/nftables.conf```. L'ouvrir avec ```vim```. On doit y trouver ce qui suit:
@@ -546,7 +547,7 @@ abc123
 Nous allons utiliser Apache pour mettre en ligne une sauvegarde du site de APC.
 
 ```
-# aptitude install apache2
+# apt-get install apache2
 ```
 
 Mettre la sauvegarde du site dans `/var/www/html/`.
@@ -616,7 +617,7 @@ Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigate
 Installer ISC:
 
 ```bash
-# aptitude install isc-dhcp-server
+# apt-get install isc-dhcp-server
 ```
 
 Configuration dans `/etc/dhcp/dhcpd/dhcpd.conf`:
