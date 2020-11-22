@@ -1,15 +1,29 @@
 # PRA - Raspberry Pi
 
-!!!danger "Obsolescence"
-    Cette page a été relue mais pas vérifiée par la pratique.
-
-???+ note "MAj le 19/11 par Tim."
-	 - OS:
+???+ note "MAj le 22/11 par Tim."
+	!!!success "Vérifié par application."
+		Sauf ce qui touche au DHCP puisqu'il faut avoir un réseau isolé avec d'autres utilisateurs dessus.
+	
+	 - [ ] OS:
 		 - [X] Remplacé le tuto Rufus par l'imager officiel de RaspberryPi
+		 - [X] Précisé que formatter la carte SD et écrire l'image dessus prend beaucoup de temps
     	 - [X] Ajout de la mise à l'heure
 		 - [X] Changement de l'@
-		 - [X] Parametrage de base: changement du mot de passe
-     - [X] SSH: MAJ l'@
+	 - [ ] Parametrage de base:
+		 - [X] Changement du mot de passe
+		 - [X] Retiré le proxy
+		 - [X] Supprimé une répétition
+		 - [ ] Changé l'@ dans dhcpcd
+     - [X] SSH: 
+		 - [X] Changé l'@
+		 - [X] Changé les identifiants dans Putty
+	 - [X] Web:
+		 - [X] Nom d'hôte fixé
+		 - [X] Applications installées
+	 - [ ] DHCP: 
+		 - [X] Correction des paquets à installer
+		 - [X] Changé les @
+		 - [ ] Correction de la configuration
 	 - [X] Remplacé `aptitude` par `apt-get` dans toute la page
 
 ???- note "MAJ le 18/11 par Tim."
@@ -51,10 +65,17 @@
 !!!question "1 - T1: Gestion du patrimoine informatique: Réaliser l'inventaire du matériel et gestion numérique des documents."
 	C’est quoi la gestion numérique des documents?
 
-!!!question "2 - Dans T2: “Nom d’hôte fixé” et “Applications installées”"
+!!!question "2 - Dans T2: “Nom d’hôte fixé” et “Applications installées” et "OS conforme au cahier des charges""
+	Ca veut dire quoi? Quel cahier des charges?
+
 !!!question "3 - Dans T3: “Service hautement disponible”"
+	Concrètement, ca veut dire quoi?
 
+!!!question "4 - Combien de Raspberry Pi seront à configurer le jour de l'épreuve?"
 
+!!!question "5 - Confirmer qu'on ne fait que le A de la feuille distribuée"
+
+!!!question "6 - On fait le WiFi? Si oui, il va nous donner le module?"
 
 ## Inventaire
 
@@ -87,9 +108,10 @@
 
 ## Préparation du Pi
 
-!!!danger "Théoriquement bon, pas vérifié en pratique depuis l'année dernière."
-
 ### OS
+
+!!!warning "Gestion du temps"
+	Attention, formatter et écrire l'image sur la carte SD peut prendre plus d'une heure.
 
  - Télécharger l'[imager de Raspberry Pi officiel](https://downloads.raspberrypi.org/imager/imager_1.4.exe). 
  - Insérer la carte SD dans l'ordinateur grâce à l'adaptateur SD - USB. 
@@ -140,24 +162,24 @@ Ensuite, pour accéder aux paramétrages de base:
 	 - Pour "Key to function as AltGr, choisir ```The default for the keyboard layout``` puis choisir ```No compose key```. 
 	 - Choisir ```No``` pour "Use Control+Alt+Backspace to terminate the X server?". 
 	 - Normalement après confirmation le layout du clavier devient francais.
- - Ensuite ```1. Change user password``` pour entrer un mot de passe plus sur (à communiquer aux employés) [J'ai mis ```abc123```]
+ - Ensuite ```1. Change user password``` pour entrer un mot de passe plus sur (`919294`)
  - Ensuite ```3. boot options``` 
 	 - Choisir ```desktop with login``` pour avoir une interface graphique et demander un mdp.
  - Sortir du menu. Une fois cette opération terminée, ==**redémarrer le Pi**==.
- - Options réseau
-	 - ```2. Net options``` pour le proxy. 
+ - Options réseau dans```2. Net options```:
 	 - "N1 Hostname": ```raspberrypiapc1```. 
 	 - Sortir du menu.
 
 Par défaut, le Pi tente d'obtenir une adresse IP par DHCP. Puisqu'il nous faut une adresse IP fixe, il faut faire une configuration manuelle. 
 
-Configuration avec `/etc/dhcpd.conf`:
-
-Modifier le fichier ```/etc/dhcpcd.conf```:
+!!!info "(Cet article)[https://qastack.fr/raspberrypi/39785/differences-between-etc-dhcpcd-conf-and-etc-network-interfaces] m'a sauvé"
+	Le manque de documentation officielle est déroutant.
 
 ```
 # nano /etc/dhcpcd.conf
 ```
+
+`hostname`ligne 8: `raspberrypiapc`.
 
 Descendre jusqu'à trouver le passage ci-dessous: 
 
@@ -172,12 +194,14 @@ Descendre jusqu'à trouver le passage ci-dessous:
 
 Le remplacer par ce qui suit:
 
+!!!warning "Vérifier ce qui suit"
+
 ```bash
 # Static IP configuration:
 interface eth0
-static ip_adress=172.16.130.2/24
-static routers=172.16.130.1
-static domain_name_servers=172.16.130.1 8.8.8.8
+static ip_adress=172.20.181.59/24
+static routers=172.20.181.254 (?)
+static domain_name_servers=172.20.181.1 8.8.8.8 (?)
 ```
 
 Une fois les données saisies, vérifier que le Pi a la bonne adresse:
@@ -509,7 +533,7 @@ Dans putty, entrer cette adresse et appuyer sur "Open". Entrer ensuite les ident
 
 ```
 pi
-abc123
+919294
 ```
 
 ???- tip "Toi qui a lu jusque là"
@@ -540,7 +564,7 @@ abc123
 !!!quote "T2"
 	 - [X] Carte SD reformatée
 	 - [ ] OS conforme au cahier des charges
-	 - [ ] Nom d'hôte fixé
+	 - [X] Nom d'hôte fixé
 	 - [X] Configuration IP
 	 - [ ] Applications installées
 
@@ -549,6 +573,7 @@ Nous allons utiliser Apache pour mettre en ligne une sauvegarde du site de APC.
 ```
 # apt-get install apache2
 ```
+!!!success "Applications installées"
 
 Mettre la sauvegarde du site dans `/var/www/html/`.
 
@@ -618,9 +643,10 @@ Installer ISC:
 
 ```bash
 # apt-get install isc-dhcp-server
+# apt-get install isc-dhcp-server-ldap
 ```
 
-Configuration dans `/etc/dhcp/dhcpd/dhcpd.conf`:
+Configuration dans `/etc/dhcp/dhcpd.conf`:
 
 !!!warning "Section a vérifier"
 
@@ -629,14 +655,14 @@ Configuration dans `/etc/dhcp/dhcpd/dhcpd.conf`:
 option domain-name "apc.com";
 
 # DNS. Il faut configurer bind sur cette machine.
-option domain-name-servers 8.8.8.8, 172.16.130.1;
+option domain-name-servers 8.8.8.8, 172.20.181.1; (?)
 
 # Definition du domaine d'attribution
-subnet 172.16.130.0 netmask 255.255.255.0 {
-	range 172.16.130.2 172.16.130.254;
+subnet 172.20.181.0 netmask 255.255.255.0 {
+	range 172.20.181.10 172.20.181.253;
 	option subnet-mask 255.255.255.0;
-	option broadcast-address 172.16.130.255;
-	option routers 172.16.130.1;
+	option broadcast-address 172.20.181.255;
+	option routers 172.20.181.1;
 }
 
 # Indication d'autorité pour le réseau
@@ -645,13 +671,14 @@ authoritative;
 # Adresse fixe pour PC1
 host PC1 {
 	hardware ethernet [adresse matérielle];
-	fixed-address 172.16.130.2;
+	fixed-address 172.20.181.2;               (pk ?!)
 }
 ```
 
 Interfaces dans `/etc/network/interfaces`
 
 !!!warning "Section a vérifier"
+	Remplacé par dhcp.conf ?
 
 ```bash
 # L'interface réseau « loopback » (toujours requise)
@@ -677,6 +704,9 @@ Redémarrer le démon et vérifier qu'il fonctionne correctement:
 
 !!!success "Service DHCP opérationnel"
 
+!!!warning "Section a vérifier"
+	Remplécé?
+
 Sur les clients dans `/etc/network/interfaces`:
 
 ```bash
@@ -699,7 +729,26 @@ iface eth0 inet dhcp
 	 - Résolution inversée
 	 - Service hautement disponible
 
+```
+# apt-get install bind9
+```
+
+Copier la clé existante:
+
+```
+# cd /etc/bind/
+# cp rndc.key ns-apc-com_rndc.key
+```
+
+Générer une nouvelle paire de clés:
+```
+dnssec-keygen -a HMAC-MD5 -b 512 -n USER ns-apc-com_rndc-key
+```
+
+On obtient une réponse du type `Kns-apc-com_rndc-key.+157+12897`. `12897` est l'empreinte de la clé (?).
+
 !!!warning "A compléter"
+	(https://wiki.debian.org/fr/Bind9)[https://wiki.debian.org/fr/Bind9]
 
 !!!fail "Alias"
 !!!fail "Résolution directe"
