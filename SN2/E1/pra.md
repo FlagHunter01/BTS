@@ -1,6 +1,21 @@
 # PRA - Raspberry Pi
 
-???+ note "MAj le 22/11 par Tim."
+???+ note "MAJ le 23/11 par Tim."
+	 - [X] Supprimé WiFi
+		 - [X] Supprimé de l'inventaire
+	 - [ ] DHCP
+		 - [X] Corrigé et complété
+		 - [ ] Service hautement disponible
+	 - [ ] DNS
+		 - [X] Corrigé et complété
+		 - [ ] Service hautement disponible
+	 - [X] Simplifié Vim
+	 - [X] Simplifié SSH
+	 - [X] Corrigé parametrage de base (`dhcpcd.conf`)
+	 - [ ] Ajouté Consignes
+	 - [ ] Ajouté Proxy
+
+???- note "MAj le 22/11 par Tim."
 	!!!success "Vérifié par application."
 		Sauf ce qui touche au DHCP puisqu'il faut avoir un réseau isolé avec d'autres utilisateurs dessus.
 	
@@ -13,7 +28,7 @@
 		 - [X] Changement du mot de passe
 		 - [X] Retiré le proxy
 		 - [X] Supprimé une répétition
-		 - [ ] Changé l'@ dans dhcpcd
+		 - [X] Changé l'@ dans dhcpcd
      - [X] SSH: 
 		 - [X] Changé l'@
 		 - [X] Changé les identifiants dans Putty
@@ -77,6 +92,10 @@
 
 !!!question "6 - On fait le WiFi? Si oui, il va nous donner le module?"
 
+## Consignes
+
+!!!warning "A compléter"
+
 ## Inventaire
 
 !!!quote "T1"
@@ -93,7 +112,6 @@
 | 1 | Souris |
 | 3 | Cable Ethernet |
 | 1 | Switch |
-| (?) | Module WiFi |
 
 !!!info "Les quantités indiquées sont *minimales*."
 
@@ -119,7 +137,7 @@
      - Choisir la première image proposée dans `Choose OS`. Choisir la carte SD dans `Choose SD card`. 
 
 !!!danger "Vérifier que c'est le bon périférique!"
-    Si le disque dur du PC est slectionné, il sera détruit.
+    Si le disque dur du PC est sélectionné, il sera détruit.
 
 !!!success "T2: Carte SD reformatée"
 
@@ -172,39 +190,74 @@ Ensuite, pour accéder aux paramétrages de base:
 
 Par défaut, le Pi tente d'obtenir une adresse IP par DHCP. Puisqu'il nous faut une adresse IP fixe, il faut faire une configuration manuelle. 
 
-!!!info "(Cet article)[https://qastack.fr/raspberrypi/39785/differences-between-etc-dhcpcd-conf-and-etc-network-interfaces] m'a sauvé"
-	Le manque de documentation officielle est déroutant.
+!!!info "On part du principe que le Pi est isolé du réseau du lycée et se comportera comme serveur DHCP."
+
+Remplacer le contenu de `/etc/dhcpcd.conf` par ce qui suit:
 
 ```
-# nano /etc/dhcpcd.conf
-```
+# A sample configuration for dhcpcd.
+# See dhcpcd.conf(5) for details.
 
-`hostname`ligne 8: `raspberrypiapc`.
+# Allow users of this group to interact with dhcpcd via the control socket.
+#controlgroup wheel
 
-Descendre jusqu'à trouver le passage ci-dessous: 
+# Inform the DHCP server of our hostname for DDNS.
+hostname raspberrypiapc1
 
-```bash
-# Example static IP configuration:
-#interface eth0
-#static ip_adress=192.168.0.10/24
-#static ip6_adress=fd51:42f8:caae:d92e::ff/64
-#static routers=192.168.0.1
-#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
-```
+# Use the hardware address of the interface for the Client ID.
+clientid
+# or
+# Use the same DUID + IAID as set in DHCPv6 for DHCPv4 ClientID as per RFC4361.
+# Some non-RFC compliant DHCP servers do not reply with this set.
+# In this case, comment out duid and enable clientid above.
+#duid
 
-Le remplacer par ce qui suit:
+# Persist interface configuration when dhcpcd exits.
+persistent
 
-!!!warning "Vérifier ce qui suit"
+# Rapid commit support.
+# Safe to enable by default because it requires the equivalent option set
+# on the server to actually work.
+option rapid_commit
 
-```bash
+# A list of options to request from the DHCP server.
+#option domain_name_servers, domain_name, domain_search, host_name
+#option classless_static_routes
+# Respect the network MTU. This is applied to DHCP routes.
+option interface_mtu
+
+# Most distributions have NTP support.
+#option ntp_servers
+
+# A ServerID is required by RFC2131.
+require dhcp_server_identifier
+
+# Generate SLAAC address using the Hardware Address of the interface
+#slaac hwaddr
+# OR generate Stable Private IPv6 Addresses based from the DUID
+slaac private
+
 # Static IP configuration:
 interface eth0
-static ip_adress=172.20.181.59/24
-static routers=172.20.181.254 (?)
-static domain_name_servers=172.20.181.1 8.8.8.8 (?)
+static ip_address=172.20.181.1/24
+#static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=172.20.181.254
+#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
+
+# It is possible to fall back to a static IP if DHCP fails:
+# define static profile
+#profile static_eth0
+#static ip_address=192.168.1.23/24
+#static routers=192.168.1.1
+#static domain_name_servers=192.168.1.1
+
+# fallback to static profile on eth0
+#interface eth0
+#fallback static_eth0
 ```
 
-Une fois les données saisies, vérifier que le Pi a la bonne adresse:
+Redémarrer le Raspberry Pi.
+Une fois connecté, vérifier que le Pi a la bonne adresse (`172.20.181.1`):
 
 ```
 $ ip a
@@ -214,7 +267,7 @@ $ ip a
 
 Le Raspberry Pi doit mettre son horloge à l'heure quand il se connecte au réseau, mais celui du lycée n'a pas de serveur NTP. 
 
-Dans `/etc/systemd/timesyncd.conf`, ajouter:
+Dans `/etc/systemd/timesyncd.conf`, remplacer la ligne 15 par:
 
 ```
 NTP=172.20.81.252
@@ -254,42 +307,91 @@ Configuration:
 vim /etc/vim/vimrc
 ```
 
-**Décommenter** les lignes suivantes:
+Remplacer le contenu du fichier par ce qui suit:
 
-```bash
+```
+" All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
+" the call to :runtime you can find below.  If you wish to change any of those
+" settings, you should do it in this file (/etc/vim/vimrc), since debian.vim
+" will be overwritten everytime an upgrade of the vim packages is performed.
+" It is recommended to make changes after sourcing debian.vim since it alters
+" the value of the 'compatible' option.
+
+"colorscheme
+"colorscheme darkblue
+"colorscheme default
+"colorscheme delek
+"colorscheme desert
+"colorscheme elflord
+"colorscheme evening
+"colorscheme koehler
+"colorscheme morning
+"colorscheme murphy
+"colorscheme pablo
+"colorscheme peachpuff
+"colorscheme ron
+"colorscheme shine
+"colorscheme slate
+colorscheme torte
+"colorscheme zellner
+
+" This line should not be removed as it ensures that various options are
+" properly set to work with the Vim-related packages available in Debian.
+runtime! debian.vim
+
+" Vim will load $VIMRUNTIME/defaults.vim if the user does not have a vimrc.
+" This happens after /etc/vim/vimrc(.local) are loaded, so it will override
+" any settings in these files.
+" If you don't want that to happen, uncomment the below line to prevent
+" defaults.vim from being loaded.
+let g:skip_defaults_vim = 1
+
+" Uncomment the next line to make Vim more Vi-compatible
+" NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes numerous
+" options, so any other options should be set AFTER setting 'compatible'.
+"set compatible
+
+" Vim5 and later versions support syntax highlighting. Uncommenting the next
+" line enables syntax highlighting by default.
 syntax on
-```
-```bash
+
+" If using a dark background within the editing area and syntax highlighting
+" turn on this option as well
 set background=dark
-```
-La ligne ==suivant==
 
-```bash
-Uncomment the following to have Vim jump to the last position ...
-```
-```bash
-filetype plugin indent on
-```
-Les lignes ==qui suivent==
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-```bash
-The following are commented out as they cause vim ... (tous les set qui suivent)
-```
-==Ajouter==
+" Uncomment the following to have Vim load indentation rules and plugins
+" according to the detected filetype.
+"filetype plugin indent on
 
-```bash
+" The following are commented out as they cause vim to behave a lot
+" differently from regular Vi. They are highly recommended though.
+set showcmd             " Show (partial) command in status line.
+set showmatch           " Show matching brackets.
+set ignorecase          " Do case insensitive matching
+set smartcase           " Do smart case matching
+set incsearch           " Incremental search
+"set autowrite          " Automatically save before commands like :next and :make
+"set hidden             " Hide buffers when they are abandoned
+set mouse=a             " Enable mouse usage (all modes)
+
+" Source a global configuration file if available
+if filereadable("/etc/vim/vimrc.local")
+source /etc/vim/vimrc.local
+endif
+
+set smartindent
 set nu
 ```
 
 ### Bash
 
-Le paramétrage du terminal se fait dans ```.bashrc``` dans le répertoire de l'utilisateur dont on configure le terminal. L'ouvrir avec Vim:
+Le paramétrage du terminal se fait dans ```.bashrc``` dans le répertoire de l'utilisateur dont on configure le terminal. 
 
-```
-vim .bashrc
-```
-
-Ensuite, coller ca:
+Remplacer son contenu par ce qui suit:
 
 ```bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
@@ -351,7 +453,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\0                                                                                                                                                             33[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -368,7 +470,7 @@ esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dirco                                                                                                                                                             lors -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
@@ -379,7 +481,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo                                                                                                                                                             te=01'
 
 # some more ls aliases
 alias ll='ls -l'
@@ -405,8 +507,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-set nu
 ```
 
 ### Firewall
@@ -503,26 +603,43 @@ P2 SSH
 YES
 ```
 
-Dans ```/etc/nftables.conf```, ajouter ce qui suit à la chaine input:
+Remplacer le contenu de ```/etc/nftables.conf``` par ce qui suit:
 
 ```bash
-                # Envoyer les connections SSH sur la chaine SSH
-                tcp dport 22 jump SSH
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop
+        # Accepter les connections etablies
+        ct state {established, related} accept
+        # Accepter les loopbacks
+        iif lo accept
+        # Envoyer les connections SSH sur la chaine SSH
+        tcp dport 22 jump SSH
+        # Toutes les autres connections sont drop
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+        # On ne transmet aucune connection
+    }
+
+    chain output {
+        type filter hook output priority 0; policy accept;
+        # On autorise toutes les sorties
+    }
+
+    chain SSH {
+        ip saddr 192.168.8.0/24 accept
+        drop
+    }
+}
+
 ```
-
-et créer la chaine SSH à la suite des autres chaines:
-
-```bash
-
-        chain SSH {
-                # Accepter les co depuis le reseau local
-                ip saddr 172.20.81.0/24 accept
-                # Drop tout le reste
-                drop
-        }
-
-```
-Déterminer l'adresse avec
+Déterminer l'adresse du Raspberry Pi avec:
 
 ```
 $ ip a
@@ -552,12 +669,6 @@ pi
 	| 3.0 | Woodi |
 	| ... | ...|
 	| 10 | Buster |
-
-### WiFi
-
-!!!fail "Le matériel requis était indisponible"
-
-!!!question "Il faut toujours le faire? Il en parle pas dans les consignes"
 
 ## Web
 
@@ -646,54 +757,120 @@ Installer ISC:
 # apt-get install isc-dhcp-server-ldap
 ```
 
-Configuration dans `/etc/dhcp/dhcpd.conf`:
+Remplacer le contenu de `/etc/dhcp/dhcpd.conf` par ce qui suit:
 
-!!!warning "Section a vérifier"
+```
+# dhcpd.conf
+#
+# Sample configuration file for ISC dhcpd
+#
 
-```bash
-# Nome du domaine
+# option definitions common to all supported networks...
 option domain-name "apc.com";
+option domain-name-servers 172.20.181.1, 172.20.181.2; 
 
-# DNS. Il faut configurer bind sur cette machine.
-option domain-name-servers 8.8.8.8, 172.20.181.1; (?)
+default-lease-time 600;
+max-lease-time 3600;
 
-# Definition du domaine d'attribution
-subnet 172.20.181.0 netmask 255.255.255.0 {
-	range 172.20.181.10 172.20.181.253;
-	option subnet-mask 255.255.255.0;
-	option broadcast-address 172.20.181.255;
-	option routers 172.20.181.1;
-}
+# The ddns-updates-style parameter controls whether or not the server will
+# attempt to do a DNS update when a lease is confirmed. We default to the
+# behavior of the version 2 packages ('none', since DHCP v2 didn't
+# have support for DDNS.)
+ddns-update-style none;
 
-# Indication d'autorité pour le réseau
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
 authoritative;
 
-# Adresse fixe pour PC1
-host PC1 {
-	hardware ethernet [adresse matérielle];
-	fixed-address 172.20.181.2;               (pk ?!)
+# Use this to send dhcp log messages to a different log file (you also
+# have to hack syslog.conf to complete the redirection).
+#log-facility local7;
+
+# No service will be given on this subnet, but declaring it helps the
+# DHCP server to understand the network topology.
+
+#subnet 10.152.187.0 netmask 255.255.255.0 {
+#}
+
+# This is a very basic subnet declaration.
+
+#subnet 10.254.239.0 netmask 255.255.255.224 {
+#  range 10.254.239.10 10.254.239.20;
+#  option routers rtr-239-0-1.example.org, rtr-239-0-2.example.org;
+#}
+
+# This declaration allows BOOTP clients to get dynamic addresses,
+# which we don't really recommend.
+
+#subnet 10.254.239.32 netmask 255.255.255.224 {
+#  range dynamic-bootp 10.254.239.40 10.254.239.60;
+#  option broadcast-address 10.254.239.31;
+#  option routers rtr-239-32-1.example.org;
+#}
+
+# A slightly different configuration for an internal subnet.
+subnet 172.20.181.0 netmask 255.255.255.0 {
+  range 172.20.181.10 172.20.181.253;
+  option domain-name-servers 172.20.181.1 172.20.181.2;
+  option domain-name "apc.com";
+  option routers 172.20.181.254;
+  option broadcast-address 172.20.181.255;
+  default-lease-time 600;
+  max-lease-time 3600;
 }
+
+# Hosts which require special configuration options can be listed in
+# host statements.   If no address is specified, the address will be
+# allocated dynamically (if possible), but the host-specific information
+# will still come from the host declaration.
+
+#host passacaglia {
+#  hardware ethernet 0:0:c0:5d:bd:95;
+#  filename "vmunix.passacaglia";
+#  server-name "toccata.example.com";
+#}
+
+# Fixed IP addresses can also be specified for hosts.   These addresses
+# should not also be listed as being available for dynamic assignment.
+# Hosts for which fixed IP addresses have been specified can boot using
+# BOOTP or DHCP.   Hosts for which no fixed address is specified can only
+# be booted with DHCP, unless there is an address range on the subnet
+# to which a BOOTP client is connected which has the dynamic-bootp flag
+# set.
+#host fantasia {
+#  hardware ethernet 08:00:07:26:c0:a5;
+#  fixed-address fantasia.example.com;
+#}
+
+# You can declare a class of clients and then do address allocation
+# based on that.   The example below shows a case where all clients
+# in a certain class get addresses on the 10.17.224/24 subnet, and all
+# other clients get addresses on the 10.0.29/24 subnet.
+
+#class "foo" {
+#  match if substring (option vendor-class-identifier, 0, 4) = "SUNW";
+#}
+
+#shared-network 224-29 {
+#  subnet 10.17.224.0 netmask 255.255.255.0 {
+#    option routers rtr-224.example.org;
+#  }
+#  subnet 10.0.29.0 netmask 255.255.255.0 {
+#    option routers rtr-29.example.org;
+#  }
+#  pool {
+#    allow members of "foo";
+#    range 10.17.224.10 10.17.224.250;
+#  }
+#  pool {
+#    deny members of "foo";
+#    range 10.0.29.10 10.0.29.230;
+#  }
+#}
 ```
 
-Interfaces dans `/etc/network/interfaces`
-
-!!!warning "Section a vérifier"
-	Remplacé par dhcp.conf ?
-
-```bash
-# L'interface réseau « loopback » (toujours requise)
-auto lo
-iface lo inet loopback
-
-# Assigner une adresse IP statique pour ce serveur DHCP avec eth0 :
-auto eth0
-iface eth0 inet static
-    address 172.16.130.1
-    netmask 255.255.255.0
-    broadcast 172.16.130.255
-    gateway 172.16.130.1
-# Pas sur pour la derniere ligne
-```
+!!!warning "8.8.8.8"
+	Si on a plusieurs Pi, en mettre un comme ns2. Ca ne marchera sans doute pas avec `8.8.8.8`.
 
 Redémarrer le démon et vérifier qu'il fonctionne correctement:
 
@@ -702,22 +879,20 @@ Redémarrer le démon et vérifier qu'il fonctionne correctement:
 # systemctl status dhcpd.service
 ```
 
-!!!success "Service DHCP opérationnel"
+!!!success "Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues"
 
-!!!warning "Section a vérifier"
-	Remplécé?
+???- note "Ignorer, sera bientôt supprimé"
+	Sur les clients dans `/etc/network/interfaces`:
 
-Sur les clients dans `/etc/network/interfaces`:
+	```bash
+	# L'interface réseau « loopback » (toujours requise)
+	auto lo
+	iface lo inet loopback
 
-```bash
-# L'interface réseau « loopback » (toujours requise)
-auto lo
-iface lo inet loopback
-
-# Obtenir l'adresse IP de n'importe quel serveur DHCP
-auto eth0
-iface eth0 inet dhcp
-```
+	# Obtenir l'adresse IP de n'importe quel serveur DHCP
+	auto eth0
+	iface eth0 inet dhcp
+	```
 
 !!!fail "Service autement disponible"
 
@@ -733,27 +908,93 @@ iface eth0 inet dhcp
 # apt-get install bind9
 ```
 
-Copier la clé existante:
+Remplacer le contenu du fichier `/etc/bind/named.conf.local` par ce qui suit:
 
 ```
-# cd /etc/bind/
-# cp rndc.key ns-apc-com_rndc.key
+//
+// Do any local configuration here
+//
+
+zone "apc.com" {
+        type master;
+        file "/etc/bind/db.apc.com";
+};
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+include "/etc/bind/zones.rfc1918";
 ```
 
-Générer une nouvelle paire de clés:
+Créer le fichier `/etc/bind/db.apc.com`. Y mettre le contenu suivant:
 ```
-dnssec-keygen -a HMAC-MD5 -b 512 -n USER ns-apc-com_rndc-key
+$ORIGIN .
+$TTL    1D
+apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
+                                        1               ; Serial
+                                        1h              ; Refresh
+                                        1h              ; Retry
+                                        2h              ; Expire
+                                        1h              ; Minimum
+)
+
+        A               172.20.181.1
+
+        NS              ns.apc.com.
+        NS              ns2.apc.com.
+
+$ORIGIN apc.com.
+
+ns                 A           172.20.181.1
+ns2                A           172.20.181.2
+www                CNAME       apc.com.
+; EOF
 ```
 
-On obtient une réponse du type `Kns-apc-com_rndc-key.+157+12897`. `12897` est l'empreinte de la clé (?).
+Créer le fichier `/etc/bind/db.apc.com.inv`. Y mettre le contenu suivant:
+
+!!!warning "Le contenu est du BS pour l'instant."
+
+```
+$ORIGIN .
+$TTL    1D
+apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
+                                        1               ; Serial
+                                        1h              ; Refresh
+                                        1h              ; Retry
+                                        2h              ; Expire
+                                        1h              ; Minimum
+)
+
+        A               apc.com (?)
+
+        NS              172.20.181.1
+        NS              172.20.181.2
+
+$ORIGIN apc.com.
+
+ns                 A           ns.apc.com
+ns2                A           ns2.apc.com
+www                CNAME       172.20.181.0
+; EOF
+```
+
+Redémarrer Bind et vérifier son bon fonctionnement:
+```
+# systemctl restart bind9
+# systemctl status bind9
+```
+
+!!!success "Alias"
+!!!success "Résolution directe"
+!!!success "Résolution inversée"
+
+!!!warning "Compléter pour le NS secondaire"
+
+!!!fail "Service hautement disponible"
+
+## Proxy
 
 !!!warning "A compléter"
-	(https://wiki.debian.org/fr/Bind9)[https://wiki.debian.org/fr/Bind9]
-
-!!!fail "Alias"
-!!!fail "Résolution directe"
-!!!fail "Résolution inversée"
-!!!fail "Service hautement disponible"
 
 ## Pièges (?)
 
