@@ -1,43 +1,21 @@
-# gros
-## 
-###
-####
-
-|Valeeur | SQuantité
-|---|---|
-|Banane | 5|
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # PRA - Raspberry Pi
 
-???+ note "MAJ le 23/11 par Tim."
+???+ note "MAj le 24/11 par Tim et Aline."
+	 - [X] Corrigé DHCP
+	 - [X] Complété DNS
+	 - [X] Autres corrections mineures
+	 - [X] Enlevé la configuration réseau du Paramétrage de base pour la déplacer dans DHCP
+	 - [X] Créé Téléchargements
+	 - [X] Amélioré la lisibilité et enlevé des explications (ceci est un tutoriel et non une doc)
+	 - [X] Aline a fini Consignes (je faisias la vaisselle)
+	 - [X] Vérifié les consignes
+
+???- note "MAJ le 23/11 par Tim."
 	 - [X] Supprimé WiFi
 		 - [X] Supprimé de l'inventaire
 	 - [ ] DHCP
 		 - [X] Corrigé et complété
-		 - [ ] Service hautement disponible
+		 - [ ] Service hautement disponible 
 	 - [ ] DNS
 		 - [X] Corrigé et complété
 		 - [ ] Service hautement disponible
@@ -96,8 +74,6 @@
 
 !!!note "(Re)mis en ligne le 13/11."
 
-!!!tip "Il y a un bouton pour copier en haut à droite des cases de code, mais il est noir sur noir."
-
 !!!tip "Commandes"
 	Les commandes sont en noir et prennent toute la largeur
 	```
@@ -105,33 +81,59 @@
 	```
 	Elles commencent par `#` si elles doivent être exécutées en root, sinon `$`.
 
+	Il y a un bouton pour copier en haut à droite des cases de code, mais il est noir sur noir.
+
 ## Questions pour le prof
 
 [Version la plus à jour sur Google Drive](https://docs.google.com/document/d/1aQBZPgJlJ4PjMPPeGDiXHZ35Th1j_xfLXR6E7vqa2oU/edit?usp=sharing)
 
-!!!question "1 - T1: Gestion du patrimoine informatique: Réaliser l'inventaire du matériel et gestion numérique des documents."
-	C’est quoi la gestion numérique des documents?
+!!!quote "1"
+	T1: Gestion du patrimoine informatique: Réaliser l'inventaire du matériel et gestion numérique des documents.
 
-!!!question "2 - Dans T2: “Nom d’hôte fixé” et “Applications installées” et "OS conforme au cahier des charges""
-	Ca veut dire quoi? Quel cahier des charges?
+!!!question "Qu'est-ce qui est entendu par "gestion numérique"? De quel drive est-il question?"
 
-!!!question "3 - Dans T3: “Service hautement disponible”"
-	Concrètement, ca veut dire quoi?
+!!!quote "2"
+	T2: “Nom d’hôte fixé”, “Applications installées” et "OS conforme au cahier des charges"
+
+!!!question "Confirmer que le nom d'hôte doit être fixé dans les paramètres système. Préciser les applications à installer. Référence à un cahier des charges non distribué."
+
+!!!quote "3"
+	T3: “Service hautement disponible”
+
+!!!question "Si cela sous-entend qu'il faut 2 machines NS, c'est le cas pour tout DNS d'après les standards. S'il y a une autre implication, on ne la comprend pas."
 
 !!!question "4 - Combien de Raspberry Pi seront à configurer le jour de l'épreuve?"
 
-!!!question "5 - Confirmer qu'on ne fait que le A de la feuille distribuée"
+!!!question "5 - Confirmer qu'on ne fait que la partie A de la feuille distribuée"
 
-!!!question "6 - On fait le WiFi? Si oui, il va nous donner le module?"
+!!!question "6 - Confirmer qu'on ne fera pas le WiFi"
 
 ## Consignes
 
-!!!warning "A compléter"
+| Partie | Description |
+|--- |---|
+| T1 - Gestion du patrimoine informatique : Réaliser l'inventaire du matériel et gestion numérique des documents | - Fournir l'inventaire détaillé sous forme numérique (feuille tableur). |
+|    | - L'ensemble des documents produits doit être accessible depuis le "cloud" (drive) | 
+| T2 - Installer et configurer un serveur Web sur Raspberry Pi | Configuration conforme au cahier des charges : |
+|    | - Carte SD reformatée |
+|    | - OS conforme au cahier des charges |
+|    | - Nom d'hôte fixé |
+|    | - Configuration IP OK |
+|    | - Applications installées |
+| T3 - Installer et configurer un serveur DHCP sur Raspberry Pi | Configuration conforme au cahier des charges : |
+|    | - Service DHCP opérationnel : bail correctement délivré avec bonnes valeurs d'étendues |
+|    | - Service hautement disponible |
+| T4 - Installer et configurer serveur DNS sur Raspberry Pi | Configuration conforme au cahier des charges : |
+|    | - Service DNS opérationnel  Alias, résolution directe et inversée |
+|    | - Service hautement disponible |
 
 ## Inventaire
 
-!!!quote "T1"
-	Gestion du patrimoine informatiqe: Réaliser l'inventaire du matériel et gestion numérique des documents.
+!!!quote "T1 - Gestion du patrimoine informatique : Réaliser l'inventaire du matériel et gestion numérique des documents"
+	 - [ ] Fournir l'inventaire détaillé sous forme numérique (feuille tableur).
+	 - [ ] L'ensemble des documents produits doit être accessible depuis le "cloud" (drive)
+
+!!!warning "Section a vérifier"
 
 | Quantité | Description |
 | --- | --- |
@@ -146,15 +148,12 @@
 | 1 | Switch |
 
 !!!info "Les quantités indiquées sont *minimales*."
+	Si plus de Raspberry Pi seront utilisés, il faudra compter au moins 1 chargeur et 1 carte SD pour chaque machine, ainsi que des câbles ethernet en plus.
 
-!!!warning "Vérifier l'inventaire."
+!!!success "T1 - Fournir l'inventaire détaillé sous forme numérique (feuille tableur)"
 
-!!!success "Réaliser l'inventaire du matériel"
-
-!!!fail "gestion numérique des documents"
-	Consigne mal comprise.
-
-!!!fail "Gestion numérique des documents"
+!!!fail "T1 - L'ensemble des documents produits doit être accessible depuis le "cloud" (drive)"
+	Nous n'avons pas compris les consignes pour cette partie (question 1).
 
 ## Préparation du Pi
 
@@ -171,7 +170,7 @@
 !!!danger "Vérifier que c'est le bon périférique!"
     Si le disque dur du PC est sélectionné, il sera détruit.
 
-!!!success "T2: Carte SD reformatée"
+!!!success "T2 - Carte SD reformatée"
 
 A présent, insérer la carte SD dans le Pi et effectuer tous les branchements en connectant l'alimentation **en dernier**. Une fois l'alim connectée, le Pi va booter. Il n'enverra pas d'image sur l'écran immédiatement mais des led devraient s'allumer. Après un certain temps, des infos sur le chargement devraient apparaître à l'écran. Si des erreurs apparaissent, il faut probablement réinstaller le système.
 
@@ -184,23 +183,19 @@ passwd: raspberry
 
 ???+tip "Clavier"
     Par défaut, le layout du clavier est en **anglais**.
-    
-	!!!warning "Image à ajouter"
-    	![layout](/img/layout.png)
+
+    ![layout](/img/layout.png)
 
 ### Parametrage de base
 
-On travaillera principalement dans le terminal. `root` n'est pas accessible car il n'a pas de mot de passe. Il faut donc créer un mot de passe administrateur pour pouvoir se connecter en ```root```:
+On travaillera principalement dans le terminal. Définir un mot de passe pour `root` :
 
 ```
 $ sudo passwd root
 919294
 919294
 ```
-
-On pourra ensuite se connecter en ```root``` quand nécessaire.
-
-Ensuite, pour accéder aux paramétrages de base:
+Ensuite, accéder aux paramétrages de base:
 
 ```
 # raspi-config
@@ -220,82 +215,7 @@ Ensuite, pour accéder aux paramétrages de base:
 	 - "N1 Hostname": ```raspberrypiapc1```. 
 	 - Sortir du menu.
 
-Par défaut, le Pi tente d'obtenir une adresse IP par DHCP. Puisqu'il nous faut une adresse IP fixe, il faut faire une configuration manuelle. 
-
-!!!info "On part du principe que le Pi est isolé du réseau du lycée et se comportera comme serveur DHCP."
-
-Remplacer le contenu de `/etc/dhcpcd.conf` par ce qui suit:
-
-```
-# A sample configuration for dhcpcd.
-# See dhcpcd.conf(5) for details.
-
-# Allow users of this group to interact with dhcpcd via the control socket.
-#controlgroup wheel
-
-# Inform the DHCP server of our hostname for DDNS.
-hostname raspberrypiapc1
-
-# Use the hardware address of the interface for the Client ID.
-clientid
-# or
-# Use the same DUID + IAID as set in DHCPv6 for DHCPv4 ClientID as per RFC4361.
-# Some non-RFC compliant DHCP servers do not reply with this set.
-# In this case, comment out duid and enable clientid above.
-#duid
-
-# Persist interface configuration when dhcpcd exits.
-persistent
-
-# Rapid commit support.
-# Safe to enable by default because it requires the equivalent option set
-# on the server to actually work.
-option rapid_commit
-
-# A list of options to request from the DHCP server.
-#option domain_name_servers, domain_name, domain_search, host_name
-#option classless_static_routes
-# Respect the network MTU. This is applied to DHCP routes.
-option interface_mtu
-
-# Most distributions have NTP support.
-#option ntp_servers
-
-# A ServerID is required by RFC2131.
-require dhcp_server_identifier
-
-# Generate SLAAC address using the Hardware Address of the interface
-#slaac hwaddr
-# OR generate Stable Private IPv6 Addresses based from the DUID
-slaac private
-
-# Static IP configuration:
-interface eth0
-static ip_address=172.20.181.1/24
-#static ip6_address=fd51:42f8:caae:d92e::ff/64
-static routers=172.20.181.254
-#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
-
-# It is possible to fall back to a static IP if DHCP fails:
-# define static profile
-#profile static_eth0
-#static ip_address=192.168.1.23/24
-#static routers=192.168.1.1
-#static domain_name_servers=192.168.1.1
-
-# fallback to static profile on eth0
-#interface eth0
-#fallback static_eth0
-```
-
-Redémarrer le Raspberry Pi.
-Une fois connecté, vérifier que le Pi a la bonne adresse (`172.20.181.1`):
-
-```
-$ ip a
-```
-
-!!!success "T2: Configuration IP"
+!!!success "T2 - Nom d'hôte fixé"
 
 Le Raspberry Pi doit mettre son horloge à l'heure quand il se connecte au réseau, mais celui du lycée n'a pas de serveur NTP. 
 
@@ -321,7 +241,6 @@ Installer ```Vim```, le meilleur logiciel de traitement de texte:
 
 ```
 # apt-get install vim
-Y
 ```
 
 ???+tip "Utilisation"
@@ -332,6 +251,7 @@ Y
 	 - `:q!` pour quitter sans sauvegarder
 	 - Garder `d` enfoncé pour supprimer ligne par ligne
 	 - `U` remplace `CTRL`+`Z`.
+	 - `SHIFT`+ `INSER` pour coller **dans le mode édition**
 
 Configuration:
 
@@ -421,9 +341,7 @@ set nu
 
 ### Bash
 
-Le paramétrage du terminal se fait dans ```.bashrc``` dans le répertoire de l'utilisateur dont on configure le terminal. 
-
-Remplacer son contenu par ce qui suit:
+Remplacer le contenu de `.bashrc` dans le répertoire de l'utilisateur pour lequel on configure bash par ce qui suit:
 
 ```bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
@@ -541,9 +459,10 @@ if ! shopt -oq posix; then
 fi
 ```
 
-### Firewall
+!!!info "Les changements seront pris en compte à l'ouverture d'un nouveau terminal."
+	On peut ouvrir un terminal dans le terminal en entrant la commande `bash`.
 
-Avant d'exposer la machine en ligne, il faut la protéger avec un pare feu. 
+### Firewall
 
 Si ```iptables``` est installé par défaut, il faut le désisntaller car il est obsolète:
 
@@ -557,30 +476,9 @@ Par la suite, installer ```nftables```:
 # apt-get install nftables
 ```
 
-La configuration de ```nftables``` se fait dans le fichier ```/etc/nftables.conf```. L'ouvrir avec ```vim```. On doit y trouver ce qui suit:
-
-```bash
-#!/usr/sbin/nft -f
-
-flush ruleset
-
-table inet filter {
-        chain input {
-                type filter hook input priority 0;
-        }
-        chain forward {
-                type filter hook forward priority 0;
-        }
-        chain output {
-                type filter hook output priority 0;
-        }
-}
+Remplacer le contenu de `/etc/nftables.conf` par :
 
 ```
-
-Y coller ca:
-
-```bash
 #!/usr/sbin/nft -f
 
 flush ruleset
@@ -637,7 +535,7 @@ YES
 
 Remplacer le contenu de ```/etc/nftables.conf``` par ce qui suit:
 
-```bash
+```
 #!/usr/sbin/nft -f
 
 flush ruleset
@@ -664,7 +562,7 @@ table inet filter {
         # On autorise toutes les sorties
     }
 
-    chain SSH {
+    chain SSH {
         ip saddr 192.168.8.0/24 accept
         drop
     }
@@ -685,23 +583,6 @@ pi
 919294
 ```
 
-???- tip "Toi qui a lu jusque là"
-	Bravo, t'a su tenir jusque la. En récompense, humour informatique:
-
-	Les versions de Debian sont nommées d'après les personnages de Toy Story:
-
-	| Version | Nom |
-	| -- | --|
-	| 1.1 | Buzz |
-	| 1.2 | Rex |
-	| 1.3 | Bo |
-	| 2.0 | Hamm |
-	| 2.1 | Slink |
-	| 2.2 | Potato |
-	| 3.0 | Woodi |
-	| ... | ...|
-	| 10 | Buster |
-
 ## Web
 
 !!!quote "T2"
@@ -716,78 +597,153 @@ Nous allons utiliser Apache pour mettre en ligne une sauvegarde du site de APC.
 ```
 # apt-get install apache2
 ```
-!!!success "Applications installées"
+
+!!!success "T2 - Applications installées"
 
 Mettre la sauvegarde du site dans `/var/www/html/`.
 
-Autoriser le traffic sur le port HTTP. Ajouter ce qui suit à la chaine ```input``` dans ```/etc/nftables.conf```:
+Remplacer le contenu de `/etc/nftables.conf` par ce qui suit:
 
-```bash
-                # Accepter HTTP
-                tcp dport 80 accept
-                # Accepter HTTPS
-                #tcp dport 443 accept
+```
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+	chain input {
+		type filter hook input priority 0; policy drop	
+		# Accepter les connections etablies
+		ct state {established, related} accept
+		# Accepter les loopbacks
+		if lo accept
+		# Envoyer les connections SSH sur la chaine SSH
+		tcp dport 22 jump SSH
+		# Accepter HTTP
+		tcp dport 80 accept
+		# Accepter HTTPS
+		#tcp dport 443 accept
+		# Toutes les autres co sont drop
+	}
+
+	chain forward {
+		type filter hook forward priority 0; policy drop;
+		# On ne transmet aucune connection
+	}
+
+	chain output {
+		type filter hook output priority 0; policy accept;
+		# On autorise toutes les sorties
+	}
+
+	chain SSH {
+		# Accepter les co depuis le reseau local
+		ip saddr 172.16.130.0/24 accept
+		# Drop tout le reste
+		drop
+	}
+}
 ```
 
-???- info "Le fichier complet devrait alors ressembler à ca"
-	```bash
-	#!/usr/sbin/nft -f
+Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigateur. Les pages de la sauvegarde devraient alors apparaitre. 
 
-	flush ruleset
+!!!fail "T3 - OS conforme au cahier des charges"
+	On n'a pas compris la consigne de cette partie (question 2)
 
-	table inet filter {
-		chain input {
-			type filter hook input priority 0; policy drop	
-			# Accepter les connections etablies
-			ct state {established, related} accept
-			# Accepter les loopbacks
-			iif lo accept
-			# Envoyer les connections SSH sur la chaine SSH
-			tcp dport 22 jump SSH
-			# Accepter HTTP
-			tcp dport 80 accept
-			# Accepter HTTPS
-			#tcp dport 443 accept
-			# Toutes les autres co sont drop
-		}
+## Téléchargements
 
-		chain forward {
-			type filter hook forward priority 0; policy drop;
-			# On ne transmet aucune connection
-		}
+Dans la partie suivante, la machine sera installée dans un réseau isolé. On télécharge donc dès maintenant tous les paquets nécessaires pour la suite:
 
-		chain output {
-			type filter hook output priority 0; policy accept;
-			# On autorise toutes les sorties
-		}
-
-		chain SSH {
-			# Accepter les co depuis le reseau local
-			ip saddr 172.16.130.0/24 accept
-			# Drop tout le reste
-			drop
-		}
-	}
-	```
-
-Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigateur. 
-
-!!!fail "Os conforme au cahier des charges"
-!!!fail "Nom d'hôte fixé"
-!!!fail "Applications installées"
+```
+# apt-get install isc-dhcp-server
+# apt-get install isc-dhcp-server-ldap
+# apt-get install bind9
+```
 
 ## DHCP
 
-!!!quote "T3"
-	 - Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues
-	 - Service autement disponible
+!!!quote "T3 - Installer et configurer un serveur DHCP sur Raspberry Pi"
+	 - [ ] Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues
+	 - [ ] Service autement disponible
 
-Installer ISC:
+### Configuration réseau
 
-```bash
-# apt-get install isc-dhcp-server
-# apt-get install isc-dhcp-server-ldap
+Configuration manuelle de l'IP fixe.
+
+!!!warning "Isoler le Raspberry Pi du réseau du lycée."
+	A partir de cette étape, il est indispensable d'isoler le(s) Pi du réseau du lycée pour éviter les conflits d'adressage. Puisque l'IP changera, il faudra ouvrir une nouvelle connexion SSH vers la nouvelle IP le moment venu.
+
+Remplacer le contenu de `/etc/dhcpcd.conf` par ce qui suit:
+
 ```
+# A sample configuration for dhcpcd.
+# See dhcpcd.conf(5) for details.
+
+# Allow users of this group to interact with dhcpcd via the control socket.
+#controlgroup wheel
+
+# Inform the DHCP server of our hostname for DDNS.
+hostname raspberrypiapc1
+
+# Use the hardware address of the interface for the Client ID.
+clientid
+# or
+# Use the same DUID + IAID as set in DHCPv6 for DHCPv4 ClientID as per RFC4361.
+# Some non-RFC compliant DHCP servers do not reply with this set.
+# In this case, comment out duid and enable clientid above.
+#duid
+
+# Persist interface configuration when dhcpcd exits.
+persistent
+
+# Rapid commit support.
+# Safe to enable by default because it requires the equivalent option set
+# on the server to actually work.
+option rapid_commit
+
+# A list of options to request from the DHCP server.
+#option domain_name_servers, domain_name, domain_search, host_name
+#option classless_static_routes
+# Respect the network MTU. This is applied to DHCP routes.
+option interface_mtu
+
+# Most distributions have NTP support.
+#option ntp_servers
+
+# A ServerID is required by RFC2131.
+require dhcp_server_identifier
+
+# Generate SLAAC address using the Hardware Address of the interface
+#slaac hwaddr
+# OR generate Stable Private IPv6 Addresses based from the DUID
+slaac private
+
+# Static IP configuration:
+interface eth0
+static ip_address=172.20.181.1/24
+#static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=172.20.181.1
+#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
+
+# It is possible to fall back to a static IP if DHCP fails:
+# define static profile
+#profile static_eth0
+#static ip_address=192.168.1.23/24
+#static routers=192.168.1.1
+#static domain_name_servers=192.168.1.1
+
+# fallback to static profile on eth0
+#interface eth0
+#fallback static_eth0
+```
+
+Redémarrer le Raspberry Pi.
+Une fois connecté, vérifier que le Pi a la bonne adresse (`172.20.181.1`):
+
+```
+$ ip a
+```
+
+### Configuration du service
 
 Remplacer le contenu de `/etc/dhcp/dhcpd.conf` par ce qui suit:
 
@@ -843,9 +799,9 @@ authoritative;
 # A slightly different configuration for an internal subnet.
 subnet 172.20.181.0 netmask 255.255.255.0 {
   range 172.20.181.10 172.20.181.253;
-  option domain-name-servers 172.20.181.1 172.20.181.2;
+  option domain-name-servers 172.20.181.1; # 172.20.181.2;
   option domain-name "apc.com";
-  option routers 172.20.181.254;
+  option routers 172.20.181.1;
   option broadcast-address 172.20.181.255;
   default-lease-time 600;
   max-lease-time 3600;
@@ -901,44 +857,33 @@ subnet 172.20.181.0 netmask 255.255.255.0 {
 #}
 ```
 
-!!!warning "2e NS"
-	Si on a plusieurs Pi, en mettre un comme ns2. Sinon, on ne pourra pas avoir de service hautement disponible.
+!!!warning "172.20.181.2"
+	Si on a plusieurs Raspberry Pi, on doit en garder un en IP fixe (`172.20.181.2`) et l'utiliser comme DNS secondaire.
+	Pour l'instant, le service ne démarre pas si on ne commente pas la deuxième adresse. 
 
 Redémarrer le démon et vérifier qu'il fonctionne correctement:
 
-```bash
-# systemctl restart dhcpd.service
-# systemctl status dhcpd.service
+```
+# systemctl start isc-dhcp-server
+# systemctl status isc-dhcp-server
 ```
 
-!!!success "Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues"
+!!!success "T3 - Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues"
 
-???- note "Ignorer, sera bientôt supprimé"
-	Sur les clients dans `/etc/network/interfaces`:
-
-	```bash
-	# L'interface réseau « loopback » (toujours requise)
-	auto lo
-	iface lo inet loopback
-
-	# Obtenir l'adresse IP de n'importe quel serveur DHCP
-	auto eth0
-	iface eth0 inet dhcp
-	```
-
-!!!fail "Service autement disponible"
+!!!fail "T3 - Service autement disponible"
+	Nous n'avons pas compris la consigne de cette partie (question 3).
 
 ## DNS
 
-!!!quote "T4"
-	 - Alias
-	 - Résolution directe
-	 - Résolution inversée
-	 - Service hautement disponible
+!!!quote "T4 - Installer et configurer serveur DNS sur Raspberry Pi"
+	 - [ ] Alias
+	 - [ ] Résolution directe
+	 - [ ] Résolution inversée
+	 - [ ] Service hautement disponible
 
-```
-# apt-get install bind9
-```
+!!!warning "Cette section n'a pas été vérifiée en pratique."
+
+### Sur le Pi principal
 
 Remplacer le contenu du fichier `/etc/bind/named.conf.local` par ce qui suit:
 
@@ -985,8 +930,8 @@ www                CNAME       apc.com.
 Créer le fichier `/etc/bind/db.apc.com.inv`. Y mettre le contenu suivant:
 
 ```
+$ORIGIN .
 $TTL    1D
-$ORIGIN 0.181.20.172.IN-ADDR.ARPA.
 apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         1               ; Serial
                                         1h              ; Refresh
@@ -995,44 +940,18 @@ apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         1h              ; Minimum
 )
 
-        	IN			NS              ns.apc.com
-        	IN			NS              ns2.apc.com
-			IN			PTR				apc.com.
+        A               apc.com (?)
 
+        NS              172.20.181.1
+        NS              172.20.181.2
+
+$ORIGIN apc.com.
+
+ns                 A           ns.apc.com
+ns2                A           ns2.apc.com
+www                CNAME       172.20.181.0
 ; EOF
 ```
-
-
-
-
-
-
-
-
-
-$TTL 2d  ; 172800 seconds
-$ORIGIN 3.2.1.IN-ADDR.ARPA.
-@             IN      SOA   ns1.example.com. hostmaster.example.com. (
-                              2013010304 ; serial number
-                              3h         ; refresh
-                              15m        ; update retry
-                              3w         ; expiry
-                              3h         ; nx = nxdomain ttl
-                              )
-              IN      NS      ns1.example.com.
-              IN      NS      ns2.example.com.
-4             IN      PTR     mysite.net.
-; etc
-
-
-
-
-
-
-
-
-
-
 
 Redémarrer Bind et vérifier son bon fonctionnement:
 ```
@@ -1040,27 +959,97 @@ Redémarrer Bind et vérifier son bon fonctionnement:
 # systemctl status bind9
 ```
 
-!!!success "Alias"
-!!!success "Résolution directe"
-!!!success "Résolution inversée"
+!!!success "T4 - Alias"
+!!!success "T4 - Résolution directe"
+!!!success "T4 - Résolution inversée"
 
-!!!warning "Compléter pour le NS secondaire"
+### Sur le  Pi NS secondaire
 
-!!!fail "Service hautement disponible"
+Remplacer `ns.apc.com.` par `ns2.apc.com.` dans les deux fichiers. 
+
+Il faut aussi lui attribuer de manière fixe l'@ `172.20.181.1`. Remplacer le contenu de `/etc/dhcpcd.conf` par ce qui suit:
+
+```
+# A sample configuration for dhcpcd.
+# See dhcpcd.conf(5) for details.
+
+# Allow users of this group to interact with dhcpcd via the control socket.
+#controlgroup wheel
+
+# Inform the DHCP server of our hostname for DDNS.
+hostname raspberrypiapc1
+
+# Use the hardware address of the interface for the Client ID.
+clientid
+# or
+# Use the same DUID + IAID as set in DHCPv6 for DHCPv4 ClientID as per RFC4361.
+# Some non-RFC compliant DHCP servers do not reply with this set.
+# In this case, comment out duid and enable clientid above.
+#duid
+
+# Persist interface configuration when dhcpcd exits.
+persistent
+
+# Rapid commit support.
+# Safe to enable by default because it requires the equivalent option set
+# on the server to actually work.
+option rapid_commit
+
+# A list of options to request from the DHCP server.
+#option domain_name_servers, domain_name, domain_search, host_name
+#option classless_static_routes
+# Respect the network MTU. This is applied to DHCP routes.
+option interface_mtu
+
+# Most distributions have NTP support.
+#option ntp_servers
+
+# A ServerID is required by RFC2131.
+require dhcp_server_identifier
+
+# Generate SLAAC address using the Hardware Address of the interface
+#slaac hwaddr
+# OR generate Stable Private IPv6 Addresses based from the DUID
+slaac private
+
+# Static IP configuration:
+interface eth0
+static ip_address=172.20.181.2/24
+#static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=172.20.181.1
+#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
+
+# It is possible to fall back to a static IP if DHCP fails:
+# define static profile
+#profile static_eth0
+#static ip_address=192.168.1.23/24
+#static routers=192.168.1.1
+#static domain_name_servers=192.168.1.1
+
+# fallback to static profile on eth0
+#interface eth0
+#fallback static_eth0
+
+```
+
+!!!success "T4 - Service hautement disponible"
 
 ## Proxy
+
+!!!quote "Installation d'un service Proxy cache HTTP"
+	N'a pas été précisé dans le document.
 
 !!!warning "A compléter"
 
 ## Pièges (?)
 
-!!!warning "Ces infos datent de l'année dernière"
-	Le prof n'a pas remis ses infos, mais je pense qu'elles sont toujours d'actu ...
+!!!warning "Fiabilité"
+	Ces informations ont été fournies l'année dernière et n'ont pas été confirmées depuis.
 
-???+ danger "Il y a plusieurs pièges dans cette activité"
-	!!!warning "1. Câbles défectueux (un des fils est cassé et non visible) (couche 1)"
-	!!!warning "2. L'accès Wifi défectueux et/ou non connecté (couche 1)"
-	!!!warning "3. Erreurs dans l'association entre l'adresse MAC et l'adresse IP (couche 2)"
-	!!!warning "4. Erreurs dans la table de routage (couche 3)"
-	!!!warning "5. Des problèmes liés à l’existence d’un serveur Proxy-cache http et / ou un firewall (Couche 7)"
-	!!!warning "6. Des problèmes liés à l’existence des Vlan (couche 2) et / ou des commutateurs (Couche 2 et 3)"
+???+ warning "Il y a plusieurs pièges dans cette activité"
+	!!!danger "1. Câbles défectueux (un des fils est cassé et non visible) (couche 1)"
+	!!!danger "2. L'accès Wifi défectueux et/ou non connecté (couche 1)"
+	!!!danger "3. Erreurs dans l'association entre l'adresse MAC et l'adresse IP (couche 2)"
+	!!!danger "4. Erreurs dans la table de routage (couche 3)"
+	!!!danger "5. Des problèmes liés à l’existence d’un serveur Proxy-cache http et / ou un firewall (Couche 7)"
+	!!!danger "6. Des problèmes liés à l’existence des Vlan (couche 2) et / ou des commutateurs (Couche 2 et 3)"
