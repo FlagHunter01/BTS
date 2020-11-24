@@ -1,3 +1,35 @@
+# gros
+## 
+###
+####
+
+|Valeeur | SQuantité
+|---|---|
+|Banane | 5|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # PRA - Raspberry Pi
 
 ???+ note "MAJ le 23/11 par Tim."
@@ -632,7 +664,7 @@ table inet filter {
         # On autorise toutes les sorties
     }
 
-    chain SSH {
+    chain SSH {
         ip saddr 192.168.8.0/24 accept
         drop
     }
@@ -869,8 +901,8 @@ subnet 172.20.181.0 netmask 255.255.255.0 {
 #}
 ```
 
-!!!warning "8.8.8.8"
-	Si on a plusieurs Pi, en mettre un comme ns2. Ca ne marchera sans doute pas avec `8.8.8.8`.
+!!!warning "2e NS"
+	Si on a plusieurs Pi, en mettre un comme ns2. Sinon, on ne pourra pas avoir de service hautement disponible.
 
 Redémarrer le démon et vérifier qu'il fonctionne correctement:
 
@@ -952,11 +984,9 @@ www                CNAME       apc.com.
 
 Créer le fichier `/etc/bind/db.apc.com.inv`. Y mettre le contenu suivant:
 
-!!!warning "Le contenu est du BS pour l'instant."
-
 ```
-$ORIGIN .
 $TTL    1D
+$ORIGIN 0.181.20.172.IN-ADDR.ARPA.
 apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         1               ; Serial
                                         1h              ; Refresh
@@ -965,18 +995,44 @@ apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         1h              ; Minimum
 )
 
-        A               apc.com (?)
+        	IN			NS              ns.apc.com
+        	IN			NS              ns2.apc.com
+			IN			PTR				apc.com.
 
-        NS              172.20.181.1
-        NS              172.20.181.2
-
-$ORIGIN apc.com.
-
-ns                 A           ns.apc.com
-ns2                A           ns2.apc.com
-www                CNAME       172.20.181.0
 ; EOF
 ```
+
+
+
+
+
+
+
+
+
+$TTL 2d  ; 172800 seconds
+$ORIGIN 3.2.1.IN-ADDR.ARPA.
+@             IN      SOA   ns1.example.com. hostmaster.example.com. (
+                              2013010304 ; serial number
+                              3h         ; refresh
+                              15m        ; update retry
+                              3w         ; expiry
+                              3h         ; nx = nxdomain ttl
+                              )
+              IN      NS      ns1.example.com.
+              IN      NS      ns2.example.com.
+4             IN      PTR     mysite.net.
+; etc
+
+
+
+
+
+
+
+
+
+
 
 Redémarrer Bind et vérifier son bon fonctionnement:
 ```
