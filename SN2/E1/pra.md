@@ -1,115 +1,119 @@
 # PRA - Raspberry Pi
 
-???+ note "MAj le 24/11 par Tim et Aline."
-	 - [X] Corrigé DHCP
-	 - [X] Complété DNS
-	 - [X] Autres corrections mineures
-	 - [X] Enlevé la configuration réseau du Paramétrage de base pour la déplacer dans DHCP
-	 - [X] Créé Téléchargements
-	 - [X] Amélioré la lisibilité et enlevé des explications (ceci est un tutoriel et non une doc)
-	 - [X] Aline a fini Consignes (je faisias la vaisselle)
-	 - [X] Vérifié les consignes
+???+ note "MAJ le 25/11 par Tim"
+	 - [X] Orthographe
+	 - [X] Relecture
 
-???- note "MAJ le 23/11 par Tim."
-	 - [X] Supprimé WiFi
-		 - [X] Supprimé de l'inventaire
-	 - [ ] DHCP
-		 - [X] Corrigé et complété
-		 - [ ] Service hautement disponible 
-	 - [ ] DNS
-		 - [X] Corrigé et complété
-		 - [ ] Service hautement disponible
-	 - [X] Simplifié Vim
-	 - [X] Simplifié SSH
-	 - [X] Corrigé parametrage de base (`dhcpcd.conf`)
-	 - [ ] Ajouté Consignes
-	 - [ ] Ajouté Proxy
-
-???- note "MAj le 22/11 par Tim."
-	!!!success "Vérifié par application."
-		Sauf ce qui touche au DHCP puisqu'il faut avoir un réseau isolé avec d'autres utilisateurs dessus.
-	
-	 - [ ] OS:
-		 - [X] Remplacé le tuto Rufus par l'imager officiel de RaspberryPi
-		 - [X] Précisé que formatter la carte SD et écrire l'image dessus prend beaucoup de temps
-    	 - [X] Ajout de la mise à l'heure
-		 - [X] Changement de l'@
-	 - [ ] Parametrage de base:
-		 - [X] Changement du mot de passe
-		 - [X] Retiré le proxy
-		 - [X] Supprimé une répétition
-		 - [X] Changé l'@ dans dhcpcd
+???- note "MAJ le 24/11 par Tim et Aline"
+     - [X] Corrigé DHCP
+     - [X] Complété DNS
+     - [X] Autres corrections mineures
+     - [X] Enlevé la configuration réseau du Paramétrage de base pour la déplacer dans DHCP
+     - [X] Créé Téléchargements
+     - [X] Amélioré la lisibilité et enlevé des explications (ceci est un tutoriel et non une doc)
+     - [X] Aline a fini Consignes (je faisais la vaisselle)
+     - [X] Vérifié les consignes
+ 
+???- note "MAJ le 23/11 par Tim"
+     - [X] Supprimé WiFi
+         - [X] Supprimé de l'inventaire
+     - [ ] DHCP
+         - [X] Corrigé et complété
+         - [ ] Service hautement disponible 
+     - [ ] DNS
+         - [X] Corrigé et complété
+         - [ ] Service hautement disponible
+     - [X] Simplifié Vim
+     - [X] Simplifié SSH
+     - [X] Corrigé parametrage de base (`dhcpcd.conf`)
+     - [ ] Ajouté Consignes
+     - [ ] Ajouté Proxy
+ 
+???- note "MAj le 22/11 par Tim"
+    !!!success "Vérifié par application."
+        Sauf ce qui touche au DHCP puisqu'il faut avoir un réseau isolé avec d'autres utilisateurs dessus.
+    
+     - [ ] OS:
+         - [X] Remplacé le tuto Rufus par l'imager officiel de Raspberry Pi
+         - [X] Précisé que formatter la carte SD et écrire l'image dessus prend beaucoup de temps
+         - [X] Ajout de la mise à l'heure
+         - [X] Changement de l'@
+     - [ ] Paramétrage de base:
+         - [X] Changement du mot de passe
+         - [X] Retiré le proxy
+         - [X] Supprimé une répétition
+         - [X] Changé l'@ dans dhcpcd
      - [X] SSH: 
-		 - [X] Changé l'@
-		 - [X] Changé les identifiants dans Putty
-	 - [X] Web:
-		 - [X] Nom d'hôte fixé
-		 - [X] Applications installées
-	 - [ ] DHCP: 
-		 - [X] Correction des paquets à installer
-		 - [X] Changé les @
-		 - [ ] Correction de la configuration
-	 - [X] Remplacé `aptitude` par `apt-get` dans toute la page
-
-???- note "MAJ le 18/11 par Tim."
-	!!!danger "Fait sans connaissance du cahier des charges"
-
-	 - [X] Créé "Questions pour le prof"
-	 - [ ] Corrections pour s'adapter au nouveau sujet
-	 	 - [X] Ajout des consignes dans chaque chapitre
-		 - [ ] Materiel > Inventaire
-			 - [X] Inventaire
-			 - [ ] Gestion numérique des documents
-		 - [ ] Installation de l'OS > Préparation du Pi
-			 - [X] OS
-			 - [X] Paramétrage de base
-			 - [X] Vim
-			 - [X] Bash
-			 - [X] SSH
-			 - [ ] WiFi 
-		 - [ ] Apache > Web
-		 - [ ] DHCP
-		 - [X] Important > Pièges (?)
-	 - [ ] DNS
-
-!!!note "(Re)mis en ligne le 13/11."
-
+         - [X] Changé l'@
+         - [X] Changé les identifiants dans Putty
+     - [X] Web:
+         - [X] Nom d'hôte fixé
+         - [X] Applications installées
+     - [ ] DHCP: 
+         - [X] Correction des paquets à installer
+         - [X] Changé les @
+         - [ ] Correction de la configuration
+     - [X] Remplacé `aptitude` par `apt-get` dans toute la page
+ 
+???- note "MAJ le 18/11 par Tim"
+    !!!danger "Fait sans connaissance du cahier des charges"
+ 
+     - [X] Créé "Questions pour le prof"
+     - [ ] Corrections pour s'adapter au nouveau sujet
+         - [X] Ajout des consignes dans chaque chapitre
+         - [ ] Matériel > Inventaire
+             - [X] Inventaire
+             - [ ] Gestion numérique des documents
+         - [ ] Installation de l'OS > Préparation du Pi
+             - [X] OS
+             - [X] Paramétrage de base
+             - [X] Vim
+             - [X] Bash
+             - [X] SSH
+             - [ ] WiFi 
+         - [ ] Apache > Web
+         - [ ] DHCP
+         - [X] Important > Pièges (?)
+     - [ ] DNS
+ 
+!!!note "(Re)mis en ligne le 13/11"
+ 
 !!!tip "Commandes"
-	Les commandes sont en noir et prennent toute la largeur
-	```
-	(Comme ca)
-	```
-	Elles commencent par `#` si elles doivent être exécutées en root, sinon `$`.
-
-	Il y a un bouton pour copier en haut à droite des cases de code, mais il est noir sur noir.
-
+    Les commandes sont en noir et prennent toute la largeur
+    ```
+    (Comme ca)
+    ```
+    Elles commencent par `#` si elles doivent être exécutées en root, sinon `$`.
+ 
+    Il y a un bouton pour copier en haut à droite des cases de code, mais il est noir sur noir.
+ 
 ## Questions pour le prof
-
+ 
 [Version la plus à jour sur Google Drive](https://docs.google.com/document/d/1aQBZPgJlJ4PjMPPeGDiXHZ35Th1j_xfLXR6E7vqa2oU/edit?usp=sharing)
-
+ 
 !!!quote "1"
-	T1: Gestion du patrimoine informatique: Réaliser l'inventaire du matériel et gestion numérique des documents.
-
+    T1: Gestion du patrimoine informatique: Réaliser l'inventaire du matériel et gestion numérique des documents.
+ 
 !!!question "Qu'est-ce qui est entendu par "gestion numérique"? De quel drive est-il question?"
-
+ 
 !!!quote "2"
-	T2: “Nom d’hôte fixé”, “Applications installées” et "OS conforme au cahier des charges"
-
+    T2: “Nom d’hôte fixé”, “Applications installées” et "OS conforme au cahier des charges"
+ 
 !!!question "Confirmer que le nom d'hôte doit être fixé dans les paramètres système. Préciser les applications à installer. Référence à un cahier des charges non distribué."
-
+ 
 !!!quote "3"
-	T3: “Service hautement disponible”
-
+    T3: “Service hautement disponible”
+ 
 !!!question "Si cela sous-entend qu'il faut 2 machines NS, c'est le cas pour tout DNS d'après les standards. S'il y a une autre implication, on ne la comprend pas."
-
+ 
 !!!question "4 - Combien de Raspberry Pi seront à configurer le jour de l'épreuve?"
-
+ 
 !!!question "5 - Confirmer qu'on ne fait que la partie A de la feuille distribuée"
-
+ 
 !!!question "6 - Confirmer qu'on ne fera pas le WiFi"
-
+ 
 ## Consignes
-
+ 
 | Partie | Description |
 |--- |---|
 | T1 - Gestion du patrimoine informatique : Réaliser l'inventaire du matériel et gestion numérique des documents | - Fournir l'inventaire détaillé sous forme numérique (feuille tableur). |
@@ -126,15 +130,15 @@
 | T4 - Installer et configurer serveur DNS sur Raspberry Pi | Configuration conforme au cahier des charges : |
 |    | - Service DNS opérationnel  Alias, résolution directe et inversée |
 |    | - Service hautement disponible |
-
+ 
 ## Inventaire
-
+ 
 !!!quote "T1 - Gestion du patrimoine informatique : Réaliser l'inventaire du matériel et gestion numérique des documents"
-	 - [ ] Fournir l'inventaire détaillé sous forme numérique (feuille tableur).
-	 - [ ] L'ensemble des documents produits doit être accessible depuis le "cloud" (drive)
-
+     - [ ] Fournir l'inventaire détaillé sous forme numérique (feuille tableur).
+     - [ ] L'ensemble des documents produits doit être accessible depuis le "cloud" (drive)
+ 
 !!!warning "Section a vérifier"
-
+ 
 | Quantité | Description |
 | --- | --- |
 | 1 | Raspberry Pi |
@@ -144,131 +148,131 @@
 | 1 | Ecran avec câble HDMI |
 | 1 | Clavier |
 | 1 | Souris |
-| 3 | Cable Ethernet |
+| 3 | Câble Ethernet |
 | 1 | Switch |
-
+ 
 !!!info "Les quantités indiquées sont *minimales*."
-	Si plus de Raspberry Pi seront utilisés, il faudra compter au moins 1 chargeur et 1 carte SD pour chaque machine, ainsi que des câbles ethernet en plus.
-
+    Si plus de Raspberry Pi seront utilisés, il faudra compter au moins 1 chargeur et 1 carte SD pour chaque machine, ainsi que des câbles ethernet en plus.
+ 
 !!!success "T1 - Fournir l'inventaire détaillé sous forme numérique (feuille tableur)"
-
+ 
 !!!fail "T1 - L'ensemble des documents produits doit être accessible depuis le "cloud" (drive)"
-	Nous n'avons pas compris les consignes pour cette partie (question 1).
-
+    Nous n'avons pas compris les consignes pour cette partie (question 1).
+ 
 ## Préparation du Pi
-
+ 
 ### OS
-
+ 
 !!!warning "Gestion du temps"
-	Attention, formatter et écrire l'image sur la carte SD peut prendre plus d'une heure.
-
+    Attention, formater et écrire l'image sur la carte SD peut prendre plus d'une heure.
+ 
  - Télécharger l'[imager de Raspberry Pi officiel](https://downloads.raspberrypi.org/imager/imager_1.4.exe). 
  - Insérer la carte SD dans l'ordinateur grâce à l'adaptateur SD - USB. 
  - Ouvrir l'imager une fois qu'il est téléchargé
      - Choisir la première image proposée dans `Choose OS`. Choisir la carte SD dans `Choose SD card`. 
-
-!!!danger "Vérifier que c'est le bon périférique!"
+ 
+!!!danger "Vérifier que c'est le bon périphérique!"
     Si le disque dur du PC est sélectionné, il sera détruit.
-
+ 
 !!!success "T2 - Carte SD reformatée"
-
+ 
 A présent, insérer la carte SD dans le Pi et effectuer tous les branchements en connectant l'alimentation **en dernier**. Une fois l'alim connectée, le Pi va booter. Il n'enverra pas d'image sur l'écran immédiatement mais des led devraient s'allumer. Après un certain temps, des infos sur le chargement devraient apparaître à l'écran. Si des erreurs apparaissent, il faut probablement réinstaller le système.
-
+ 
 Si le Pi demande de s'identifier:
-
+ 
 ```
 login: pi
 passwd: raspberry
 ```
-
+ 
 ???+tip "Clavier"
     Par défaut, le layout du clavier est en **anglais**.
-
+ 
     ![layout](/img/layout.png)
-
-### Parametrage de base
-
+ 
+### Paramétrage de base
+ 
 On travaillera principalement dans le terminal. Définir un mot de passe pour `root` :
-
+ 
 ```
 $ sudo passwd root
 919294
 919294
 ```
 Ensuite, accéder aux paramétrages de base:
-
+ 
 ```
 # raspi-config
 ```
-
+ 
 1. Commencer par ```4. Localisation options``` pour mettre le layout francais. 
-	 - Aller dans ```keyboard layout``` puis choisir le modèle le plus proche. 
-	 - Ensuite, pour le keyboard layout, sélectionner ```Other``` puis ```French - French ```. 
-	 - Pour "Key to function as AltGr, choisir ```The default for the keyboard layout``` puis choisir ```No compose key```. 
-	 - Choisir ```No``` pour "Use Control+Alt+Backspace to terminate the X server?". 
-	 - Normalement après confirmation le layout du clavier devient francais.
+     - Aller dans ```keyboard layout``` puis choisir le modèle le plus proche. 
+     - Ensuite, pour le keyboard layout, sélectionner ```Other``` puis ```French - French ```. 
+     - Pour "Key to function as AltGr, choisir ```The default for the keyboard layout``` puis choisir ```No compose key```. 
+     - Choisir ```No``` pour "Use Control+Alt+Backspace to terminate the X server?". 
+     - Normalement après confirmation le layout du clavier devient francais.
  - Ensuite ```1. Change user password``` pour entrer un mot de passe plus sur (`919294`)
  - Ensuite ```3. boot options``` 
-	 - Choisir ```desktop with login``` pour avoir une interface graphique et demander un mdp.
+     - Choisir ```desktop with login``` pour avoir une interface graphique et demander un mdp.
  - Sortir du menu. Une fois cette opération terminée, ==**redémarrer le Pi**==.
  - Options réseau dans```2. Net options```:
-	 - "N1 Hostname": ```raspberrypiapc1```. 
-	 - Sortir du menu.
-
+     - "N1 Hostname": ```raspberrypiapc1```. 
+     - Sortir du menu.
+ 
 !!!success "T2 - Nom d'hôte fixé"
-
+ 
 Le Raspberry Pi doit mettre son horloge à l'heure quand il se connecte au réseau, mais celui du lycée n'a pas de serveur NTP. 
-
+ 
 Dans `/etc/systemd/timesyncd.conf`, remplacer la ligne 15 par:
-
+ 
 ```
 NTP=172.20.81.252
 ```
-
+ 
 Il faut mettre à jour les paquets installés avant de continuer:
-
+ 
 ```
 # apt-get update
 # apt-get upgrade
 Y
 ```
-
+ 
 !!!warning "Cette opération prend beaucoup de temps"
-
+ 
 ### Vim
-
+ 
 Installer ```Vim```, le meilleur logiciel de traitement de texte:
-
+ 
 ```
 # apt-get install vim
 ```
-
+ 
 ???+tip "Utilisation"
-	 - `i` pour passer en mode édition
-	 - `ESC` pour passer en mode commande
-	 - `:x` pour sauvegarder et quitter
-	 - `:w` pour sauvegarder sans quitter
-	 - `:q!` pour quitter sans sauvegarder
-	 - Garder `d` enfoncé pour supprimer ligne par ligne
-	 - `U` remplace `CTRL`+`Z`.
-	 - `SHIFT`+ `INSER` pour coller **dans le mode édition**
-
+     - `i` pour passer en mode édition
+     - `ESC` pour passer en mode commande
+     - `:x` pour sauvegarder et quitter
+     - `:w` pour sauvegarder sans quitter
+     - `:q!` pour quitter sans sauvegarder
+     - Garder `d` enfoncé pour supprimer ligne par ligne
+     - `U` remplace `CTRL`+`Z`.
+     - `SHIFT`+ `INSER` pour coller **dans le mode édition**
+ 
 Configuration:
-
+ 
 ```
 vim /etc/vim/vimrc
 ```
-
+ 
 Remplacer le contenu du fichier par ce qui suit:
-
+ 
 ```
 " All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
 " the call to :runtime you can find below.  If you wish to change any of those
 " settings, you should do it in this file (/etc/vim/vimrc), since debian.vim
-" will be overwritten everytime an upgrade of the vim packages is performed.
+" will be overwritten every time an upgrade of the vim packages is performed.
 " It is recommended to make changes after sourcing debian.vim since it alters
 " the value of the 'compatible' option.
-
+ 
 "colorscheme
 "colorscheme darkblue
 "colorscheme default
@@ -286,39 +290,39 @@ Remplacer le contenu du fichier par ce qui suit:
 "colorscheme slate
 colorscheme torte
 "colorscheme zellner
-
+ 
 " This line should not be removed as it ensures that various options are
 " properly set to work with the Vim-related packages available in Debian.
 runtime! debian.vim
-
+ 
 " Vim will load $VIMRUNTIME/defaults.vim if the user does not have a vimrc.
 " This happens after /etc/vim/vimrc(.local) are loaded, so it will override
 " any settings in these files.
 " If you don't want that to happen, uncomment the below line to prevent
 " defaults.vim from being loaded.
 let g:skip_defaults_vim = 1
-
+ 
 " Uncomment the next line to make Vim more Vi-compatible
 " NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes numerous
 " options, so any other options should be set AFTER setting 'compatible'.
 "set compatible
-
+ 
 " Vim5 and later versions support syntax highlighting. Uncommenting the next
 " line enables syntax highlighting by default.
 syntax on
-
+ 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
 set background=dark
-
+ 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
+ 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
 "filetype plugin indent on
-
+ 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
 set showcmd             " Show (partial) command in status line.
@@ -329,68 +333,68 @@ set incsearch           " Incremental search
 "set autowrite          " Automatically save before commands like :next and :make
 "set hidden             " Hide buffers when they are abandoned
 set mouse=a             " Enable mouse usage (all modes)
-
+ 
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
 source /etc/vim/vimrc.local
 endif
-
+ 
 set smartindent
 set nu
 ```
-
+ 
 ### Bash
-
+ 
 Remplacer le contenu de `.bashrc` dans le répertoire de l'utilisateur pour lequel on configure bash par ce qui suit:
-
+ 
 ```bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-
+ 
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
-
+ 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
-
+ 
 # append to the history file, don't overwrite it
 shopt -s histappend
-
+ 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
-
+ 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
+ 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
-
+ 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
+ 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
-
+ 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
-
+ 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
 force_color_prompt=yes
-
+ 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
         # We have color support; assume it's compliant with Ecma-48
@@ -401,14 +405,14 @@ if [ -n "$force_color_prompt" ]; then
         color_prompt=
     fi
 fi
-
+ 
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\0                                                                                                                                                             33[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
-
+ 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
@@ -417,36 +421,36 @@ xterm*|rxvt*)
 *)
     ;;
 esac
-
+ 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dirco                                                                                                                                                             lors -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
-
+ 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-
+ 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo                                                                                                                                                             te=01'
-
+ 
 # some more ls aliases
 alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
-
+ 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
+ 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
+ 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -458,88 +462,88 @@ if ! shopt -oq posix; then
   fi
 fi
 ```
-
+ 
 !!!info "Les changements seront pris en compte à l'ouverture d'un nouveau terminal."
-	On peut ouvrir un terminal dans le terminal en entrant la commande `bash`.
-
+    On peut ouvrir un terminal dans le terminal en entrant la commande `bash`.
+ 
 ### Firewall
-
-Si ```iptables``` est installé par défaut, il faut le désisntaller car il est obsolète:
-
+ 
+Si ```iptables``` est installé par défaut, il faut le désinstaller car il est obsolète:
+ 
 ```
 # apt-get purge iptables
 ```
-
+ 
 Par la suite, installer ```nftables```:
-
+ 
 ```
 # apt-get install nftables
 ```
-
+ 
 Remplacer le contenu de `/etc/nftables.conf` par :
-
+ 
 ```
 #!/usr/sbin/nft -f
-
+ 
 flush ruleset
-
+ 
 table inet filter {
-	chain input {
-		type filter hook input priority 0; policy drop
-		# Accepter les connections etablies
-		ct state {established, related} accept
-		# Accepter les loopbacks
-		iif lo accept
-		# Toutes les autres connections sont drop
-	}
-
-	chain forward {
-		type filter hook forward priority 0; policy drop;
-		# On ne transmet aucune connection
-	}
-
-	chain output {
-		type filter hook output priority 0; policy accept;
-		# On autorise toutes les sorties
-	}
-
+    chain input {
+        type filter hook input priority 0; policy drop
+        # Accepter les connections etablies
+        ct state {established, related} accept
+        # Accepter les loopbacks
+        iif lo accept
+        # Toutes les autres connections sont drop
+    }
+ 
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+        # On ne transmet aucune connection
+    }
+ 
+    chain output {
+        type filter hook output priority 0; policy accept;
+        # On autorise toutes les sorties
+    }
+ 
 }
 ```
-
-
-Redémarer le démon (*daemon* pour les puristes) du firewall:
-
+ 
+ 
+Redémarrer le démon (*daemon* pour les puristes) du firewall:
+ 
 ```
 # systemctl restart nftables
 ```
-
+ 
 Vérifier que le démon (*daemon* pour les puristes) se porte bien:
-
+ 
 ```
 # systemctl status nftables
 ```
-
+ 
 ??? tip "Démons"
-	Le principe c'est que tu as beaucoup de démons qui tournent dans ta machine et qu'ils sont contrôlés par le watch dog (*ca explique le titre du jeu*). "Démon" est donc un abus de langage logique :p
-
+    Le principe c'est que tu as beaucoup de démons qui tournent dans ta machine et qu'ils sont contrôlés par le watch dog (*ca explique le titre du jeu*). "Démon" est donc un abus de langage logique :p
+ 
 ### SSH
-
+ 
 Autoriser les connections SSH:
-
+ 
 ```
 # raspi-config
 5 Interfacing Options
 P2 SSH
 YES
 ```
-
+ 
 Remplacer le contenu de ```/etc/nftables.conf``` par ce qui suit:
-
+ 
 ```
 #!/usr/sbin/nft -f
-
+ 
 flush ruleset
-
+ 
 table inet filter {
     chain input {
         type filter hook input priority 0; policy drop
@@ -551,139 +555,139 @@ table inet filter {
         tcp dport 22 jump SSH
         # Toutes les autres connections sont drop
     }
-
+ 
     chain forward {
         type filter hook forward priority 0; policy drop;
         # On ne transmet aucune connection
     }
-
+ 
     chain output {
         type filter hook output priority 0; policy accept;
         # On autorise toutes les sorties
     }
-
-    chain SSH {
+ 
+    chain SSH {
         ip saddr 192.168.8.0/24 accept
         drop
     }
 }
-
+ 
 ```
 Déterminer l'adresse du Raspberry Pi avec:
-
+ 
 ```
 $ ip a
 ```
-Coté client, télécharger [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html).
-
+Côté client, télécharger [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html).
+ 
 Dans putty, entrer cette adresse et appuyer sur "Open". Entrer ensuite les identifiants choisis lors de la configuration:
-
+ 
 ```
 pi
 919294
 ```
-
+ 
 ## Web
-
+ 
 !!!quote "T2"
-	 - [X] Carte SD reformatée
-	 - [ ] OS conforme au cahier des charges
-	 - [X] Nom d'hôte fixé
-	 - [X] Configuration IP
-	 - [ ] Applications installées
-
+     - [X] Carte SD reformatée
+     - [ ] OS conforme au cahier des charges
+     - [X] Nom d'hôte fixé
+     - [X] Configuration IP
+     - [ ] Applications installées
+ 
 Nous allons utiliser Apache pour mettre en ligne une sauvegarde du site de APC.
-
+ 
 ```
 # apt-get install apache2
 ```
-
+ 
 !!!success "T2 - Applications installées"
-
+ 
 Mettre la sauvegarde du site dans `/var/www/html/`.
-
+ 
 Remplacer le contenu de `/etc/nftables.conf` par ce qui suit:
-
+ 
 ```
 #!/usr/sbin/nft -f
-
+ 
 flush ruleset
-
+ 
 table inet filter {
-	chain input {
-		type filter hook input priority 0; policy drop	
-		# Accepter les connections etablies
-		ct state {established, related} accept
-		# Accepter les loopbacks
-		if lo accept
-		# Envoyer les connections SSH sur la chaine SSH
-		tcp dport 22 jump SSH
-		# Accepter HTTP
-		tcp dport 80 accept
-		# Accepter HTTPS
-		#tcp dport 443 accept
-		# Toutes les autres co sont drop
-	}
-
-	chain forward {
-		type filter hook forward priority 0; policy drop;
-		# On ne transmet aucune connection
-	}
-
-	chain output {
-		type filter hook output priority 0; policy accept;
-		# On autorise toutes les sorties
-	}
-
-	chain SSH {
-		# Accepter les co depuis le reseau local
-		ip saddr 172.16.130.0/24 accept
-		# Drop tout le reste
-		drop
-	}
+    chain input {
+        type filter hook input priority 0; policy drop  
+        # Accepter les connections etablies
+        ct state {established, related} accept
+        # Accepter les loopbacks
+        if lo accept
+        # Envoyer les connections SSH sur la chaine SSH
+        tcp dport 22 jump SSH
+        # Accepter HTTP
+        tcp dport 80 accept
+        # Accepter HTTPS
+        #tcp dport 443 accept
+        # Toutes les autres co sont drop
+    }
+ 
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+        # On ne transmet aucune connection
+    }
+ 
+    chain output {
+        type filter hook output priority 0; policy accept;
+        # On autorise toutes les sorties
+    }
+ 
+    chain SSH {
+        # Accepter les co depuis le reseau local
+        ip saddr 172.16.130.0/24 accept
+        # Drop tout le reste
+        drop
+    }
 }
 ```
-
-Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigateur. Les pages de la sauvegarde devraient alors apparaitre. 
-
+ 
+Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigateur. Les pages de la sauvegarde devraient alors apparaître. 
+ 
 !!!fail "T3 - OS conforme au cahier des charges"
-	On n'a pas compris la consigne de cette partie (question 2)
-
+    On n'a pas compris la consigne de cette partie (question 2)
+ 
 ## Téléchargements
-
+ 
 Dans la partie suivante, la machine sera installée dans un réseau isolé. On télécharge donc dès maintenant tous les paquets nécessaires pour la suite:
-
+ 
 ```
 # apt-get install isc-dhcp-server
 # apt-get install isc-dhcp-server-ldap
 # apt-get install bind9
 ```
-
+ 
 ## DHCP
-
+ 
 !!!quote "T3 - Installer et configurer un serveur DHCP sur Raspberry Pi"
-	 - [ ] Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues
-	 - [ ] Service autement disponible
-
+     - [ ] Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues
+     - [ ] Service hautement disponible
+ 
 ### Configuration réseau
-
+ 
 Configuration manuelle de l'IP fixe.
-
+ 
 !!!warning "Isoler le Raspberry Pi du réseau du lycée."
-	A partir de cette étape, il est indispensable d'isoler le(s) Pi du réseau du lycée pour éviter les conflits d'adressage. Puisque l'IP changera, il faudra ouvrir une nouvelle connexion SSH vers la nouvelle IP le moment venu.
-
+    A partir de cette étape, il est indispensable d'isoler le(s) Pi du réseau du lycée pour éviter les conflits d'adressage. Puisque l'IP changera, il faudra ouvrir une nouvelle connexion SSH vers la nouvelle IP le moment venu.
+ 
 Remplacer le contenu de `/etc/dhcpcd.conf` par ce qui suit:
-
+ 
 ```
 # A sample configuration for dhcpcd.
 # See dhcpcd.conf(5) for details.
-
+ 
 # Allow users of this group to interact with dhcpcd via the control socket.
 #controlgroup wheel
-
+ 
 # Inform the DHCP server of our hostname for DDNS.
 hostname raspberrypiapc1
-
+ 
 # Use the hardware address of the interface for the Client ID.
 clientid
 # or
@@ -691,111 +695,111 @@ clientid
 # Some non-RFC compliant DHCP servers do not reply with this set.
 # In this case, comment out duid and enable clientid above.
 #duid
-
+ 
 # Persist interface configuration when dhcpcd exits.
 persistent
-
+ 
 # Rapid commit support.
 # Safe to enable by default because it requires the equivalent option set
 # on the server to actually work.
 option rapid_commit
-
+ 
 # A list of options to request from the DHCP server.
 #option domain_name_servers, domain_name, domain_search, host_name
 #option classless_static_routes
 # Respect the network MTU. This is applied to DHCP routes.
 option interface_mtu
-
+ 
 # Most distributions have NTP support.
 #option ntp_servers
-
+ 
 # A ServerID is required by RFC2131.
 require dhcp_server_identifier
-
+ 
 # Generate SLAAC address using the Hardware Address of the interface
 #slaac hwaddr
 # OR generate Stable Private IPv6 Addresses based from the DUID
 slaac private
-
+ 
 # Static IP configuration:
 interface eth0
 static ip_address=172.20.181.1/24
 #static ip6_address=fd51:42f8:caae:d92e::ff/64
 static routers=172.20.181.1
 #static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
-
+ 
 # It is possible to fall back to a static IP if DHCP fails:
 # define static profile
 #profile static_eth0
 #static ip_address=192.168.1.23/24
 #static routers=192.168.1.1
 #static domain_name_servers=192.168.1.1
-
+ 
 # fallback to static profile on eth0
 #interface eth0
 #fallback static_eth0
 ```
-
+ 
 Redémarrer le Raspberry Pi.
 Une fois connecté, vérifier que le Pi a la bonne adresse (`172.20.181.1`):
-
+ 
 ```
 $ ip a
 ```
-
+ 
 ### Configuration du service
-
+ 
 Remplacer le contenu de `/etc/dhcp/dhcpd.conf` par ce qui suit:
-
+ 
 ```
 # dhcpd.conf
 #
 # Sample configuration file for ISC dhcpd
 #
-
+ 
 # option definitions common to all supported networks...
 option domain-name "apc.com";
 option domain-name-servers 172.20.181.1, 172.20.181.2; 
-
+ 
 default-lease-time 600;
 max-lease-time 3600;
-
+ 
 # The ddns-updates-style parameter controls whether or not the server will
 # attempt to do a DNS update when a lease is confirmed. We default to the
 # behavior of the version 2 packages ('none', since DHCP v2 didn't
 # have support for DDNS.)
 ddns-update-style none;
-
+ 
 # If this DHCP server is the official DHCP server for the local
 # network, the authoritative directive should be uncommented.
 authoritative;
-
+ 
 # Use this to send dhcp log messages to a different log file (you also
 # have to hack syslog.conf to complete the redirection).
 #log-facility local7;
-
+ 
 # No service will be given on this subnet, but declaring it helps the
 # DHCP server to understand the network topology.
-
+ 
 #subnet 10.152.187.0 netmask 255.255.255.0 {
 #}
-
+ 
 # This is a very basic subnet declaration.
-
+ 
 #subnet 10.254.239.0 netmask 255.255.255.224 {
 #  range 10.254.239.10 10.254.239.20;
 #  option routers rtr-239-0-1.example.org, rtr-239-0-2.example.org;
 #}
-
+ 
 # This declaration allows BOOTP clients to get dynamic addresses,
 # which we don't really recommend.
-
+ 
 #subnet 10.254.239.32 netmask 255.255.255.224 {
 #  range dynamic-bootp 10.254.239.40 10.254.239.60;
 #  option broadcast-address 10.254.239.31;
 #  option routers rtr-239-32-1.example.org;
 #}
-
+ 
 # A slightly different configuration for an internal subnet.
 subnet 172.20.181.0 netmask 255.255.255.0 {
   range 172.20.181.10 172.20.181.253;
@@ -806,18 +810,18 @@ subnet 172.20.181.0 netmask 255.255.255.0 {
   default-lease-time 600;
   max-lease-time 3600;
 }
-
+ 
 # Hosts which require special configuration options can be listed in
 # host statements.   If no address is specified, the address will be
 # allocated dynamically (if possible), but the host-specific information
 # will still come from the host declaration.
-
+ 
 #host passacaglia {
 #  hardware ethernet 0:0:c0:5d:bd:95;
 #  filename "vmunix.passacaglia";
 #  server-name "toccata.example.com";
 #}
-
+ 
 # Fixed IP addresses can also be specified for hosts.   These addresses
 # should not also be listed as being available for dynamic assignment.
 # Hosts for which fixed IP addresses have been specified can boot using
@@ -829,16 +833,16 @@ subnet 172.20.181.0 netmask 255.255.255.0 {
 #  hardware ethernet 08:00:07:26:c0:a5;
 #  fixed-address fantasia.example.com;
 #}
-
+ 
 # You can declare a class of clients and then do address allocation
 # based on that.   The example below shows a case where all clients
 # in a certain class get addresses on the 10.17.224/24 subnet, and all
 # other clients get addresses on the 10.0.29/24 subnet.
-
+ 
 #class "foo" {
 #  match if substring (option vendor-class-identifier, 0, 4) = "SUNW";
 #}
-
+ 
 #shared-network 224-29 {
 #  subnet 10.17.224.0 netmask 255.255.255.0 {
 #    option routers rtr-224.example.org;
@@ -856,52 +860,52 @@ subnet 172.20.181.0 netmask 255.255.255.0 {
 #  }
 #}
 ```
-
+ 
 !!!warning "172.20.181.2"
-	Si on a plusieurs Raspberry Pi, on doit en garder un en IP fixe (`172.20.181.2`) et l'utiliser comme DNS secondaire.
-	Pour l'instant, le service ne démarre pas si on ne commente pas la deuxième adresse. 
-
+    Si on a plusieurs Raspberry Pi, on doit en garder un en IP fixe (`172.20.181.2`) et l'utiliser comme DNS secondaire.
+    Pour l'instant, le service ne démarre pas si on ne commente pas la deuxième adresse. 
+ 
 Redémarrer le démon et vérifier qu'il fonctionne correctement:
-
+ 
 ```
 # systemctl start isc-dhcp-server
 # systemctl status isc-dhcp-server
 ```
-
+ 
 !!!success "T3 - Service DHCP opérationnel: bail correctement délivré avec bonnes valeurs d'étendues"
-
-!!!fail "T3 - Service autement disponible"
-	Nous n'avons pas compris la consigne de cette partie (question 3).
-
+ 
+!!!fail "T3 - Service hautement disponible"
+    Nous n'avons pas compris la consigne de cette partie (question 3).
+ 
 ## DNS
-
+ 
 !!!quote "T4 - Installer et configurer serveur DNS sur Raspberry Pi"
-	 - [ ] Alias
-	 - [ ] Résolution directe
-	 - [ ] Résolution inversée
-	 - [ ] Service hautement disponible
-
+     - [ ] Alias
+     - [ ] Résolution directe
+     - [ ] Résolution inversée
+     - [ ] Service hautement disponible
+ 
 !!!warning "Cette section n'a pas été vérifiée en pratique."
-
+ 
 ### Sur le Pi principal
-
+ 
 Remplacer le contenu du fichier `/etc/bind/named.conf.local` par ce qui suit:
-
+ 
 ```
 //
 // Do any local configuration here
 //
-
+ 
 zone "apc.com" {
         type master;
         file "/etc/bind/db.apc.com";
 };
-
+ 
 // Consider adding the 1918 zones here, if they are not used in your
 // organization
 include "/etc/bind/zones.rfc1918";
 ```
-
+ 
 Créer le fichier `/etc/bind/db.apc.com`. Y mettre le contenu suivant:
 ```
 $ORIGIN .
@@ -913,22 +917,22 @@ apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         2h              ; Expire
                                         1h              ; Minimum
 )
-
+ 
         A               172.20.181.1
-
+ 
         NS              ns.apc.com.
         NS              ns2.apc.com.
-
+ 
 $ORIGIN apc.com.
-
+ 
 ns                 A           172.20.181.1
 ns2                A           172.20.181.2
 www                CNAME       apc.com.
 ; EOF
 ```
-
+ 
 Créer le fichier `/etc/bind/db.apc.com.inv`. Y mettre le contenu suivant:
-
+ 
 ```
 $ORIGIN .
 $TTL    1D
@@ -939,46 +943,46 @@ apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         2h              ; Expire
                                         1h              ; Minimum
 )
-
+ 
         A               apc.com (?)
-
+ 
         NS              172.20.181.1
         NS              172.20.181.2
-
+ 
 $ORIGIN apc.com.
-
+ 
 ns                 A           ns.apc.com
 ns2                A           ns2.apc.com
 www                CNAME       172.20.181.0
 ; EOF
 ```
-
+ 
 Redémarrer Bind et vérifier son bon fonctionnement:
 ```
 # systemctl restart bind9
 # systemctl status bind9
 ```
-
+ 
 !!!success "T4 - Alias"
 !!!success "T4 - Résolution directe"
 !!!success "T4 - Résolution inversée"
-
+ 
 ### Sur le  Pi NS secondaire
-
+ 
 Remplacer `ns.apc.com.` par `ns2.apc.com.` dans les deux fichiers. 
-
+ 
 Il faut aussi lui attribuer de manière fixe l'@ `172.20.181.1`. Remplacer le contenu de `/etc/dhcpcd.conf` par ce qui suit:
-
+ 
 ```
 # A sample configuration for dhcpcd.
 # See dhcpcd.conf(5) for details.
-
+ 
 # Allow users of this group to interact with dhcpcd via the control socket.
 #controlgroup wheel
-
+ 
 # Inform the DHCP server of our hostname for DDNS.
 hostname raspberrypiapc1
-
+ 
 # Use the hardware address of the interface for the Client ID.
 clientid
 # or
@@ -986,70 +990,73 @@ clientid
 # Some non-RFC compliant DHCP servers do not reply with this set.
 # In this case, comment out duid and enable clientid above.
 #duid
-
+ 
 # Persist interface configuration when dhcpcd exits.
 persistent
-
+ 
 # Rapid commit support.
 # Safe to enable by default because it requires the equivalent option set
 # on the server to actually work.
 option rapid_commit
-
+ 
 # A list of options to request from the DHCP server.
 #option domain_name_servers, domain_name, domain_search, host_name
 #option classless_static_routes
 # Respect the network MTU. This is applied to DHCP routes.
 option interface_mtu
-
+ 
 # Most distributions have NTP support.
 #option ntp_servers
-
+ 
 # A ServerID is required by RFC2131.
 require dhcp_server_identifier
-
+ 
 # Generate SLAAC address using the Hardware Address of the interface
 #slaac hwaddr
 # OR generate Stable Private IPv6 Addresses based from the DUID
 slaac private
-
+ 
 # Static IP configuration:
 interface eth0
 static ip_address=172.20.181.2/24
 #static ip6_address=fd51:42f8:caae:d92e::ff/64
 static routers=172.20.181.1
 #static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
-
+ 
 # It is possible to fall back to a static IP if DHCP fails:
 # define static profile
 #profile static_eth0
 #static ip_address=192.168.1.23/24
 #static routers=192.168.1.1
 #static domain_name_servers=192.168.1.1
-
+ 
 # fallback to static profile on eth0
 #interface eth0
 #fallback static_eth0
-
+ 
 ```
-
+ 
 !!!success "T4 - Service hautement disponible"
-
+ 
 ## Proxy
-
+ 
 !!!quote "Installation d'un service Proxy cache HTTP"
-	N'a pas été précisé dans le document.
-
+    N'a pas été précisé dans le document.
+ 
 !!!warning "A compléter"
-
+ 
 ## Pièges (?)
-
+ 
 !!!warning "Fiabilité"
-	Ces informations ont été fournies l'année dernière et n'ont pas été confirmées depuis.
-
+    Ces informations ont été fournies l'année dernière et n'ont pas été confirmées depuis.
+ 
 ???+ warning "Il y a plusieurs pièges dans cette activité"
-	!!!danger "1. Câbles défectueux (un des fils est cassé et non visible) (couche 1)"
-	!!!danger "2. L'accès Wifi défectueux et/ou non connecté (couche 1)"
-	!!!danger "3. Erreurs dans l'association entre l'adresse MAC et l'adresse IP (couche 2)"
-	!!!danger "4. Erreurs dans la table de routage (couche 3)"
-	!!!danger "5. Des problèmes liés à l’existence d’un serveur Proxy-cache http et / ou un firewall (Couche 7)"
-	!!!danger "6. Des problèmes liés à l’existence des Vlan (couche 2) et / ou des commutateurs (Couche 2 et 3)"
+    !!!danger "1. Câbles défectueux (un des fils est cassé et non visible) (couche 1)"
+    !!!danger "2. L'accès Wifi défectueux et/ou non connecté (couche 1)"
+    !!!danger "3. Erreurs dans l'association entre l'adresse MAC et l'adresse IP (couche 2)"
+    !!!danger "4. Erreurs dans la table de routage (couche 3)"
+    !!!danger "5. Des problèmes liés à l’existence d’un serveur Proxy-cache http et / ou un firewall (Couche 7)"
+    !!!danger "6. Des problèmes liés à l’existence des Vlan (couche 2) et / ou des commutateurs (Couche 2 et 3)"
+ 
+ 
+
