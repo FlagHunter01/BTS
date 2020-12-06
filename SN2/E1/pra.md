@@ -8,7 +8,8 @@
      - [X] WiFi
          - [X] Déplacé WiFi vers Web
          - [X] Complété WiFi
-     - [ ] MAJ l'image du sujet
+     - [X] MAJ l'image du sujet
+     - [X] Changé de place DNS
 
 ???- note "MAJ le 03/12/2020 par Tim"
     !!!info "Configuration recommancée sur matériel personnel"
@@ -151,7 +152,6 @@ Recensement des problèmes a résoudre.
 !!!fail "T3 - Service hautement disponible"
 	Nous n'avons pas compris la consigne de cette partie (question 3).
 !!!warning "Vérifier l'inventaire"
-!!!warning "Une partie de DNS n'a pas été vérifiée en pratique"
 !!!warning "Le fonctionnement de Proxy n'a pas été vérifié en pratique"
 !!!warning "Il faut compléter WiFi"
 !!!tip "Formater et écrire la carte SD prend potentiellement du temps"
@@ -564,14 +564,33 @@ Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigate
  
 ### WiFi
 
+!!!info "Etapes"
+     - Avoir un interface WiFi
+     - Configurer l'interface
+     - Configurer AdHoc, HostAPD ou autre pour puvoir créer des connexions
+     - Ajouter une (ou des ?) zones DNSpour le nouveau interface
+     - Configurer le DHCP pour le nouveau interface
+     - S'assurer qu'on accède au serveur Apache
+
+!!!tip "Chercher comment avoir un max de logs à chaque étape!"
+
+???- note "Liens un peu random"
+     - [https://www.windtopik.fr/configurer-wifi-raspberry-pi/](https://www.windtopik.fr/configurer-wifi-raspberry-pi/)
+     - [https://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup/setting-up-wifi-with-raspi-config-easy](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-3-network-setup/setting-up-wifi-with-raspi-config-easy)
+
 Insérer la clé WiFi.
+
+Suivre [cette page](https://wiki.debian.org/WiFi/AdHoc) pour configurer une liaisin **ad hoc**.
+
+[HostAPD](https://doc.ubuntu-fr.org/hostapd) permet de créer un spot qui admet plusieurs connexions, a condition que la clé WiFi soit adaptée.
+
 Redémarrer Apache:
 
 ```
 systemctl restart apache2.service
 ```
 
-!!!success "WiFi"
+!!!warning "WiFi"
 
 !!!fail "T3 - OS conforme au cahier des charges"
     On n'a pas compris la consigne de cette partie (question 2).
@@ -596,7 +615,214 @@ Dans la partie suivante, la machine sera installée dans un réseau isolé. On t
     ```
     # apt-get install squid
     ```
+
+## DNS
  
+!!!quote "T4 - Installer et configurer serveur DNS sur Raspberry Pi"
+     - [ ] Alias
+     - [ ] Résolution directe
+     - [ ] Résolution inversée
+     - [ ] Service hautement disponible
+ 
+Remplacer le contenu du fichier `/etc/bind/named.conf.local` par ce qui suit:
+ 
+```
+//
+// Do any local configuration here
+//
+
+zone "apc.com" {
+        type master;
+        allow-transfer {172.16.130.2; 172.16.130.3;};
+        file "/etc/bind/db.apc.com";
+        notify yes;
+};
+
+zone "20.172.in-addr.arpa" {
+        type master;
+        allow-transfer {172.16.130.2; 172.16.130.3;};
+        file "/etc/bind/20.172.in-addr.arpa";
+        notify yes;
+};
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+include "/etc/bind/zones.rfc1918";
+
+```
+
+Dans `/etc/bind/zones.rfc1918`, supprimer la ligne:
+
+```
+zone "20.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+```
+
+Créer le fichier `db.apc.com`. Y mettre le contenu suivant:
+```
+$ORIGIN .
+$TTL    600
+apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
+                                        1               ; Serial
+                                        300             ; Refresh 5 min
+                                        60              ; Retry   1 min
+                                        600             ; Expire  10 min
+                                        300             ; Minimum 5 min
+)
+
+        A               172.16.130.1
+
+        NS              ns.apc.com.
+        NS              ns2.apc.com.
+        NS              ns3.apc.com.
+
+$ORIGIN apc.com.
+
+ns                 A           172.16.130.1
+ns2                A           172.16.130.2
+ns3                A           172.16.130.3
+www                CNAME       apc.com.
+; EOF
+
+```
+
+Créer le fichier `20.172.in-addr.arpa`. Y mettre le contenu suivant:
+ 
+```
+$TTL    600
+@       IN      SOA     ns.apc.com. admin.apc.com.  (
+                                        1               ; Serial
+                                        300             ; Refresh 5 min
+                                        60              ; Retry   1 min
+                                        600             ; Expire  10 min
+                                        300             ; Minimum 5 min
+)
+
+@                            NS              ns.apc.com.
+@                            NS              ns2.apc.com.
+@                            NS              ns3.apc.com.
+1.130.16.172.in-addr.arpa.   PTR             apc.com.
+; EOF
+
+```
+
+!!!info "Il faut incrémenter le `Serial` a chaque modification du fichier."
+
+Redémarrer Bind et vérifier son bon fonctionnement:
+```
+# systemctl restart bind9
+# systemctl status bind9
+```
+ 
+???+ info "Sur les NS secondaires"
+
+    !!!warning "Cette section n'a pas été vérifiée en pratique"
+
+    Ne modifier que le fichier `/etc/bind/named.conf.local` :
+    ```
+    //
+    // Do any local configuration here
+    //
+
+    zone "apc.com" {
+        type slave;
+        file "/etc/bind/db.apc.com";
+        masters {172.16.130.1;};
+    };
+
+    zone "20.172.in-addr.arpa" {
+        type slave;
+        file "/etc/bind/20.172.in-addr.arpa";
+        masters {172.16.130.1;};
+    };
+
+    // Consider adding the 1918 zones here, if they are not used in your
+    // organization
+    //include "/etc/bind/zones.rfc1918";
+    ```
+
+    Ensuite, redémarrer le service
+
+Vérifier le bon fonctionnement sur toutes les machines DNS à l'aide de `dnsutils`:
+
+```
+$ nslookup
+> server localhost
+> apc.com
+> 172.16.130.1
+> exit
+```
+???- notes "Configuration des logs"
+    Remplacer le contenu de `/etc/bind/named.conf.options` par ce qui suit:
+    ```
+    options {
+        directory "/var/cache/bind";
+
+        // If there is a firewall between you and nameservers you want
+        // to talk to, you may need to fix the firewall to allow multiple
+        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+        // If your ISP provided one or more IP addresses for stable
+        // nameservers, you probably want to use them as forwarders.
+        // Uncomment the following block, and insert the addresses replacing
+        // the all-0's placeholder.
+
+        // forwarders {
+        //      0.0.0.0;
+        // };
+
+        //========================================================================
+        // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //========================================================================
+        dnssec-validation auto;
+
+        listen-on-v6 { none; };
+    };
+
+    logging {
+
+        channel default_syslog {
+                file "/var/log/named/default.log" size 5m;
+                print-time yes;
+                severity debug;
+        };
+
+        channel audit_log {
+                file "/var/log/named/audit.log" size 5m;
+                severity debug;
+                print-time yes;
+        };
+
+        channel query_log {
+                file "/var/log/named/query.log" size 10m;
+                severity debug;
+                print-time yes;
+        };
+
+        category default { default_syslog; };
+        category general { default_syslog; };
+        category security { audit_log; default_syslog; };
+        category config { default_syslog; };
+        category resolver { audit_log; };
+        category xfer-in { audit_log; };
+        category xfer-out { audit_log; };
+        category notify { audit_log; };
+        category client { audit_log; };
+        category network { audit_log; };
+        category update { audit_log; };
+        category queries { query_log; };
+        category lame-servers { audit_log; };
+    };
+
+    ```
+
+    Des informations détaillées peuvent à présent être consultées dans `/var/log/named/default.log`. 
+
+!!!success "T4 - Alias"
+!!!success "T4 - Résolution directe"
+!!!success "T4 - Résolution inversée"
+!!!success "T4 - Service hautement disponible"
+
 ## DHCP
  
 !!!quote "T3 - Installer et configurer un serveur DHCP sur Raspberry Pi"
@@ -810,213 +1036,6 @@ Redémarrer le démon et vérifier qu'il fonctionne correctement:
  
 !!!fail "T3 - Service hautement disponible"
     Nous n'avons pas compris la consigne de cette partie (question 3).
- 
-## DNS
- 
-!!!quote "T4 - Installer et configurer serveur DNS sur Raspberry Pi"
-     - [ ] Alias
-     - [ ] Résolution directe
-     - [ ] Résolution inversée
-     - [ ] Service hautement disponible
- 
-Remplacer le contenu du fichier `/etc/bind/named.conf.local` par ce qui suit:
- 
-```
-//
-// Do any local configuration here
-//
-
-zone "apc.com" {
-        type master;
-        allow-transfer {172.16.130.2; 172.16.130.3;};
-        file "/etc/bind/db.apc.com";
-        notify yes;
-};
-
-zone "20.172.in-addr.arpa" {
-        type master;
-        allow-transfer {172.16.130.2; 172.16.130.3;};
-        file "/etc/bind/20.172.in-addr.arpa";
-        notify yes;
-};
-
-// Consider adding the 1918 zones here, if they are not used in your
-// organization
-include "/etc/bind/zones.rfc1918";
-
-```
-
-Dans `/etc/bind/zones.rfc1918`, supprimer la ligne:
-
-```
-zone "20.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
-```
-
-Créer le fichier `db.apc.com`. Y mettre le contenu suivant:
-```
-$ORIGIN .
-$TTL    600
-apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
-                                        1               ; Serial
-                                        300             ; Refresh 5 min
-                                        60              ; Retry   1 min
-                                        600             ; Expire  10 min
-                                        300             ; Minimum 5 min
-)
-
-        A               172.16.130.1
-
-        NS              ns.apc.com.
-        NS              ns2.apc.com.
-        NS              ns3.apc.com.
-
-$ORIGIN apc.com.
-
-ns                 A           172.16.130.1
-ns2                A           172.16.130.2
-ns3                A           172.16.130.3
-www                CNAME       apc.com.
-; EOF
-
-```
-
-Créer le fichier `20.172.in-addr.arpa`. Y mettre le contenu suivant:
- 
-```
-$TTL    600
-@       IN      SOA     ns.apc.com. admin.apc.com.  (
-                                        1               ; Serial
-                                        300             ; Refresh 5 min
-                                        60              ; Retry   1 min
-                                        600             ; Expire  10 min
-                                        300             ; Minimum 5 min
-)
-
-@                            NS              ns.apc.com.
-@                            NS              ns2.apc.com.
-@                            NS              ns3.apc.com.
-1.130.16.172.in-addr.arpa.   PTR             apc.com.
-; EOF
-
-```
-
-!!!info "Il faut incrémenter le `Serial` a chaque modification du fichier."
-
-Redémarrer Bind et vérifier son bon fonctionnement:
-```
-# systemctl restart bind9
-# systemctl status bind9
-```
- 
-???+ info "Sur les NS secondaires"
-
-    !!!warning "Cette section n'a pas été vérifiée en pratique"
-
-    Ne modifier que le fichier `/etc/bind/named.conf.local` :
-    ```
-    //
-    // Do any local configuration here
-    //
-
-    zone "apc.com" {
-        type slave;
-        file "/etc/bind/db.apc.com";
-        masters {172.16.130.1;};
-    };
-
-    zone "20.172.in-addr.arpa" {
-        type slave;
-        file "/etc/bind/20.172.in-addr.arpa";
-        masters {172.16.130.1;};
-    };
-
-    // Consider adding the 1918 zones here, if they are not used in your
-    // organization
-    //include "/etc/bind/zones.rfc1918";
-    ```
-
-    Ensuite, redémarrer le service
-
-Vérifier le bon fonctionnement sur toutes les machines DNS à l'aide de `dnsutils`:
-
-```
-$ nslookup
-> server localhost
-> apc.com
-> 172.16.130.1
-> exit
-```
-???- notes "Configuration des logs"
-    Remplacer le contenu de `/etc/bind/named.conf.options` par ce qui suit:
-    ```
-    options {
-        directory "/var/cache/bind";
-
-        // If there is a firewall between you and nameservers you want
-        // to talk to, you may need to fix the firewall to allow multiple
-        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
-
-        // If your ISP provided one or more IP addresses for stable
-        // nameservers, you probably want to use them as forwarders.
-        // Uncomment the following block, and insert the addresses replacing
-        // the all-0's placeholder.
-
-        // forwarders {
-        //      0.0.0.0;
-        // };
-
-        //========================================================================
-        // If BIND logs error messages about the root key being expired,
-        // you will need to update your keys.  See https://www.isc.org/bind-keys
-        //========================================================================
-        dnssec-validation auto;
-
-        listen-on-v6 { none; };
-    };
-
-    logging {
-
-        channel default_syslog {
-                file "/var/log/named/default.log" size 5m;
-                print-time yes;
-                severity debug;
-        };
-
-        channel audit_log {
-                file "/var/log/named/audit.log" size 5m;
-                severity debug;
-                print-time yes;
-        };
-
-        channel query_log {
-                file "/var/log/named/query.log" size 10m;
-                severity debug;
-                print-time yes;
-        };
-
-        category default { default_syslog; };
-        category general { default_syslog; };
-        category security { audit_log; default_syslog; };
-        category config { default_syslog; };
-        category resolver { audit_log; };
-        category xfer-in { audit_log; };
-        category xfer-out { audit_log; };
-        category notify { audit_log; };
-        category client { audit_log; };
-        category network { audit_log; };
-        category update { audit_log; };
-        category queries { query_log; };
-        category lame-servers { audit_log; };
-    };
-
-    ```
-
-    Des informations détaillées peuvent à présent être consultées dans `/var/log/named/default.log`. 
-
-!!!success "T4 - Alias"
-!!!success "T4 - Résolution directe"
-!!!success "T4 - Résolution inversée"
-!!!success "T4 - Service hautement disponible"
  
 ## Proxy
  
