@@ -1,10 +1,36 @@
 # PRA - Raspberry Pi
 
-???+ note "MAJ le 25/11 par Tim"
+???+ note "MAJ le 06/12/2020 par Tim"
+     - [X] Corrigé la configuration du DNS inverse
+     - [X] Ajouté en annotation la configuration des logs sur Bind
+     - [X] Supprimé configurations relatives à nftables
+     - [X] Apporté des précisions pour Téléchargements
+     - [X] WiFi
+         - [X] Déplacé WiFi vers Web
+         - [X] Complété WiFi
+     - [ ] MAJ l'image du sujet
+
+???- note "MAJ le 03/12/2020 par Tim"
+    !!!info "Configuration recommancée sur matériel personnel"
+     - [X] Web
+         - [X] Ajouté redémarrage du service nftables à la fin
+     - [X] DNS
+         - [X] Corrigé la configuration
+         - [X] Corrigé la configuration inversée
+         - [X] Ecrit la configuration du NS secondaire
+     - [X] Proxy
+     - [X] Créé Problèmes
+     - [X] Modifié Pièges
+     - [X] Supprimé Firewall
+     - [X] Adopté une structure plus logique pour le site
+     - [X] Modifications pour prendre en compte le sujet qui a leak
+
+???- note "MAJ le 25/11/2020 par Tim"
 	 - [X] Orthographe
 	 - [X] Relecture
+     - [ ] Ajouté WiFi
 
-???- note "MAJ le 24/11 par Tim et Aline"
+???- note "MAJ le 24/11/2020 par Tim et Aline"
      - [X] Corrigé DHCP
      - [X] Complété DNS
      - [X] Autres corrections mineures
@@ -14,7 +40,7 @@
      - [X] Aline a fini Consignes (je faisais la vaisselle)
      - [X] Vérifié les consignes
  
-???- note "MAJ le 23/11 par Tim"
+???- note "MAJ le 23/11/2020 par Tim"
      - [X] Supprimé WiFi
          - [X] Supprimé de l'inventaire
      - [ ] DHCP
@@ -29,7 +55,7 @@
      - [ ] Ajouté Consignes
      - [ ] Ajouté Proxy
  
-???- note "MAj le 22/11 par Tim"
+???- note "MAj le 22/11/2020 par Tim"
     !!!success "Vérifié par application."
         Sauf ce qui touche au DHCP puisqu'il faut avoir un réseau isolé avec d'autres utilisateurs dessus.
     
@@ -55,7 +81,7 @@
          - [ ] Correction de la configuration
      - [X] Remplacé `aptitude` par `apt-get` dans toute la page
  
-???- note "MAJ le 18/11 par Tim"
+???- note "MAJ le 18/11/2020 par Tim"
     !!!danger "Fait sans connaissance du cahier des charges"
  
      - [X] Créé "Questions pour le prof"
@@ -76,7 +102,7 @@
          - [X] Important > Pièges (?)
      - [ ] DNS
  
-!!!note "(Re)mis en ligne le 13/11"
+!!!note "(Re)mis en ligne le 13/11/2020"
  
 !!!tip "Commandes"
     Les commandes sont en noir et prennent toute la largeur
@@ -86,33 +112,10 @@
     Elles commencent par `#` si elles doivent être exécutées en root, sinon `$`.
  
     Il y a un bouton pour copier en haut à droite des cases de code, mais il est noir sur noir.
+
+## Informations sur l'épreuve
  
-## Questions pour le prof
- 
-[Version la plus à jour sur Google Drive](https://docs.google.com/document/d/1aQBZPgJlJ4PjMPPeGDiXHZ35Th1j_xfLXR6E7vqa2oU/edit?usp=sharing)
- 
-!!!quote "1"
-    T1: Gestion du patrimoine informatique: Réaliser l'inventaire du matériel et gestion numérique des documents.
- 
-!!!question "Qu'est-ce qui est entendu par "gestion numérique"? De quel drive est-il question?"
- 
-!!!quote "2"
-    T2: “Nom d’hôte fixé”, “Applications installées” et "OS conforme au cahier des charges"
- 
-!!!question "Confirmer que le nom d'hôte doit être fixé dans les paramètres système. Préciser les applications à installer. Référence à un cahier des charges non distribué."
- 
-!!!quote "3"
-    T3: “Service hautement disponible”
- 
-!!!question "Si cela sous-entend qu'il faut 2 machines NS, c'est le cas pour tout DNS d'après les standards. S'il y a une autre implication, on ne la comprend pas."
- 
-!!!question "4 - Combien de Raspberry Pi seront à configurer le jour de l'épreuve?"
- 
-!!!question "5 - Confirmer qu'on ne fait que la partie A de la feuille distribuée"
- 
-!!!question "6 - Confirmer qu'on ne fera pas le WiFi"
- 
-## Consignes
+### Consignes
  
 | Partie | Description |
 |--- |---|
@@ -130,6 +133,52 @@
 | T4 - Installer et configurer serveur DNS sur Raspberry Pi | Configuration conforme au cahier des charges : |
 |    | - Service DNS opérationnel  Alias, résolution directe et inversée |
 |    | - Service hautement disponible |
+
+De plus, voici la leak du sujet:
+
+![Sujet recto](/img/sujet1.jpg)
+
+![Sujet verso](/img/sujet2.jpg)
+
+### Problèmes
+
+Recensement des problèmes a résoudre.
+
+!!!fail "T1 - L'inventaire doit être accessible depuis le "cloud" (drive)"
+	Nous n'avons pas compris les consignes pour cette partie (question 1).
+!!!fail "T3 - OS conforme au cahier des charges"
+	On n'a pas compris la consigne de cette partie (question 2).
+!!!fail "T3 - Service hautement disponible"
+	Nous n'avons pas compris la consigne de cette partie (question 3).
+!!!warning "Vérifier l'inventaire"
+!!!warning "Une partie de DNS n'a pas été vérifiée en pratique"
+!!!warning "Le fonctionnement de Proxy n'a pas été vérifié en pratique"
+!!!warning "Il faut compléter WiFi"
+!!!tip "Formater et écrire la carte SD prend potentiellement du temps"
+	Penser a prendre un bon adaptateur et à le brancher en USB3 pour minimiser les pertes de temps.
+
+### Questions pour le prof
+ 
+[Version la plus à jour sur Google Drive](https://docs.google.com/document/d/1aQBZPgJlJ4PjMPPeGDiXHZ35Th1j_xfLXR6E7vqa2oU/edit?usp=sharing)
+ 
+!!!quote "1"
+    T1: Gestion du patrimoine informatique: Réaliser l'inventaire du matériel et gestion numérique des documents.
+ 
+!!!question "Qu'est-ce qui est entendu par "gestion numérique"? De quel drive est-il question?"
+ 
+!!!quote "2"
+    T2: “Nom d’hôte fixé”, “Applications installées” et "OS conforme au cahier des charges"
+ 
+!!!question "Confirmer que le nom d'hôte doit être fixé dans les paramètres système. Préciser les applications à installer. Référence à un cahier des charges non distribué."
+
+### Pièges
+
+Les problèmes suivants peuvent être rencontrés pendant l'épreuve:
+
+1. Câbles défectueux (un des fils est cassé et non visible) (couche 1)
+2. L'accès Wifi défectueux et/ou non connecté (couche 1)
+3. Erreurs dans l'association entre l'adresse MAC et l'adresse IP (couche 2)
+4. Erreurs dans la table de routage (couche 3)
  
 ## Inventaire
  
@@ -466,66 +515,6 @@ fi
 !!!info "Les changements seront pris en compte à l'ouverture d'un nouveau terminal."
     On peut ouvrir un terminal dans le terminal en entrant la commande `bash`.
  
-### Firewall
- 
-Si ```iptables``` est installé par défaut, il faut le désinstaller car il est obsolète:
- 
-```
-# apt-get purge iptables
-```
- 
-Par la suite, installer ```nftables```:
- 
-```
-# apt-get install nftables
-```
- 
-Remplacer le contenu de `/etc/nftables.conf` par :
- 
-```
-#!/usr/sbin/nft -f
- 
-flush ruleset
- 
-table inet filter {
-    chain input {
-        type filter hook input priority 0; policy drop
-        # Accepter les connections etablies
-        ct state {established, related} accept
-        # Accepter les loopbacks
-        iif lo accept
-        # Toutes les autres connections sont drop
-    }
- 
-    chain forward {
-        type filter hook forward priority 0; policy drop;
-        # On ne transmet aucune connection
-    }
- 
-    chain output {
-        type filter hook output priority 0; policy accept;
-        # On autorise toutes les sorties
-    }
- 
-}
-```
- 
- 
-Redémarrer le démon (*daemon* pour les puristes) du firewall:
- 
-```
-# systemctl restart nftables
-```
- 
-Vérifier que le démon (*daemon* pour les puristes) se porte bien:
- 
-```
-# systemctl status nftables
-```
- 
-??? tip "Démons"
-    Le principe c'est que tu as beaucoup de démons qui tournent dans ta machine et qu'ils sont contrôlés par le watch dog (*ca explique le titre du jeu*). "Démon" est donc un abus de langage logique :p
- 
 ### SSH
  
 Autoriser les connections SSH:
@@ -536,43 +525,7 @@ Autoriser les connections SSH:
 P2 SSH
 YES
 ```
- 
-Remplacer le contenu de ```/etc/nftables.conf``` par ce qui suit:
- 
-```
-#!/usr/sbin/nft -f
- 
-flush ruleset
- 
-table inet filter {
-    chain input {
-        type filter hook input priority 0; policy drop
-        # Accepter les connections etablies
-        ct state {established, related} accept
-        # Accepter les loopbacks
-        iif lo accept
-        # Envoyer les connections SSH sur la chaine SSH
-        tcp dport 22 jump SSH
-        # Toutes les autres connections sont drop
-    }
- 
-    chain forward {
-        type filter hook forward priority 0; policy drop;
-        # On ne transmet aucune connection
-    }
- 
-    chain output {
-        type filter hook output priority 0; policy accept;
-        # On autorise toutes les sorties
-    }
- 
-    chain SSH {
-        ip saddr 192.168.8.0/24 accept
-        drop
-    }
-}
- 
-```
+
 Déterminer l'adresse du Raspberry Pi avec:
  
 ```
@@ -595,6 +548,9 @@ pi
      - [X] Nom d'hôte fixé
      - [X] Configuration IP
      - [ ] Applications installées
+     - [ ] Configurer le WiFi pour pouvoir accéder au site web depuis les clients.
+
+### Mise en ligne
  
 Nous allons utiliser Apache pour mettre en ligne une sauvegarde du site de APC.
  
@@ -603,65 +559,43 @@ Nous allons utiliser Apache pour mettre en ligne une sauvegarde du site de APC.
 ```
  
 !!!success "T2 - Applications installées"
- 
-Mettre la sauvegarde du site dans `/var/www/html/`.
- 
-Remplacer le contenu de `/etc/nftables.conf` par ce qui suit:
- 
-```
-#!/usr/sbin/nft -f
- 
-flush ruleset
- 
-table inet filter {
-    chain input {
-        type filter hook input priority 0; policy drop  
-        # Accepter les connections etablies
-        ct state {established, related} accept
-        # Accepter les loopbacks
-        if lo accept
-        # Envoyer les connections SSH sur la chaine SSH
-        tcp dport 22 jump SSH
-        # Accepter HTTP
-        tcp dport 80 accept
-        # Accepter HTTPS
-        #tcp dport 443 accept
-        # Toutes les autres co sont drop
-    }
- 
-    chain forward {
-        type filter hook forward priority 0; policy drop;
-        # On ne transmet aucune connection
-    }
- 
-    chain output {
-        type filter hook output priority 0; policy accept;
-        # On autorise toutes les sorties
-    }
- 
-    chain SSH {
-        # Accepter les co depuis le reseau local
-        ip saddr 172.16.130.0/24 accept
-        # Drop tout le reste
-        drop
-    }
-}
-```
- 
+
 Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigateur. Les pages de la sauvegarde devraient alors apparaître. 
  
+### WiFi
+
+Insérer la clé WiFi.
+Redémarrer Apache:
+
+```
+systemctl restart apache2.service
+```
+
+!!!success "WiFi"
+
 !!!fail "T3 - OS conforme au cahier des charges"
-    On n'a pas compris la consigne de cette partie (question 2)
- 
+    On n'a pas compris la consigne de cette partie (question 2).
+
 ## Téléchargements
  
-Dans la partie suivante, la machine sera installée dans un réseau isolé. On télécharge donc dès maintenant tous les paquets nécessaires pour la suite:
- 
-```
-# apt-get install isc-dhcp-server
-# apt-get install isc-dhcp-server-ldap
-# apt-get install bind9
-```
+Dans la partie suivante, la machine sera installée dans un réseau isolé. On télécharge donc dès maintenant tous les paquets nécessaires pour la suite.
+
+???- info "DHCP" 
+    ```
+    # apt-get install isc-dhcp-server
+    # apt-get install isc-dhcp-server-ldap
+    ```
+
+???- info "DNS"
+    ```
+    # apt-get install bind9
+    # apt-get install dnsutils
+    ```
+
+???- info "Proxy"
+    ```
+    # apt-get install squid
+    ```
  
 ## DHCP
  
@@ -723,9 +657,9 @@ slaac private
  
 # Static IP configuration:
 interface eth0
-static ip_address=172.20.181.1/24
+static ip_address=172.16.130.1/24
 #static ip6_address=fd51:42f8:caae:d92e::ff/64
-static routers=172.20.181.1
+static routers=172.16.130.1
 #static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
  
 # It is possible to fall back to a static IP if DHCP fails:
@@ -741,7 +675,7 @@ static routers=172.20.181.1
 ```
  
 Redémarrer le Raspberry Pi.
-Une fois connecté, vérifier que le Pi a la bonne adresse (`172.20.181.1`):
+Une fois connecté, vérifier que le Pi a la bonne adresse (`172.16.130.1`):
  
 ```
 $ ip a
@@ -759,7 +693,7 @@ Remplacer le contenu de `/etc/dhcp/dhcpd.conf` par ce qui suit:
  
 # option definitions common to all supported networks...
 option domain-name "apc.com";
-option domain-name-servers 172.20.181.1, 172.20.181.2; 
+option domain-name-servers 172.16.130.1, 172.16.130.2, 172.16.130.3; 
  
 default-lease-time 600;
 max-lease-time 3600;
@@ -801,12 +735,12 @@ authoritative;
 #}
  
 # A slightly different configuration for an internal subnet.
-subnet 172.20.181.0 netmask 255.255.255.0 {
-  range 172.20.181.10 172.20.181.253;
-  option domain-name-servers 172.20.181.1; # 172.20.181.2;
+subnet 172.16.130.0 netmask 255.255.255.0 {
+  range 172.16.130.10 172.16.130.127;
+  option domain-name-servers 172.16.130.1 172.16.130.2 172.16.130.3;
   option domain-name "apc.com";
-  option routers 172.20.181.1;
-  option broadcast-address 172.20.181.255;
+#  option routers 172.16.130.1;
+  option broadcast-address 172.16.130.255;
   default-lease-time 600;
   max-lease-time 3600;
 }
@@ -861,8 +795,8 @@ subnet 172.20.181.0 netmask 255.255.255.0 {
 #}
 ```
  
-!!!warning "172.20.181.2"
-    Si on a plusieurs Raspberry Pi, on doit en garder un en IP fixe (`172.20.181.2`) et l'utiliser comme DNS secondaire.
+!!!warning "172.16.130.2"
+    Si on a plusieurs Raspberry Pi, on doit en garder un en IP fixe (`172.16.130.2`) et l'utiliser comme DNS secondaire.
     Pour l'instant, le service ne démarre pas si on ne commente pas la deuxième adresse. 
  
 Redémarrer le démon et vérifier qu'il fonctionne correctement:
@@ -885,178 +819,236 @@ Redémarrer le démon et vérifier qu'il fonctionne correctement:
      - [ ] Résolution inversée
      - [ ] Service hautement disponible
  
-!!!warning "Cette section n'a pas été vérifiée en pratique."
- 
-### Sur le Pi principal
- 
 Remplacer le contenu du fichier `/etc/bind/named.conf.local` par ce qui suit:
  
 ```
 //
 // Do any local configuration here
 //
- 
+
 zone "apc.com" {
         type master;
+        allow-transfer {172.16.130.2; 172.16.130.3;};
         file "/etc/bind/db.apc.com";
+        notify yes;
 };
- 
+
+zone "20.172.in-addr.arpa" {
+        type master;
+        allow-transfer {172.16.130.2; 172.16.130.3;};
+        file "/etc/bind/20.172.in-addr.arpa";
+        notify yes;
+};
+
 // Consider adding the 1918 zones here, if they are not used in your
 // organization
 include "/etc/bind/zones.rfc1918";
+
 ```
- 
-Créer le fichier `/etc/bind/db.apc.com`. Y mettre le contenu suivant:
+
+Dans `/etc/bind/zones.rfc1918`, supprimer la ligne:
+
+```
+zone "20.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+```
+
+Créer le fichier `db.apc.com`. Y mettre le contenu suivant:
 ```
 $ORIGIN .
-$TTL    1D
+$TTL    600
 apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         1               ; Serial
-                                        1h              ; Refresh
-                                        1h              ; Retry
-                                        2h              ; Expire
-                                        1h              ; Minimum
+                                        300             ; Refresh 5 min
+                                        60              ; Retry   1 min
+                                        600             ; Expire  10 min
+                                        300             ; Minimum 5 min
 )
- 
-        A               172.20.181.1
- 
+
+        A               172.16.130.1
+
         NS              ns.apc.com.
         NS              ns2.apc.com.
- 
+        NS              ns3.apc.com.
+
 $ORIGIN apc.com.
- 
-ns                 A           172.20.181.1
-ns2                A           172.20.181.2
+
+ns                 A           172.16.130.1
+ns2                A           172.16.130.2
+ns3                A           172.16.130.3
 www                CNAME       apc.com.
 ; EOF
+
 ```
- 
-Créer le fichier `/etc/bind/db.apc.com.inv`. Y mettre le contenu suivant:
+
+Créer le fichier `20.172.in-addr.arpa`. Y mettre le contenu suivant:
  
 ```
-$ORIGIN .
-$TTL    1D
-apc.com.       IN      SOA     ns.apc.com. admin.apc.com.  (
+$TTL    600
+@       IN      SOA     ns.apc.com. admin.apc.com.  (
                                         1               ; Serial
-                                        1h              ; Refresh
-                                        1h              ; Retry
-                                        2h              ; Expire
-                                        1h              ; Minimum
+                                        300             ; Refresh 5 min
+                                        60              ; Retry   1 min
+                                        600             ; Expire  10 min
+                                        300             ; Minimum 5 min
 )
- 
-        A               apc.com (?)
- 
-        NS              172.20.181.1
-        NS              172.20.181.2
- 
-$ORIGIN apc.com.
- 
-ns                 A           ns.apc.com
-ns2                A           ns2.apc.com
-www                CNAME       172.20.181.0
+
+@                            NS              ns.apc.com.
+@                            NS              ns2.apc.com.
+@                            NS              ns3.apc.com.
+1.130.16.172.in-addr.arpa.   PTR             apc.com.
 ; EOF
+
 ```
- 
+
+!!!info "Il faut incrémenter le `Serial` a chaque modification du fichier."
+
 Redémarrer Bind et vérifier son bon fonctionnement:
 ```
 # systemctl restart bind9
 # systemctl status bind9
 ```
  
+???+ info "Sur les NS secondaires"
+
+    !!!warning "Cette section n'a pas été vérifiée en pratique"
+
+    Ne modifier que le fichier `/etc/bind/named.conf.local` :
+    ```
+    //
+    // Do any local configuration here
+    //
+
+    zone "apc.com" {
+        type slave;
+        file "/etc/bind/db.apc.com";
+        masters {172.16.130.1;};
+    };
+
+    zone "20.172.in-addr.arpa" {
+        type slave;
+        file "/etc/bind/20.172.in-addr.arpa";
+        masters {172.16.130.1;};
+    };
+
+    // Consider adding the 1918 zones here, if they are not used in your
+    // organization
+    //include "/etc/bind/zones.rfc1918";
+    ```
+
+    Ensuite, redémarrer le service
+
+Vérifier le bon fonctionnement sur toutes les machines DNS à l'aide de `dnsutils`:
+
+```
+$ nslookup
+> server localhost
+> apc.com
+> 172.16.130.1
+> exit
+```
+???- notes "Configuration des logs"
+    Remplacer le contenu de `/etc/bind/named.conf.options` par ce qui suit:
+    ```
+    options {
+        directory "/var/cache/bind";
+
+        // If there is a firewall between you and nameservers you want
+        // to talk to, you may need to fix the firewall to allow multiple
+        // ports to talk.  See http://www.kb.cert.org/vuls/id/800113
+
+        // If your ISP provided one or more IP addresses for stable
+        // nameservers, you probably want to use them as forwarders.
+        // Uncomment the following block, and insert the addresses replacing
+        // the all-0's placeholder.
+
+        // forwarders {
+        //      0.0.0.0;
+        // };
+
+        //========================================================================
+        // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //========================================================================
+        dnssec-validation auto;
+
+        listen-on-v6 { none; };
+    };
+
+    logging {
+
+        channel default_syslog {
+                file "/var/log/named/default.log" size 5m;
+                print-time yes;
+                severity debug;
+        };
+
+        channel audit_log {
+                file "/var/log/named/audit.log" size 5m;
+                severity debug;
+                print-time yes;
+        };
+
+        channel query_log {
+                file "/var/log/named/query.log" size 10m;
+                severity debug;
+                print-time yes;
+        };
+
+        category default { default_syslog; };
+        category general { default_syslog; };
+        category security { audit_log; default_syslog; };
+        category config { default_syslog; };
+        category resolver { audit_log; };
+        category xfer-in { audit_log; };
+        category xfer-out { audit_log; };
+        category notify { audit_log; };
+        category client { audit_log; };
+        category network { audit_log; };
+        category update { audit_log; };
+        category queries { query_log; };
+        category lame-servers { audit_log; };
+    };
+
+    ```
+
+    Des informations détaillées peuvent à présent être consultées dans `/var/log/named/default.log`. 
+
 !!!success "T4 - Alias"
 !!!success "T4 - Résolution directe"
 !!!success "T4 - Résolution inversée"
- 
-### Sur le  Pi NS secondaire
- 
-Remplacer `ns.apc.com.` par `ns2.apc.com.` dans les deux fichiers. 
- 
-Il faut aussi lui attribuer de manière fixe l'@ `172.20.181.1`. Remplacer le contenu de `/etc/dhcpcd.conf` par ce qui suit:
- 
-```
-# A sample configuration for dhcpcd.
-# See dhcpcd.conf(5) for details.
- 
-# Allow users of this group to interact with dhcpcd via the control socket.
-#controlgroup wheel
- 
-# Inform the DHCP server of our hostname for DDNS.
-hostname raspberrypiapc1
- 
-# Use the hardware address of the interface for the Client ID.
-clientid
-# or
-# Use the same DUID + IAID as set in DHCPv6 for DHCPv4 ClientID as per RFC4361.
-# Some non-RFC compliant DHCP servers do not reply with this set.
-# In this case, comment out duid and enable clientid above.
-#duid
- 
-# Persist interface configuration when dhcpcd exits.
-persistent
- 
-# Rapid commit support.
-# Safe to enable by default because it requires the equivalent option set
-# on the server to actually work.
-option rapid_commit
- 
-# A list of options to request from the DHCP server.
-#option domain_name_servers, domain_name, domain_search, host_name
-#option classless_static_routes
-# Respect the network MTU. This is applied to DHCP routes.
-option interface_mtu
- 
-# Most distributions have NTP support.
-#option ntp_servers
- 
-# A ServerID is required by RFC2131.
-require dhcp_server_identifier
- 
-# Generate SLAAC address using the Hardware Address of the interface
-#slaac hwaddr
-# OR generate Stable Private IPv6 Addresses based from the DUID
-slaac private
- 
-# Static IP configuration:
-interface eth0
-static ip_address=172.20.181.2/24
-#static ip6_address=fd51:42f8:caae:d92e::ff/64
-static routers=172.20.181.1
-#static domain_name_servers=192.168.0.1 8.8.8.8 fd51:42f8:caae:d92e::1
- 
-# It is possible to fall back to a static IP if DHCP fails:
-# define static profile
-#profile static_eth0
-#static ip_address=192.168.1.23/24
-#static routers=192.168.1.1
-#static domain_name_servers=192.168.1.1
- 
-# fallback to static profile on eth0
-#interface eth0
-#fallback static_eth0
- 
-```
- 
 !!!success "T4 - Service hautement disponible"
  
 ## Proxy
  
 !!!quote "Installation d'un service Proxy cache HTTP"
-    N'a pas été précisé dans le document.
- 
-!!!warning "A compléter"
- 
-## Pièges (?)
- 
-!!!warning "Fiabilité"
-    Ces informations ont été fournies l'année dernière et n'ont pas été confirmées depuis.
- 
-???+ warning "Il y a plusieurs pièges dans cette activité"
-    !!!danger "1. Câbles défectueux (un des fils est cassé et non visible) (couche 1)"
-    !!!danger "2. L'accès Wifi défectueux et/ou non connecté (couche 1)"
-    !!!danger "3. Erreurs dans l'association entre l'adresse MAC et l'adresse IP (couche 2)"
-    !!!danger "4. Erreurs dans la table de routage (couche 3)"
-    !!!danger "5. Des problèmes liés à l’existence d’un serveur Proxy-cache http et / ou un firewall (Couche 7)"
-    !!!danger "6. Des problèmes liés à l’existence des Vlan (couche 2) et / ou des commutateurs (Couche 2 et 3)"
- 
- 
+    Nous souhaitons ouvrir ce service uniquement pour les postes de travail de l'entreprise.
 
+Dans le fichier `/etc/squid/squid.conf`:
+
+ - Commenter les lignes 1188 à 1207.
+ - Remplacer la ligne 1192 `#acl localnet src 172.16.0.0/12 # RFC 1918` par ce qui suit:
+
+```
+acl localnet src 172.16.130.0/24 # RFC 1918
+```
+ - Remplacer la ligne 1198 `#acl Safe_ports port 80 # http` par ce qui suit:
+
+```
+acl Safe_ports port 8080 # http
+```
+ - Commenter la ligne 1388 `http_access deny CONNECT !SSL_ports`.
+ - Décommenter la ligne 1407 `http_access allow localnet`.
+ - Commenter la ligne suivante `http_access allow localhost`.
+ - Remplacer la ligne 1907 `http_port 3128` par ce qui suit:
+
+```
+http_port 8080
+```
+
+Sur toutes les machines, configurer les navigateurs pour avoir `172.16.130.1` comme proxy.
+
+!!!warning "Le fonctionnement du proxy n'a pas été vérifié en pratique"
+
+!!!warning "Les logs ne sont peut-être pas suffisants par défaut pour voir les connexions"
+
+!!!success "Proxy"
