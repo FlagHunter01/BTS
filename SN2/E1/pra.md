@@ -1,6 +1,21 @@
 # PRA - Raspberry Pi
 
-???+ note "MAJ le 06/12/2020 par Tim"
+!!!quote "Page archivée le 08/12/2020"
+    L'épreuve s'est terminée le 08/12/2020. Cette page ne sera plus modifiée et sera retirée ultérieurement.
+
+???+ note "MAJ le 07/12/2020 par Tim"
+     - [X] Ajouté l'image du nouveau sujet (distribué à la moitié de l'épreuve)
+     - [X] Correction de la configuration DNS
+     - [X] Modifications apportées pour satisfaire le sujet distribué:
+         - [X] Ajouté la configuration des logs
+             - [X] Pour Apache
+             - [X] Pour Squid
+         - [X] Ajout de la configuration du proxy pour `apt-get`
+         - [X] DHCP: ajout d'une note qui explique pourquoi il est impossible d'accéder au DHCP depuis l'extérieur du réseau
+ 
+!!!info "On voit le professeur responsable de l'épreuve pour la première fois depuis 3 semaines"
+
+???- note "MAJ le 06/12/2020 par Tim"
      - [X] Corrigé la configuration du DNS inverse
      - [X] Ajouté en annotation la configuration des logs sur Bind
      - [X] Supprimé configurations relatives à nftables
@@ -135,11 +150,15 @@
 |    | - Service DNS opérationnel  Alias, résolution directe et inversée |
 |    | - Service hautement disponible |
 
-De plus, voici la leak du sujet:
+De plus, voici le sujet qui a leak le 03/12/2020:
 
 ![Sujet recto](/img/sujet1.jpg)
 
 ![Sujet verso](/img/sujet2.jpg)
+
+Sujet qui nous a été distribué le 07/12/2020 (environ la moitié de l'épreuve):
+
+![Sujet V3](/img/sujet3.jpg)
 
 ### Problèmes
 
@@ -561,8 +580,15 @@ Nous allons utiliser Apache pour mettre en ligne une sauvegarde du site de APC.
 !!!success "T2 - Applications installées"
 
 Vérifier que le site est accessible en entrant l'adresse du Pi dans un navigateur. Les pages de la sauvegarde devraient alors apparaître. 
+
+!!!info "Logs"
+    Dans `/etc/apache2/apache2.conf`, à la ligne 143: `LogLevel debug`.
+
+    Les logs peuvent être consultés dans `/var/log/apache2/`.
  
 ### WiFi
+
+!!!note "Chris a pris la charge de cette partie"
 
 !!!info "Etapes"
      - Avoir un interface WiFi
@@ -638,10 +664,10 @@ zone "apc.com" {
         notify yes;
 };
 
-zone "20.172.in-addr.arpa" {
+zone "16.172.in-addr.arpa" {
         type master;
         allow-transfer {172.16.130.2; 172.16.130.3;};
-        file "/etc/bind/20.172.in-addr.arpa";
+        file "/etc/bind/16.172.in-addr.arpa";
         notify yes;
 };
 
@@ -654,7 +680,7 @@ include "/etc/bind/zones.rfc1918";
 Dans `/etc/bind/zones.rfc1918`, supprimer la ligne:
 
 ```
-zone "20.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+zone "16.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
 ```
 
 Créer le fichier `db.apc.com`. Y mettre le contenu suivant:
@@ -685,7 +711,7 @@ www                CNAME       apc.com.
 
 ```
 
-Créer le fichier `20.172.in-addr.arpa`. Y mettre le contenu suivant:
+Créer le fichier `16.172.in-addr.arpa`. Y mettre le contenu suivant:
  
 ```
 $TTL    600
@@ -729,9 +755,9 @@ Redémarrer Bind et vérifier son bon fonctionnement:
         masters {172.16.130.1;};
     };
 
-    zone "20.172.in-addr.arpa" {
+    zone "16.172.in-addr.arpa" {
         type slave;
-        file "/etc/bind/20.172.in-addr.arpa";
+        file "/etc/bind/16.172.in-addr.arpa";
         masters {172.16.130.1;};
     };
 
@@ -751,7 +777,7 @@ $ nslookup
 > 172.16.130.1
 > exit
 ```
-???- notes "Configuration des logs"
+???- note "Configuration des logs"
     Remplacer le contenu de `/etc/bind/named.conf.options` par ce qui suit:
     ```
     options {
@@ -1036,6 +1062,14 @@ Redémarrer le démon et vérifier qu'il fonctionne correctement:
  
 !!!fail "T3 - Service hautement disponible"
     Nous n'avons pas compris la consigne de cette partie (question 3).
+
+???- note "Accès au serveur DHCP en dehor du réseau local"
+    L'accès au serveur DHCP en dehors du réseau local est impossible pour deux raisons:
+
+     - Raison matérielle: le réseau local est un réseau local. Il ne peut donc être accédé que localement.
+     - Principe du DHCP: ce service distribue des adresses IP. IL communique donc en utilisant les adresses **mac**. Supposant que le réseau local soit relié à un autre réseau par un outeur, le routeur ne pourra pas transmettre des trames sans source IP d'un réseau à l'autre.
+    
+    En conclusion, il est impossible d'accéer au serveur DHCP en dehors du réseau qu'il sert. 
  
 ## Proxy
  
@@ -1055,7 +1089,6 @@ acl localnet src 172.16.130.0/24 # RFC 1918
 ```
 acl Safe_ports port 8080 # http
 ```
- - Commenter la ligne 1388 `http_access deny CONNECT !SSL_ports`.
  - Décommenter la ligne 1407 `http_access allow localnet`.
  - Commenter la ligne suivante `http_access allow localhost`.
  - Remplacer la ligne 1907 `http_port 3128` par ce qui suit:
@@ -1066,8 +1099,27 @@ http_port 8080
 
 Sur toutes les machines, configurer les navigateurs pour avoir `172.16.130.1` comme proxy.
 
-!!!warning "Le fonctionnement du proxy n'a pas été vérifié en pratique"
+!!!info "Configuration des logs"
+    Dans le fichier `/etc/squid/squid.conf`, ligne 4159: `logformat squid`. 
 
-!!!warning "Les logs ne sont peut-être pas suffisants par défaut pour voir les connexions"
+    Ligne 4559 ajouter une ligne: `debug_options ALL, 8`
+
+    Les logs peuvent être consultés dans `/var/log/squid/`.
+
+    !!!warning "Ceci n'a pas encore été vérifié en pratique" 
+
+!!!info "Utilisation avec `apt-get`"
+     - Créer le fichier `/etc/apt/apt.conf.d/proxy.conf`. 
+     - Y mettre le contenu qui suit:
+    
+    ```
+    Acquire {
+        HTTP::proxy "http://172.16.130.3:8080";
+        HTTPS::proxy "http://172.16.130.3:8080";
+    }
+    ```
+    !!!warning "Ceci n'a pas encore été vérifié en pratique"
+
+!!!warning "Le fonctionnement du proxy n'a pas été vérifié en pratique"
 
 !!!success "Proxy"
